@@ -8,9 +8,9 @@ Technology
 
 - Sql Server
 
-- Client(1) : Angular, Html, CSS, Angular-Material UI
+- ### WIP Client(1) : Angular, Html, CSS, Angular-Material UI
 
-- ### WIP Client(2) : React, Html, Css, Bootstrap
+- ### WIP Client(2) : React, Html, Css, Material-UI
 
 
 # Database
