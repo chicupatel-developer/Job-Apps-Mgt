@@ -1,0 +1,7 @@
+﻿Scaffold-DbContext "Server=CHICAAMBICA\SQLExpress;Database=UWContext;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DBFirst_SQLTOLINQ_Models -force
+
+
+EntityFrameworkCore\Add-Migration connecting-jobApplication-appStatusLog -context EFCore.Context.JobAppsDBContext -OutputDir Migrations
+EntityFrameworkCore\update-database -context EFCore.Context.JobAppsDBContext
+
+

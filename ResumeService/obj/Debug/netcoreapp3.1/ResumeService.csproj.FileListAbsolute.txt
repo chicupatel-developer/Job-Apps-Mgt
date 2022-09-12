@@ -1,0 +1,13 @@
+C:\Job-Apps-Mgt\ResumeService\bin\Debug\netcoreapp3.1\Select.Html.dep
+C:\Job-Apps-Mgt\ResumeService\bin\Debug\netcoreapp3.1\ResumeService.deps.json
+C:\Job-Apps-Mgt\ResumeService\bin\Debug\netcoreapp3.1\ResumeService.dll
+C:\Job-Apps-Mgt\ResumeService\bin\Debug\netcoreapp3.1\ResumeService.pdb
+C:\Job-Apps-Mgt\ResumeService\bin\Debug\netcoreapp3.1\EFCore.dll
+C:\Job-Apps-Mgt\ResumeService\bin\Debug\netcoreapp3.1\EFCore.pdb
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.csproj.AssemblyReference.cache
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.AssemblyInfoInputs.cache
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.AssemblyInfo.cs
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.csproj.CoreCompileInputs.cache
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.csproj.CopyComplete
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.dll
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.pdb
