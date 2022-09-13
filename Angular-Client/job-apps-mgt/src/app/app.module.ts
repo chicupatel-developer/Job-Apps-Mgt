@@ -12,6 +12,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // angular-material
+import { MaterialModule } from './material.module';
+/*
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +21,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-
+*/
 //// components
 import { HomeComponent } from './components/home/home.component';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -43,6 +45,8 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MaterialModule,
+    /*
     MatMenuModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -50,6 +54,7 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
+    */
   ],
    providers: [HttpClientModule,   
   ],

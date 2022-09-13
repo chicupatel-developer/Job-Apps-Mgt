@@ -1,20 +1,138 @@
-<section fxLayout="column" fxFlexAlign="stretch">
-    <div fxFlexAlign="center">
-        <p>Welcome to the Material Angular OwnerAccount Application</p>
+<div fxLayout="row wrap" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+
+    <div fxFlex="5%">
     </div>
-
-    <p>In this application we are going to work with:</p>
-
-    <mat-tab-group (selectedTabChange)="executeSelectedChange($event)">
-        <mat-tab label="Material Components">
-            <p>We are going to use different material components to create nice looking angular app.</p>
-        </mat-tab>
-        <mat-tab label="Consume .NET Core Web API">
-            <p>We will consume our .NET Core application. Basically, we will create complete CRUD client app.</p>
-        </mat-tab>
-        <mat-tab label="Fully responsive navigation menu">
-            <p>By using material components, we are going to create fully responsive navigation menu, with its side-bar
-                as well.</p>
-        </mat-tab>
-    </mat-tab-group>
-</section>
+    <div fxFlex="90%">
+        <div class="homePageHeader">
+            <h2>Job-Apps MGT</h2>
+            <h3>Web API Core - 3.1, EF Core [Code First - EF Transaction] / SQL Server / Angular / React</h3>
+        </div>
+        <p></p>
+        <hr />
+        <p></p>
+        <div fxLayout="row wrap" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+            <div fxFlex="45%">
+                <div>
+                    <div class="titleHeader">
+                        <b>Apply - Job</b>
+                    </div>
+                    <p></p>
+                    <div class="titleBody">
+                        <ul>
+                            <li>
+                                User can Apply To Job [Initially Application Status = Applied]
+                            </li>
+                        </ul>
+                    </div>
+                    <p></p>
+                </div>
+                <div>
+                    <div class="titleHeader">
+                        <b>Follow Up - Job</b>
+                    </div>
+                    <p></p>
+                    <div class="titleBody">
+                        <ul>
+                            <li>
+                                User can Follow Up Applied Job
+                            </li>
+                            <li>
+                                Application Status == (Any != [Closed])
+                                <ul>
+                                    <b>User can --&gt;</b>
+                                    <li>
+                                        [View / Edit / Delete] Job
+                                    </li>
+                                    <li>
+                                        Upload (Connect) Resume File To A Job
+                                    </li>
+                                    <li>
+                                        Download Resume File Connected To A Job
+                                    </li>
+                                    <li>
+                                        Track Application Status by Date & Time wise
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Application Status == [Closed]
+                                <ul>
+                                    <b>User can --&gt;</b>
+                                    <li>
+                                        [View / Delete] Job
+                                    </li>
+                                    <li>
+                                        Download Resume File Connected To A Job
+                                    </li>
+                                    <li>
+                                        Track Application Status by Date & Time wise
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+            <div fxFlex="10%">
+            </div>
+            <div fxFlex="45%">
+                <div>
+                    <div class="titleHeader">
+                        <b>Resume - Creator</b>
+                    </div>
+                    <p></p>
+                    <div class="titleBody">
+                        <ul>
+                            <li>
+                                Create Personal Info [Add / Edit]
+                            </li>
+                            <li>
+                                Create Technical Skills [Add / Edit]
+                            </li>
+                            <li>
+                                Create Work Experience(s) [Add / Edit / Remove]
+                            </li>
+                            <li>
+                                Create Education(s) [Add / Edit / Remove]
+                            </li>
+                            <li>
+                                My - Resume
+                                <ul>
+                                    <b>User can --&gt;</b>
+                                    <li>
+                                        View Resume [Generate PDF Resume File and Download To User's Computer]
+                                    </li>
+                                    <li>
+                                        Email Resume [Generate PDF Resume File and Email as Attachment To User's Email
+                                        Address]
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <p></p>
+                </div>
+                <div>
+                    <div class="titleHeader">
+                        <b>User - Data</b>
+                    </div>
+                    <p></p>
+                    <div class="titleBody">
+                        <ul>
+                            <li>
+                                View User's Data By Resume-Created and Downloaded To User's Computer
+                            </li>
+                            <li>
+                                View User's Data By Resume-Created and Emailed To User
+                            </li>
+                        </ul>
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div fxFlex="5%">
+    </div>
+</div>
