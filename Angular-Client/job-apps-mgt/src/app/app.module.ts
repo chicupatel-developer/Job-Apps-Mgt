@@ -27,6 +27,9 @@ import { HomeComponent } from './components/home/home.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import { ApplyToJobComponent } from './components/apply-to-job/apply-to-job.component';
+import { FollowUpComponent } from './components/follow-up/follow-up.component';
+
 
 
 @NgModule({
@@ -35,7 +38,9 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
     HomeComponent,
     LayoutComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    ApplyToJobComponent,
+    FollowUpComponent,
   ],
   imports: [
     BrowserModule,

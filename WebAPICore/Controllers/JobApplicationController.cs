@@ -31,6 +31,7 @@ namespace WebAPICore.Controllers
             _configuration = configuration;
         }
 
+        // ng ok
         // react ok
         [HttpPost]
         [Route("addJobApplication")]
@@ -75,6 +76,7 @@ namespace WebAPICore.Controllers
             }
         }
 
+        // ng wip
         // react ok
         [HttpGet]
         [Route("getAllJobApps")]
@@ -84,6 +86,7 @@ namespace WebAPICore.Controllers
             return Ok(allJobApps);        
         }
 
+        // ng wip
         // react ok
         [HttpGet]
         [Route("getAppStatusTypes")]

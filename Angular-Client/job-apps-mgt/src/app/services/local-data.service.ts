@@ -140,12 +140,13 @@ export class LocalDataService {
   // 400
   // error handler
   display400andEx(error, componentName): string[] {
+    console.log(error);
     var errors = [];
     if (error.status == 400) {
       // console.log(error.error.error[0]);
-      if (error.error.error != null) {
-        for (var key in error.error.error) {
-          errors.push(error.error.error[key]);
+      if (error.error.errors != null) {
+        for (var key in error.error.errors) {
+          errors.push(error.error.errors[key]);
         }
       } else {
         errors.push('[' + componentName + '] Data Not Found ! / Bad Request !');
