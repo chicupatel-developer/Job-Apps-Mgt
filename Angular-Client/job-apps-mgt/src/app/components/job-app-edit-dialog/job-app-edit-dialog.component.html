@@ -1,0 +1,162 @@
+<div *ngIf="apiResponse">
+    <h4 *ngIf="apiResponse">
+        <span [style.color]="responseColor">
+            {{apiResponse}}
+        </span>
+    </h4>
+    <h5 *ngIf="errors && errors.length>0">
+        <ul [style.color]="responseColor">
+            <li *ngFor="let error of errors">
+                {{ error }}
+            </li>
+        </ul>
+    </h5>
+    <p></p>
+    <hr />
+</div>
+<p></p>
+
+<div class="mat-dialog-header">
+    [ EDIT ] Apply - Job Details For &nbsp;&nbsp;# {{jobApplication.jobApplicationId}}
+</div>
+<mat-dialog-content [formGroup]="form" class="mat-dialog-container">
+    <div fxLayout="row" class="parent" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="mainContentLeft">
+            <mat-card class="mat-elevation-z4">
+                <mat-card-content>
+                    <mat-form-field class="form-field small-form-field" appearance="fill">
+                        <mat-label>Application Status</mat-label>
+                        <mat-select 
+                            (selectionChange)="onAppStatusChange($event)"
+                            [(value)]="selectedAppStatusDisplay"
+                            formControlName="appStatusDisplay">
+                            <mat-option value="">Choose App-Status</mat-option>
+                            <mat-option *ngFor="let p of appStatusTypesName" value="{{p}}">{{p}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="hasError('appStatusDisplay', 'required')">App-Status is required</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <div *ngIf="showEditAppStatusDatePicker">
+                        <mat-form-field appearance="fill">
+                            <mat-label>App Status Changed On</mat-label>
+                            <input matInput 
+                                formControlName="appStatusChangedOn" 
+                                [matDatepicker]="picker1">
+                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <p></p>
+                    </div>
+                    <mat-form-field class="form-field" 
+                        appearance="outline">
+                        <mat-label> Notes!
+                        </mat-label>
+                        <textarea matInput 
+                            formControlName="followUpNotes">
+                        </textarea>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label> Company-Name
+                        </mat-label>
+                        <input matInput formControlName="companyName">
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label> Agency-Name
+                        </mat-label>
+                        <input matInput formControlName="agencyName">
+                    </mat-form-field>
+                    <p></p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="mainContentRight">
+            <mat-card class="mat-elevation-z4">
+                <mat-card-content>
+                    <mat-form-field 
+                        class="form-field" 
+                        appearance="outline">
+                        <mat-label> Web-URL
+                        </mat-label>
+                        <input matInput 
+                            formControlName="webURL">
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label> Contact-Person's Name
+                        </mat-label>
+                        <input matInput 
+                            formControlName="contactPersonName">
+                        <mat-error *ngIf="hasError('contactPersonName', 'required')">Name is required</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label> Contact-E-mail
+                        </mat-label>
+                        <input matInput 
+                            formControlName="contactEmail">
+                        <mat-error *ngIf="hasError('contactEmail', 'required')">Email is required</mat-error>
+                        <mat-error *ngIf="hasError('contactEmail', 'pattern')">Invalid Email</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field small-form-field" 
+                        appearance="outline">
+                        <mat-label> Phone Number
+                        </mat-label>
+                        <input matInput formControlName="phoneNumber">
+                    <mat-error *ngIf="hasError('phoneNumber', 'pattern')">Invalid Phone Number</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field small-form-field" appearance="fill">
+                        <mat-label>Province</mat-label>
+                        <mat-select (selectionChange)="changeProvince($event)" [(value)]="selectedProvince"
+                            formControlName="province">
+                            <mat-option value="">Choose Province</mat-option>
+                            <mat-option *ngFor="let p of provinceCollection" value="{{p}}">{{p}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="hasError('province', 'required')">
+                            Province is required
+                        </mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field class="form-field small-form-field" appearance="fill">
+                        <mat-label>City</mat-label>
+                        <mat-select [(value)]="selectedCity" formControlName="city">
+                            <mat-option value="">Choose City</mat-option>
+                            <mat-option *ngFor="let c of cityCollection" value="{{c}}">{{c}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="hasError('city', 'required')">
+                            City is required
+                        </mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Applied On</mat-label>
+                        <input matInput formControlName="appliedOn" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="hasError('appliedOn', 'required')">
+                            Applied-On is required
+                        </mat-error>
+                    </mat-form-field>
+                    <p></p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">
+        Close
+    </button>&nbsp;&nbsp;&nbsp;
+    <button class="mat-raised-button mat-primary" (click)="save()">
+        Save
+    </button>
+</mat-dialog-actions>

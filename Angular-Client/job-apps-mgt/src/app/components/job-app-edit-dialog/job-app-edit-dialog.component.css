@@ -1,0 +1,41 @@
+.mat-form-field {
+    display: block;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+
+/*
+.mat-dialog-container{
+     width: 800px; 
+}
+*/
+
+.mat-dialog-header {
+    color: blue;
+    font-size: large;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.mat-card-content {
+    font-size: 20px;
+    background-color: lightyellow;
+}
+
+.mainContentLeft {
+    padding: 10px;
+    margin: 5px;
+}
+
+.mainContentRight {
+    padding: 10px;
+    margin: 5px;
+}
+
+.parent {
+    height: 100%;
+}

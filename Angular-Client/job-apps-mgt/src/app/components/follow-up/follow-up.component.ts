@@ -14,6 +14,8 @@ import JobApplication from '../../models/jobApplication';
 // child component
 // view
 import { JobAppViewDialogComponent } from '../job-app-view-dialog/job-app-view-dialog.component';
+// edit
+import { JobAppEditDialogComponent } from '../job-app-edit-dialog/job-app-edit-dialog.component';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -207,13 +209,42 @@ export class FollowUpComponent implements OnInit {
       }
     });
   }
-
+  
+  // open dialog
   // edit
-  editJobDetails(job) {  
-    console.log('edit job app,,,',job);
-  }
   openDialog(job) {
-    console.log('before edit job app,,,',job);
+    console.log(job);
+    const dialogRef = this.dialog.open(JobAppEditDialogComponent, {
+      data: {
+        jobApplicationId: job.jobApplicationId,
+        companyName: job.companyName,
+        agencyName: job.agencyName,
+        webURL: job.webURL,
+        contactPersonName: job.contactPersonName,
+        contactEmail: job.contactEmail,
+        phoneNumber: job.phoneNumber,
+        city: job.city,
+        province: job.province,
+        appliedOn: job.appliedOn,
+        appStatus: job.appStatus,
+        appStatusDisplay: this.displayAppStatusType(job.appStatus),
+        followUpNotes: job.followUpNotes
+      }
+    });
+   
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data === undefined)
+          console.log('Edit Operation Cancelled!');
+        else {
+          console.log("Dialog output:", data);
+          // update jobApps[] to reflect back edit
+          let x = this.jobApps.find(x=>x.jobApplicationId===data.jobApplicationId);
+          let index = this.jobApps.indexOf(x);
+          this.jobApps[index] = data;
+        }        
+      }
+    );
   }
 
   // delete 
