@@ -148,6 +148,7 @@
                     (click)="applyToJob()" 
                     class="apply-to-job-button" 
                     mat-raised-button color="primary" 
+                    [disabled]="!applyToJobForm.valid"
                     type="button">
                         Apply Now!
                 </button>

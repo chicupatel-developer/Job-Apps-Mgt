@@ -5,6 +5,148 @@
     <div fxFlex="80%" class="middle">
         <div class="pageHeader">
             Follow - Up
-        </div>        
+        </div>  
+        
+        <div *ngIf="showSpinner" class="spinnerDiv ">
+            <div fxLayout fxLayoutAlign="center center ">
+                <mat-spinner [diameter]="50 "></mat-spinner>
+            </div>
+        </div>
+
+
+        <div *ngIf="(jobApps?.length > 0); else noJobData">
+            <div *ngFor="let job of jobApps" 
+                class="mainContent-mat-card">
+                <mat-card class="mat-elevation-z4 jobApps-mat-card">
+                    <mat-card-header>
+                        <mat-card-title 
+                            [style.color]="localDataService.getAppStatusTypeColor(job.appStatus)"
+                            *ngIf="appStatusTypes?.length>0">
+                            <button class="mat-raised-button mat-accent" 
+                                (click)="viewJobDetails(job)">
+                                <mat-icon>view_module</mat-icon>
+                            </button>
+                            <span>&nbsp;</span>
+                            <!-- 
+                                    check for appStatus==Closed, user can't edit this job-app!
+                                
+                                    <span>
+                                        <button class="mat-raised-button mat-primary" (click)="openDialog(job)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </span>
+                            -->
+                            <span *ngIf="job.appStatus!=6">
+                                <button class="mat-raised-button mat-primary" 
+                                    (click)="openDialog(job)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </span>
+                            <span>&nbsp;</span>
+                            <button class="mat-raised-button mat-warn" 
+                                (click)="deleteJobDetails(job)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <span>&nbsp;</span>
+                            <!-- 
+                                    check for appStatus==Closed, user can't edit this job-app!
+                                        
+                                    <span>
+                                        <button class="mat-raised-button uploadBtn" (click)="resumeUpload(job)">
+                                            <mat-icon>file_upload</mat-icon>
+                                            Resume
+                                        </button>
+                                        </span>
+                                    <span>&nbsp;</span>
+                            -->
+                            <span *ngIf="job.appStatus!=6">
+                                <button class="mat-raised-button uploadBtn" 
+                                    (click)="resumeUpload(job)">
+                                    <mat-icon>file_upload</mat-icon>
+                                    Resume
+                                </button>
+                            </span>
+                            <span>&nbsp;</span>
+                            <button class="mat-raised-button" 
+                                (click)="trackAppStatus(job)">
+                                <mat-icon>track_changes</mat-icon>
+                                App Status
+                            </button> &nbsp;&nbsp;
+                            <span> [{{displayAppStatusType(job.appStatus)}}]
+                                &nbsp;&nbsp;&nbsp;
+                                {{job.appliedOn | date : "MMMM d, y"}} @ {{job.city}},{{job.province}}
+                            </span>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div fxLayout="row wrap" class="parent" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column"
+                            fxLayout.xs="column">
+                            <div fxFlex="50%">
+                                <p>
+                                    Contact Name : <span
+                                        *ngIf="job.contactPersonName; else notAv">{{job.contactPersonName}}</span>
+                                </p>
+                                <p>
+                                    Contact Email : <span *ngIf="job.contactEmail; else notAv">{{job.contactEmail}}</span>
+                                </p>
+                                <p>
+                                    Phone : <span *ngIf="job.phoneNumber; else notAv">{{job.phoneNumber}}</span>
+                                </p>
+                                <p>
+                                    <button class="mat-raised-button downloadBtn" (click)="resumeDownload(job)">
+                                        <mat-icon>cloud_download</mat-icon>
+                                        Resume
+                                        &nbsp;&nbsp;&nbsp;
+                                        <span *ngIf="downloadStatus && selectedJob==job" [style.color]="downloadClass">
+                                            <p>
+                                                {{downloadStatus}}
+                                            </p>
+                                        </span>
+                                    </button>
+        
+                                </p>
+                            </div>
+                            <div fxFlex="50%">
+                                <p>
+                                    Company : <span *ngIf="job.companyName; else notAv">{{job.companyName}}</span>
+                                </p>
+                                <p>
+                                    Agency : <span *ngIf="job.agencyName; else notAv">{{job.agencyName}}</span>
+                                </p>
+                                <p>
+                                    URL : <span *ngIf="job.webURL; else notAv">{{job.webURL}}</span>
+                                </p>
+                                <div class="notesDiv">
+                                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                Follow-Up-Notes!
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <p *ngIf="job.followUpNotes; else notesNotAv">
+                                            {{job.followUpNotes}}
+                                        </p>
+                                    </mat-expansion-panel>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
     </div>
 </div>
+
+<ng-template #notAv>
+    N/A
+</ng-template>
+
+<ng-template #notesNotAv>
+    Notes N/A
+</ng-template>
+
+<ng-template #noJobData>
+    <div fxLayout fxLayoutAlign="center center ">
+        <span class="noJobData">Job Data Not Available!</span>
+    </div>
+</ng-template>
