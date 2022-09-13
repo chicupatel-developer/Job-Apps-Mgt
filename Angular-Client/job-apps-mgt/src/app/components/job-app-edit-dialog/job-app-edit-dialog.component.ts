@@ -71,7 +71,7 @@ export class JobAppEditDialogComponent implements OnInit {
       phoneNumber: ['', [Validators.pattern(this.phoneRegx)]],
       city: ['', Validators.required],
       province: ['', Validators.required],
-      appliedOn: [''],
+      appliedOn: ['', Validators.required],
       // appStatus: ['', Validators.required],
       appStatusDisplay: ['', Validators.required],
       followUpNotes: [''],

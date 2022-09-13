@@ -1,0 +1,38 @@
+<div class="mat-dialog-header">
+    [ Tracking ] Job - App - Status
+    <span *ngIf="appStatusTrackingData.length>0">
+        For <b>&nbsp;&nbsp;{{appStatusTrackingData[0].companyName}}</b>
+        <p></p>
+        Job-Application # {{appStatusTrackingData[0].jobApplicationId}}
+    </span>
+</div>
+
+<mat-dialog-content>
+    <mat-card class=" mat-elevation-z4 ">
+        <mat-card-content>
+            <div *ngIf="appStatusTrackingData.length>0; else notAv">
+                <div class="appStatusDiv" *ngFor="let data of appStatusTrackingData">
+                    <div>
+                        {{data.appStatusDisplay}} @ {{data.appStatusChangedOn | date:'mediumDate'}}
+                    </div>
+                    <mat-toolbar class="progress-bar">
+                        <mat-progress-bar color="blue" [value]="data.appCompleted">
+                        </mat-progress-bar>
+                        <span class="progress">{{ data.appCompleted }}%</span>
+                    </mat-toolbar>
+                    <p></p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">
+        Close
+    </button>&nbsp;&nbsp;&nbsp;
+</mat-dialog-actions>
+
+<ng-template #notAv>
+    <span><b>Data Not Found!</b></span>
+</ng-template>

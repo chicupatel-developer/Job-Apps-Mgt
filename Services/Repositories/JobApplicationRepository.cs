@@ -85,8 +85,7 @@ namespace Services.Repositories
         }
 
         public JobApplication EditJobApp(JobApplicationEditVM jobApplication)
-        {
-            // check for catch exception @ angular
+        {            
             // throw new Exception();          
 
             using var transaction = appDbContext.Database.BeginTransaction();

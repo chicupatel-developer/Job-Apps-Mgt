@@ -96,6 +96,7 @@ namespace WebAPICore.Controllers
             return Ok(appStatusTypes);
         }
 
+        // ng ok
         [HttpPost]
         [Route("editJobApplication")]
         public IActionResult EditJobApplication(JobApplicationEditVM jobAppData)
@@ -152,7 +153,7 @@ namespace WebAPICore.Controllers
             }
         }
 
-
+        // ng ok
         [HttpGet]
         [Route("viewJobApp/{jobAppId}")]
         public IActionResult ViewJobApp(int jobAppId)
@@ -168,6 +169,7 @@ namespace WebAPICore.Controllers
             }          
         }
 
+        // ng ok
         [HttpPost]
         [Route("deleteJobApplication")]
         public IActionResult DeleteJobApplication(JobApplication jobAppData)
@@ -200,6 +202,7 @@ namespace WebAPICore.Controllers
             }
         }
 
+        // ng ok
         [HttpGet]
         [Route("trackJobAppStatus/{jobAppId}")]
         public IActionResult TrackJobAppStatus(int jobAppId)

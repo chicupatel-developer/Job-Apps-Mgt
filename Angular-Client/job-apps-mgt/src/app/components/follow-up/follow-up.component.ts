@@ -11,11 +11,16 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import JobApplication from '../../models/jobApplication';
 
-// child component
+// child components
 // view
 import { JobAppViewDialogComponent } from '../job-app-view-dialog/job-app-view-dialog.component';
 // edit
 import { JobAppEditDialogComponent } from '../job-app-edit-dialog/job-app-edit-dialog.component';
+// delete
+import { JobAppDeleteDialogComponent } from '../job-app-delete-dialog/job-app-delete-dialog.component';
+// app-status tracking details
+import { AppStatusTrackDialogComponent } from '../app-status-track-dialog/app-status-track-dialog.component';
+
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -247,10 +252,52 @@ export class FollowUpComponent implements OnInit {
     );
   }
 
-  // delete 
+  // delete
   deleteJobDetails(job) {
-    console.log('deleting job app,,,',job);
+    console.log('delete job app,,,', job);
+    this.openDialogDelete(job);
   }
+  // open dialog
+  // delete
+  openDialogDelete(job) {
+    const dialogRef = this.dialog.open(JobAppDeleteDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this Job-Application ?',
+        buttonText: {
+          ok: 'Yes',
+          cancel: 'No'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {     
+        // api call
+        // delete on api side
+        console.log(job);
+        this.dataService.deleteJobApp(job)
+          .subscribe(
+            response => {
+              console.log(response);
+
+              // delete on angular side
+              this.jobApps = this.jobApps.filter(item => item.jobApplicationId !== job.jobApplicationId);
+
+              this._snackBar.open(response.responseMessage, '', {
+                duration: 3000
+              });
+            },
+            error => {
+              console.log(error);            
+              this._snackBar.open(error.status + ' : ' + error.error, '', {
+                duration: 3000
+              });              
+            }
+          );
+      }
+    });
+  }
+
 
   // resume-upload
   resumeUpload(job) {
@@ -262,9 +309,68 @@ export class FollowUpComponent implements OnInit {
     console.log('download resume job app,,,',job);
   }
 
-  // tracking 
+  /*
+  public enum AppStatusType
+  {
+       Applied,  --5% --0
+       Follow_Up,  --20% --1
+       Client_Response,  --40% --2
+       Interview_Setup,  --60% --3
+       Interview_Done,   --80% --4
+       Client_Final_Response --100% --5
+  }
+ */
+  // view job-app-status tracking details
   trackAppStatus(job) {
-     console.log('tracking job app,,,',job);
+    console.log(job);
+      this.dataService.trackJobAppStatus(Number(job.jobApplicationId))
+      // this.dataService.trackJobAppStatus('badRequest')
+      .subscribe(
+        data => {
+          var data_ = [];
+          if (data != null && data.length > 0) {
+            data.forEach((element) => {
+              data_.push({
+                appStatusLogId: element.appStatusLogId,
+                appStatus: element.appStatus,
+                appStatusChangedOn: element.appStatusChangedOn,
+                jobApplicationId: element.jobApplicationId,
+                appStatusDisplay: this.displayAppStatusType(element.appStatus),
+                appCompleted: ((20 * element.appStatus) === 0 ? (5) : ((element.appStatus===6) ? (0) : (20 * element.appStatus))),
+                companyName: job.companyName
+              });
+            });
+          }
+          this.openDialogAppStatusTrack(data_);
+        },
+        error => {
+          console.log(error);
+          if (error.status === 400) {
+            this._snackBar.open(error.status + ' : ' + error.statusText + ' !', '', {
+              duration: 3000
+            });
+          }
+          else if (error.status === 500) {
+            this._snackBar.open(error.status + ' : ' + error.error, '', {
+              duration: 3000
+            });
+          }          
+        });
+  }
+  // open dialog
+  // job-app-status tracking details
+  openDialogAppStatusTrack(appStatusData) {
+    const dialogRef = this.dialog.open(AppStatusTrackDialogComponent, {
+      width: '50%',
+      minHeight: '85%',
+      height: '85%',
+      data: appStatusData    
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+      }
+    });
   }
 
 }
