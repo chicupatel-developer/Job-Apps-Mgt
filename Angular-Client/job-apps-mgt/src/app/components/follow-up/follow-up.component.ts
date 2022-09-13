@@ -9,7 +9,11 @@ import * as moment from 'moment';
 
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
-import JobApplication  from '../../models/jobApplication';
+import JobApplication from '../../models/jobApplication';
+
+// child component
+// view
+import { JobAppViewDialogComponent } from '../job-app-view-dialog/job-app-view-dialog.component';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -20,6 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FollowUpComponent implements OnInit {
 
+  apiResponse = "";
   jobApps = [];
   showSpinner = false;
 
@@ -89,6 +94,8 @@ export class FollowUpComponent implements OnInit {
         error => {
           console.log(error);
           this.showSpinner = false;
+          if (error.statusText == "Unknown Error")
+            this.apiResponse = "Refresh-Page!";
         });
   }  
   getProvinces() {
@@ -119,6 +126,9 @@ export class FollowUpComponent implements OnInit {
         },
         error => {
           console.log(error);
+          this.showSpinner = false;
+          if (error.statusText == "Unknown Error")
+            this.apiResponse = "Refresh-Page!";
         });
   }
   displayAppStatusType(appStatus) {
@@ -151,7 +161,51 @@ export class FollowUpComponent implements OnInit {
 
   // view
   viewJobDetails(job) {  
-    console.log('view job app,,,',job);
+    console.log('view job app,,,', job);
+    this.dataService.viewJobApp(Number(job.jobApplicationId))
+    // this.dataService.viewJobApp('badRequest')
+      .subscribe(
+        data => {
+          console.log(data);
+          this.openDialogView(data);
+        },
+        error => {
+          console.log(error);
+          this._snackBar.open(error.status + ' : ' + error.error, '', {
+            duration: 3000
+          });      
+        });
+  }
+  // open dialog
+  // view
+  openDialogView(job) {
+    console.log(job);
+    const dialogRef = this.dialog.open(JobAppViewDialogComponent, {
+      width: '50%',
+      minHeight: '85%',
+      height: '85%',
+      data: {
+        jobApplicationId: job.jobApplicationId,
+        companyName: job.companyName,
+        agencyName: job.agencyName,
+        webURL: job.webURL,
+        contactPersonName: job.contactPersonName,
+        contactEmail: job.contactEmail,
+        phoneNumber: job.phoneNumber,
+        city: job.city,
+        province: job.province,
+        appliedOn: job.appliedOn,
+        appStatus: job.appStatus,
+        appStatusDisplay: this.displayAppStatusType(job.appStatus),
+        followUpNotes: job.followUpNotes
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+    
+      }
+    });
   }
 
   // edit
@@ -181,4 +235,5 @@ export class FollowUpComponent implements OnInit {
   trackAppStatus(job) {
      console.log('tracking job app,,,',job);
   }
+
 }

@@ -1,0 +1,15 @@
+.mat-dialog-header {
+    color: palevioletred;
+    font-size: large;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.mat-card-content {
+    font-size: 20px;
+    background-color: lightyellow;
+}
+
+div {
+    margin: 10px;
+}

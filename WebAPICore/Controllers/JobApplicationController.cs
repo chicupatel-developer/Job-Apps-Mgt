@@ -76,7 +76,7 @@ namespace WebAPICore.Controllers
             }
         }
 
-        // ng wip
+        // ng ok
         // react ok
         [HttpGet]
         [Route("getAllJobApps")]
@@ -86,7 +86,7 @@ namespace WebAPICore.Controllers
             return Ok(allJobApps);        
         }
 
-        // ng wip
+        // ng ok
         // react ok
         [HttpGet]
         [Route("getAppStatusTypes")]

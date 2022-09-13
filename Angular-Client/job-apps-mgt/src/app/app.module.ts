@@ -29,6 +29,7 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 import { ApplyToJobComponent } from './components/apply-to-job/apply-to-job.component';
 import { FollowUpComponent } from './components/follow-up/follow-up.component';
+import { JobAppViewDialogComponent } from './components/job-app-view-dialog/job-app-view-dialog.component';
 
 
 
@@ -41,6 +42,7 @@ import { FollowUpComponent } from './components/follow-up/follow-up.component';
     SidenavListComponent,
     ApplyToJobComponent,
     FollowUpComponent,
+    JobAppViewDialogComponent,
   ],
   imports: [
     BrowserModule,
