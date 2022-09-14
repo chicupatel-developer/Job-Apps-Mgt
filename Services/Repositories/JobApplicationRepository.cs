@@ -95,7 +95,20 @@ namespace Services.Repositories
                           .Where(x => x.JobApplicationId == jobApplication.JobApplication.JobApplicationId).FirstOrDefault();
                 if (jobApp_ != null)
                 {
-                    // 1) edit JobApplications db table
+                    // 1) edit AppStatusLog db table
+                    if (jobApp_.AppliedOn.Date != jobApplication.JobApplication.AppliedOn.Date)
+                    {
+                        var appStatusLogData = appDbContext.AppStatusLog
+                                                .Where(x => x.JobApplicationId == jobApplication.JobApplication.JobApplicationId && x.AppStatus == AppStatusType.Applied).FirstOrDefault();
+                        if (appStatusLogData != null)
+                        {
+                            appStatusLogData.AppStatusChangedOn = jobApplication.JobApplication.AppliedOn;
+                            appDbContext.SaveChanges();
+                        }
+                    }
+
+
+                    // 2) edit JobApplications db table
                     jobApp_.PhoneNumber = jobApplication.JobApplication.PhoneNumber;
                     jobApp_.Province = jobApplication.JobApplication.Province;
                     jobApp_.WebURL = jobApplication.JobApplication.WebURL;
@@ -112,7 +125,7 @@ namespace Services.Repositories
 
                     // throw new Exception();
 
-                    // 2) add into AppStatusLog db table
+                    // 3) add into AppStatusLog db table
                     if (jobApplication.AppStatusChanged)
                     {
                         AppStatusLog appStatusLog = new AppStatusLog()
@@ -125,7 +138,9 @@ namespace Services.Repositories
                         appDbContext.SaveChanges();
                     }
 
-                    // commit 1 &&/|| 2
+                 
+
+                    // commit 1 &&/|| 2 &&/|| 3
                     transaction.Commit();
 
                     return jobApplication.JobApplication;

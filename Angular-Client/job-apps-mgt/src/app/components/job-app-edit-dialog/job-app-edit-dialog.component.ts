@@ -201,6 +201,8 @@ export class JobAppEditDialogComponent implements OnInit {
     this.jobApplication.jobApplicationId = jobApplicationId;
     this.jobApplication.appStatus = this.convertAppStatusType(this.selectedAppStatusDisplay);
 
+    console.log(this.jobApplication);
+
     var jobApplicationEditVM = {};
     
     // complete form validation
@@ -229,7 +231,7 @@ export class JobAppEditDialogComponent implements OnInit {
         appStatusChangedOn: new Date()
       }
     }
-    // console.log(jobApplicationEditVM);
+    console.log(jobApplicationEditVM);
 
     // api call
     // this.dataService.editJobApp(this.jobApplication)
