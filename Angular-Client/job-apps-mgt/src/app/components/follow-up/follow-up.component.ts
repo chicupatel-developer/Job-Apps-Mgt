@@ -298,7 +298,6 @@ export class FollowUpComponent implements OnInit {
     });
   }
 
-
   // resume-upload
   resumeUpload(job) {
 
@@ -317,7 +316,65 @@ export class FollowUpComponent implements OnInit {
 
   // resume-download
   resumeDownload(job) {
-    console.log('download resume job app,,,',job);
+    this.selectedJob = job;
+    console.log(job);
+    this.dataService.download(job.jobApplicationId)
+      .subscribe(blob => {
+
+        // file exists and downloading
+        this.setFileDownload('Downloading!', 'green');
+
+        console.log(blob);
+        // .txt
+        if (blob.type === 'text/plain') {
+          const myFile = new Blob([blob], { type: 'text/plain' });
+          const url = window.URL.createObjectURL(myFile);
+          window.open(url);
+        }
+        else if (blob.type === 'text/csv') {
+          const myFile = new Blob([blob], { type: 'text/csv' });
+          const url = window.URL.createObjectURL(myFile);
+          window.open(url);
+        }
+        // .pdf
+        else {
+          // const myFile = new Blob([blob], { type: 'text/csv' });
+          const myFile = new Blob([blob], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(myFile);
+          window.open(url);
+        }      
+
+        setTimeout(() => {
+          this.resetAfterFileDownload();
+        }, 3000);
+
+      }, error => {
+        if (error.status === 400) {
+          console.log('Resume Not Found on Server!');
+          this.setFileDownload('Resume Not Found on Server!', 'red');
+        }
+        else if (error.status === 500) {
+          console.log('Server Error!');
+          this.setFileDownload('Server Error!', 'red');
+        }
+        else {       
+          console.log("Error while downloading Resume!");
+          this.setFileDownload('Error while downloading Resume!', 'red');
+        }
+
+        setTimeout(() => {
+          this.resetAfterFileDownload();
+        }, 3000);
+      }
+    );
+  }
+  resetAfterFileDownload() {
+    this.downloadStatus = '';
+    this.downloadClass = '';
+  }
+  setFileDownload(downloadStatus, downloadClass) {
+    this.downloadStatus = downloadStatus;
+    this.downloadClass = downloadClass;
   }
 
   /*

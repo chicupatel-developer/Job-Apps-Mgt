@@ -35,6 +35,7 @@ namespace WebAPICore.Controllers
             _configuration = configuration;
         }               
 
+        // ng ok
         // file-upload
         [HttpPost, DisableRequestSizeLimit]
         [Route("upload")]
@@ -146,6 +147,7 @@ namespace WebAPICore.Controllers
         }
 
 
+        // ng ok
         // file-download
         [HttpGet, DisableRequestSizeLimit]
         [Route("download/{jobApplicationId}")]
