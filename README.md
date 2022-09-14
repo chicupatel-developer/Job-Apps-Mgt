@@ -25,7 +25,7 @@ Technology
 
 # Screens
 ## Home
-![Home](https://user-images.githubusercontent.com/26190114/152393503-a171fadd-e3d2-4ec4-a6fb-db4e8a25c201.PNG)
+![home](https://user-images.githubusercontent.com/26190114/190238227-712fa363-fbf4-456a-b1ee-046bfc31f2c2.PNG)
 
 
 ## Apply-Job
