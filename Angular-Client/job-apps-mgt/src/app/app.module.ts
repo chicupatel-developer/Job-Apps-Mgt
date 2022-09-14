@@ -34,6 +34,10 @@ import { JobAppEditDialogComponent } from './components/job-app-edit-dialog/job-
 import { JobAppDeleteDialogComponent } from './components/job-app-delete-dialog/job-app-delete-dialog.component';
 import { AppStatusTrackDialogComponent } from './components/app-status-track-dialog/app-status-track-dialog.component';
 import { JobResumeUploadComponent } from './components/job-resume-upload/job-resume-upload.component';
+import { JobSearchComponent } from './components/job-search/job-search.component';
+import { ResumeCreatorComponent } from './components/resume-creator/resume-creator.component';
+import { UniversityWinnipegComponent } from './components/university-winnipeg/university-winnipeg.component';
+import { ViewUserDataComponent } from './components/view-user-data/view-user-data.component';
 
 
 
@@ -51,6 +55,10 @@ import { JobResumeUploadComponent } from './components/job-resume-upload/job-res
     JobAppDeleteDialogComponent,
     AppStatusTrackDialogComponent,
     JobResumeUploadComponent,
+    JobSearchComponent,
+    ResumeCreatorComponent,
+    UniversityWinnipegComponent,
+    ViewUserDataComponent,
   ],
   imports: [
     BrowserModule,

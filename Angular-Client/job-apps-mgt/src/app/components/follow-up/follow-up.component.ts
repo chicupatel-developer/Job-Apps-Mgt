@@ -20,6 +20,8 @@ import { JobAppEditDialogComponent } from '../job-app-edit-dialog/job-app-edit-d
 import { JobAppDeleteDialogComponent } from '../job-app-delete-dialog/job-app-delete-dialog.component';
 // app-status tracking details
 import { AppStatusTrackDialogComponent } from '../app-status-track-dialog/app-status-track-dialog.component';
+// job-search
+import { JobSearchComponent } from '../job-search/job-search.component';
 
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -87,6 +89,8 @@ export class FollowUpComponent implements OnInit {
         data => {
           this.jobApps = data;
           console.log(this.jobApps);
+
+          this.localDataService.setMyJobs(data);
 
           // order desc by appliedOn
           // store @ service to filter later on,,, 
@@ -441,4 +445,10 @@ export class FollowUpComponent implements OnInit {
     });
   }
 
+  // receive filtered jobApps from job-search child component
+  dataFilterDoneHandler(jobApps_: any[]) {
+    console.log('received filter data @parent,,,', jobApps_);
+    this.jobApps = jobApps_;
+  }
+ 
 }

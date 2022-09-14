@@ -6,14 +6,15 @@
         <div class="pageHeader">
             Follow - Up
         </div>  
-      
-        <!-- 
-        <div *ngIf="showSpinner" class="spinnerDiv ">
-            <div fxLayout fxLayoutAlign="center center ">
-                <mat-spinner [diameter]="50 "></mat-spinner>
-            </div>
+
+        <!-- job-search child component -->
+        <div *ngIf="(jobApps?.length >= 0)">
+            <app-job-search 
+                [jobApps]=jobApps
+                (dataFilterDone)="dataFilterDoneHandler($event)">
+            </app-job-search>
         </div>
-        -->
+      
         <div *ngIf="apiResponse" class="requestTimeout">
             {{apiResponse}}           
         </div>

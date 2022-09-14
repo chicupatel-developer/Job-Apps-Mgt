@@ -1,3 +1,47 @@
+<!-- left align tool bar -->
+<mat-toolbar color="primary">
+        <div fxHide.gt-xs>
+            <button mat-icon-button (click)="onToggleSidenav()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <span>Job-Apps</span>
+        <span class="example-spacer"></span>
+
+        <div fxShow="true" fxHide.lt-sm="true">
+            <a [routerLink]="['/home']" mat-button>
+                <mat-icon>home</mat-icon>
+                Home
+            </a>
+            <a [routerLink]="['/follow-up']" mat-button>
+                <mat-icon>notifications</mat-icon>
+                Follow-Up
+            </a>
+            <a [routerLink]="['/apply-to-job']" mat-button>
+                <mat-icon>message</mat-icon>
+                Apply-Job
+            </a>
+            <a [routerLink]="['/resume-creator']" mat-button>
+                <mat-icon>account_box</mat-icon>
+                Resume-Creator
+            </a>
+            <a [routerLink]="['/view-user-data']" mat-button>
+                <mat-icon>supervised_user_circle</mat-icon>
+                User-Data
+            </a>
+            <!-- 
+            <a [routerLink]="['/university-winnipeg']" mat-button>
+                <mat-icon>school</mat-icon>
+                University
+            </a>
+            -->
+        </div>   
+</mat-toolbar>
+<p></p>
+
+
+<!-- left and right align tool bar -->
+<!-- 
 <mat-toolbar color="primary">
     <div fxHide.gt-xs>
         <button mat-icon-button (click)="onToggleSidenav()">
@@ -11,10 +55,11 @@
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <li>
                 <a routerLink="/apply-to-job">Apply-Job</a>
-            </li>   
+            </li>
             <li>
                 <a routerLink="/follow-up">Follow-Up</a>
             </li>
         </ul>
     </div>
 </mat-toolbar>
+-->
