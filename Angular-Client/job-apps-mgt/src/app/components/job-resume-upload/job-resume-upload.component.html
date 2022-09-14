@@ -1,0 +1,84 @@
+<div fxLayout="row wrap" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+
+    <div fxFlex="20%">
+    </div>
+    <div fxFlex="60%">
+
+        <div class="pageHeader">
+            Job - Resume - Upload
+        </div>
+
+        <mat-card>
+            <mat-card-header *ngIf="JobApp">
+                <mat-card-title class="card-title">
+                    <div>
+                        <button class="mat-raised-button backBtn" (click)="backToFollowUp()">
+                            <mat-icon>arrow_back</mat-icon>
+                            Back
+                        </button>
+                    </div>
+                    <p></p>
+                    Job Application # {{JobApp.jobApplicationId}}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <p>
+                        Contact Name : <span
+                            *ngIf="JobApp.contactPersonName; else notAv">{{JobApp.contactPersonName}}</span>
+                    </p>
+                    <p>
+                        Contact Email : <span *ngIf="JobApp.contactEmail; else notAv">{{JobApp.contactEmail}}</span>
+                    </p>
+                    <p>
+                        Phone : <span *ngIf="JobApp.phoneNumber; else notAv">{{JobApp.phoneNumber}}</span>
+                    </p>
+                    <p>
+                        Company : <span *ngIf="JobApp.companyName; else notAv">{{JobApp.companyName}}</span>
+                    </p>
+                    <p>
+                        Agency : <span *ngIf="JobApp.agencyName; else notAv">{{JobApp.agencyName}}</span>
+                    </p>
+                    <p>
+                        URL : <span *ngIf="JobApp.webURL; else notAv">{{JobApp.webURL}}</span>
+                    </p>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="mainContainer">
+                    <mat-toolbar *ngIf="currentFile" class="progress-bar">
+                        <mat-progress-bar color="blue" [value]="progress">
+                        </mat-progress-bar>
+                        <span class="progress">{{ progress }}%</span>
+                    </mat-toolbar>
+                    <mat-form-field>
+                        <div>
+                            <mat-toolbar>
+                                <input matInput [value]="fileName" />
+
+                                <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()">
+                                    <mat-icon>cloud_upload</mat-icon>
+                                    Upload&nbsp;&nbsp;
+                                </button>
+                            </mat-toolbar>
+
+                            <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput" />
+                        </div>
+                    </mat-form-field>
+                    <div *ngIf="message" class="message">
+                        <span *ngIf="apiResponse=='success'" class="messageSuccess">
+                            {{ message }}
+                        </span>
+                        <span *ngIf="apiResponse=='fail'" class="messageFail">
+                            {{ message }}
+                        </span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex="20%">
+    </div>
+</div>
+
+<ng-template #notAv>
+    N/A
+</ng-template>

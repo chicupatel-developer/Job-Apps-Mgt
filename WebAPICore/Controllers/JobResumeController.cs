@@ -42,7 +42,9 @@ namespace WebAPICore.Controllers
         {
             _response = new APIResponse();
             try
-            {          
+            {
+                // check for exception
+                // throw new Exception();
 
                 // resumeUpload = null;
                 if (resumeUpload==null)
@@ -134,9 +136,9 @@ namespace WebAPICore.Controllers
             catch (FormatException)
             {
                 _response.ResponseCode = -1;
-                _response.ResponseMessage = "Bad Job-Application Object !";
+                _response.ResponseMessage = "Invalid Job-Application Object !";
                 return BadRequest(_response);
-            }       
+            }           
             catch (Exception ex)
             {
                 return StatusCode(500, "Server Error !");

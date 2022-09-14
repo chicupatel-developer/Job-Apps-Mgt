@@ -33,6 +33,7 @@ import { JobAppViewDialogComponent } from './components/job-app-view-dialog/job-
 import { JobAppEditDialogComponent } from './components/job-app-edit-dialog/job-app-edit-dialog.component';
 import { JobAppDeleteDialogComponent } from './components/job-app-delete-dialog/job-app-delete-dialog.component';
 import { AppStatusTrackDialogComponent } from './components/app-status-track-dialog/app-status-track-dialog.component';
+import { JobResumeUploadComponent } from './components/job-resume-upload/job-resume-upload.component';
 
 
 
@@ -49,6 +50,7 @@ import { AppStatusTrackDialogComponent } from './components/app-status-track-dia
     JobAppEditDialogComponent,
     JobAppDeleteDialogComponent,
     AppStatusTrackDialogComponent,
+    JobResumeUploadComponent,
   ],
   imports: [
     BrowserModule,

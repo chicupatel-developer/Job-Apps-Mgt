@@ -1,0 +1,76 @@
+.progress-bar {
+    padding: 0;
+}
+
+.progress {
+    width: 50px;
+}
+
+#fileInput {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+.mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+    padding: 0;
+}
+
+.mat-toolbar-single-row button {
+    width: 100px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.messageFail {
+    color: red;
+    font-size: larger;
+}
+
+.messageSuccess {
+    color: green;
+    font-size: larger;
+}
+
+.message {
+    background-color: #ddd;
+    padding: 15px;
+    border: #aaa solid 1px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.pageHeader {
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    border: 2px solid blueviolet;
+    border-radius: 10px;
+    background-color: lightseagreen;
+    color: black;
+    font-size: x-large;
+}
+
+.card-title {
+    padding-bottom: 10px;
+}
+
+.mat-icon {
+    vertical-align: middle;
+}
+
+.backBtn {
+    background-color: lightslategray;
+    color: #fff;
+}

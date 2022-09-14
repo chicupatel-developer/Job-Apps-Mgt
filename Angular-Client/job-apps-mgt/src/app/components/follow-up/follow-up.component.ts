@@ -301,7 +301,18 @@ export class FollowUpComponent implements OnInit {
 
   // resume-upload
   resumeUpload(job) {
-    console.log('upload resume job app,,,',job);
+
+    // check for appStatus===6
+    if (job.appStatus === 6) {
+      return;
+    }
+
+    // store selected job for which user wants to upload resume, 
+    // to local-data-service and,,,
+    this.localDataService.setJobApp(job);
+
+    // redirect to job-resume-upload component
+    this.router.navigate(['/job-resume-upload']);
   }
 
   // resume-download
