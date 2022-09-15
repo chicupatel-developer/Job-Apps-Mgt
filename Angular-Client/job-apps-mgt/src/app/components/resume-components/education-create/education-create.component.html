@@ -1,1 +1,46 @@
-<p>education-create works!</p>
+<div class="educationContainer">
+    <div fxLayout="row" class="parent" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+        <div fxFlex="80%" fxFlex.xs="100% " fxFlex.sm="100% " fxFlex.md="100% " class="mainContentLeft ">
+
+            <div *ngIf="showAdd">
+                <app-add-education (degreeListChanged)="degreeListChangedHandler($event)" pageHeader="Add Education">
+                </app-add-education>
+            </div>
+
+            <div *ngIf="showEdit">
+                <app-edit-education (editDoneChanged)="editDoneChangedHandler($event)" [editEdu]="editEdu"
+                    pageHeader="Edit Education">
+                </app-edit-education>
+            </div>
+
+        </div>
+
+        <div fxFlex="20% " fxFlex.xs="100% " fxFlex.sm="100% " fxFlex.md="100% " class="mainContentLeft ">
+
+            <div *ngIf="(degreeList?.length> 0)">
+                <div class="degreeHeader">
+                    <span>
+                        <u>Degrees</u>
+                    </span>
+                </div>
+
+                <div class="degEditSpan" *ngFor="let deg of degreeList">
+                    <div class="degEditDiv">
+                        <span class="editEducationIcon" (click)="editEducation(deg)">
+                            <mat-icon>edit</mat-icon>
+                        </span> &nbsp;
+                        <span *ngIf="deg.length>25">
+                            {{deg.substring(0, 25)}},,,
+                        </span>
+                        <span *ngIf="deg.length<=25">
+                            {{deg}}
+                        </span> &nbsp;
+                        <span class="removeEducationIcon" (click)=" removeEducation(deg) ">
+                            <mat-icon>delete</mat-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

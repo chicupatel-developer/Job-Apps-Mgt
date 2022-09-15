@@ -1,1 +1,92 @@
-<p>add-education works!</p>
+<div>
+    <div>
+        <h2>{{pageHeader}}</h2>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="saved" *ngIf="saved">Data Saved !</span>
+    </div>
+
+    <form [formGroup]="educationForm">
+        <div class="saveButton">
+            <button (click)="saveEducation()" mat-raised-button color="primary" type="button">
+                <mat-icon>save</mat-icon>
+                &nbsp;&nbsp;Save
+            </button> &nbsp;&nbsp;&nbsp;&nbsp;
+            <button (click)="saveAndAddMoreEducation()" mat-raised-button color="primary" type="button">
+                <mat-icon>save</mat-icon><span> &nbsp;&amp;&nbsp; </span>
+                <mat-icon>note_add</mat-icon>
+                &nbsp;&nbsp; Save & Add More
+            </button>
+        </div>
+
+        <div fxLayout="row" class="parent" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column"
+            fxLayout.xs="column">
+            <div fxFlex="40%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="mainContentLeft">
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label> Degree Name
+                    </mat-label>
+                    <input matInput formControlName="degreeName">
+                    <mat-error *ngIf="hasError('degreeName', 'required')">
+                        Degree-Name is required
+                    </mat-error>
+                </mat-form-field>
+                <p></p>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label> University Name
+                    </mat-label>
+                    <input matInput formControlName="universityName">
+                    <mat-error *ngIf="hasError('universityName', 'required')">
+                        University-Name is required
+                    </mat-error>
+                </mat-form-field>
+                <p></p>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label> Major
+                    </mat-label>
+                    <input matInput formControlName="major">
+                    <mat-error *ngIf="hasError('major', 'required')">
+                        Major is required
+                    </mat-error>
+                </mat-form-field>
+                <p></p>
+            </div>
+            <div fxFlex="60%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="mainContentLeft">
+                <mat-form-field class="form-field small-form-field" appearance="fill">
+                    <mat-label>Country</mat-label>
+                    <select matNativeControl formControlName="country">
+                        <option value="">Choose Country</option>
+                        <option *ngFor="let c of countryCollection">
+                            {{c}}
+                        </option>
+                    </select>
+                    <mat-error *ngIf="hasError('country', 'required')">
+                        Country is required
+                    </mat-error>
+                </mat-form-field>
+                <p></p>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label> Start Date
+                    </mat-label>
+                    <input matInput formControlName="startDate" [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="hasError('startDate', 'required')">
+                        Start-Date is required
+                    </mat-error>
+                </mat-form-field>
+                <p></p>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label> End Date
+                    </mat-label>
+                    <input matInput 
+                        formControlName="endDate" 
+                        [matDatepicker]="picker1">
+                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <p></p>
+            </div>
+        </div>
+    </form>
+</div>
