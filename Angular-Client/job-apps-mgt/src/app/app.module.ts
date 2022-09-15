@@ -38,6 +38,15 @@ import { JobSearchComponent } from './components/job-search/job-search.component
 import { ResumeCreatorComponent } from './components/resume-creator/resume-creator.component';
 import { UniversityWinnipegComponent } from './components/university-winnipeg/university-winnipeg.component';
 import { ViewUserDataComponent } from './components/view-user-data/view-user-data.component';
+import { AddEducationComponent } from './components/resume-components/add-education/add-education.component';
+import { AddWorkExperienceComponent } from './components/resume-components/add-work-experience/add-work-experience.component';
+import { EditEducationComponent } from './components/resume-components/edit-education/edit-education.component';
+import { EditWorkExperienceComponent } from './components/resume-components/edit-work-experience/edit-work-experience.component';
+import { EducationCreateComponent } from './components/resume-components/education-create/education-create.component';
+import { PersonalInfoCreateComponent } from './components/resume-components/personal-info-create/personal-info-create.component';
+import { SaveAndViewResumeComponent } from './components/resume-components/save-and-view-resume/save-and-view-resume.component';
+import { TechnicalSkillCreateComponent } from './components/resume-components/technical-skill-create/technical-skill-create.component';
+import { WorkExperienceCreateComponent } from './components/resume-components/work-experience-create/work-experience-create.component';
 
 
 
@@ -59,6 +68,15 @@ import { ViewUserDataComponent } from './components/view-user-data/view-user-dat
     ResumeCreatorComponent,
     UniversityWinnipegComponent,
     ViewUserDataComponent,
+    AddEducationComponent,
+    AddWorkExperienceComponent,
+    EditEducationComponent,
+    EditWorkExperienceComponent,
+    EducationCreateComponent,
+    PersonalInfoCreateComponent,
+    SaveAndViewResumeComponent,
+    TechnicalSkillCreateComponent,
+    WorkExperienceCreateComponent,
   ],
   imports: [
     BrowserModule,

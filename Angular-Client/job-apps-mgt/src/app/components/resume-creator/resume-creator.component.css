@@ -1,0 +1,56 @@
+.pageHeader {
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border: 2px solid blueviolet;
+    border-radius: 10px;
+    background-color: lightseagreen;
+    color: black;
+    font-size: x-large;
+}
+
+th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
+}
+
+.mainContainer {
+    padding: 20px;
+}
+
+.personalContainer {
+    padding: 40px;
+}
+
+.skillsContainer {
+    padding: 40px;
+}
+
+.tabContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-style: oblique;
+}
+
+.parent {
+    height: 100%;
+}
+
+.mainContentLeft {
+    padding: 10px;
+}
+
+.mainContentRight {
+    padding: 10px;
+}
+
+mat-form-field {
+    width: 80%;
+}
+
+.saveButton {
+    padding-bottom: 30px;
+}

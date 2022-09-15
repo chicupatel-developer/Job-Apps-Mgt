@@ -1,1 +1,45 @@
-<p>resume-creator works!</p>
+<div fxLayout="row wrap" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+
+    <div fxFlex="10%">
+    </div>
+    <div fxFlex="80%">
+        <div class="pageHeader">
+            Resume - Creator
+        </div>
+        <p></p>
+        <div>
+            <mat-tab-group>
+                <mat-tab label="Personal Info">
+
+                    <app-personal-info-create pageHeader="Enter Personal Information">
+                    </app-personal-info-create>
+
+                </mat-tab>
+                <mat-tab label="Technical Skills">
+
+                    <app-technical-skill-create pageHeader="Enter Technical Skills">
+                    </app-technical-skill-create>
+
+                </mat-tab>
+                <mat-tab label="Work Experience">
+
+                    <app-work-experience-create pageHeader="Enter Work Experience">
+                    </app-work-experience-create>
+
+                </mat-tab>
+                <mat-tab label="Education">
+
+                    <app-education-create pageHeader="Enter Education Details">
+                    </app-education-create>
+
+                </mat-tab>
+                <mat-tab label="My-Resume">
+
+                    <app-save-and-view-resume pageHeader="My Resume">
+                    </app-save-and-view-resume>
+
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
