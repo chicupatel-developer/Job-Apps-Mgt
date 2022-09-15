@@ -1,1 +1,29 @@
-<p>technical-skill-create works!</p>
+<div class="skillsContainer">
+    <div>
+        <h2>{{pageHeader}}</h2>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="saved" *ngIf="saved">Data Saved !</span>
+    </div>
+
+    <div class="saveButton">
+        <button (click)="saveSkills()" mat-raised-button color="primary" type="button">
+            <mat-icon>save</mat-icon>
+            &nbsp;&nbsp;Save
+        </button>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-chip-list #chipList>
+                <mat-chip *ngFor="let skill of skills" [selectable]="selectable" [removable]="removable"
+                    (removed)="remove(skill)">
+                    <!-- {{skill.name}} -->
+                    {{skill}}
+                    <mat-icon matChipRemove *ngIf="removable">X</mat-icon>
+                </mat-chip>
+                <input placeholder="Enter Technical Skill..." [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+        </mat-form-field>
+    </div>
+</div>
