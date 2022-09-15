@@ -115,7 +115,8 @@ export class SaveAndViewResumeComponent {
               this.apiResponse = error.statusText;            
             }
             else if (error.status === 500) {             
-              this.apiResponse = error.statusText;
+              // this.apiResponse = error.statusText;
+              this.apiResponse = error.responseMessage;
             }
             else {
               console.log(error);
@@ -149,11 +150,14 @@ export class SaveAndViewResumeComponent {
             }, 3000);
           },
           error => {
+            console.log(error);
+            console.log(error.error.responseMessage);
             if (error.status === 400) {
               this.apiResponse = error.statusText;
             }
-            else if (error.status === 500) {
-              this.apiResponse = error.statusText;
+            else if (error.status == 500) {
+              // this.apiResponse = error.statusText;
+              this.apiResponse = error.error.responseMessage;
             }
             else {
               console.log(error);

@@ -222,6 +222,11 @@ namespace WebAPICore.Controllers
                 };
                 if (_resumeCreator.AddUserDataWhenResumeEmailed(userData))
                 {
+                    _response.ResponseCode = -1;
+                    _response.ResponseMessage = "Sending Email Error! (OR) Server Error!";
+                    return StatusCode(500, _response);
+
+                    /*
                     // convert byte[] to memory-stream
                     MemoryStream stream = new MemoryStream(pdfBytes);
                     // create .pdf and attach it as email attachment, but do not store .pdf file on server
@@ -230,6 +235,7 @@ namespace WebAPICore.Controllers
                     await _emailSender.SendEmailAsync(message);
 
                     return Ok("Resume sent in your Email-Attachment! Please check your Email!");
+                    */
                 }
                 else
                 {
