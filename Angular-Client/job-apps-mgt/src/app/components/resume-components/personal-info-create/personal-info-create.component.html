@@ -1,1 +1,84 @@
-<p>personal-info-create works!</p>
+<div class="personalContainer">
+    <div>
+        <h2>{{pageHeader}}</h2>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="saved" *ngIf="saved">Data Saved !</span>
+    </div>
+    <div>
+        <form [formGroup]="personalInfoForm">
+            <div class="saveButton">
+                <button (click)="savePersonalInfo()" 
+                    mat-raised-button color="primary" type="button">
+                    <mat-icon>save</mat-icon>
+                    &nbsp;&nbsp;Save
+                </button>
+            </div>
+
+            <div fxLayout="row" class="parent" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column"
+                fxLayout.xs="column">
+                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="mainContentLeft">
+                    <mat-form-field [style.width.px]=327 class="form-field" appearance="outline">
+                        <mat-label> First-Name
+                        </mat-label>
+                        <input matInput formControlName="firstName">
+                        <mat-error *ngIf="hasError('firstName', 'required')">First Name is required</mat-error>                       
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field [style.width.px]=327 class="form-field" appearance="outline">
+                        <mat-label> Last-Name
+                        </mat-label>
+                        <input matInput formControlName="lastName">
+                        <mat-error *ngIf="hasError('lastName', 'required')">Last Name is required</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field [style.width.px]=327 class="form-field" appearance="outline">
+                        <mat-label> E-mail
+                        </mat-label>
+                        <input matInput formControlName="emailAddress">
+                        <mat-error *ngIf="hasError('emailAddress', 'required')">Email is required</mat-error>
+                        <mat-error *ngIf="hasError('emailAddress', 'pattern')">Invalid Email</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                </div>
+                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="mainContentRight">
+                    <mat-form-field [style.width.px]=200 class="form-field small-form-field" appearance="outline">
+                        <mat-label> Phone Number
+                        </mat-label>
+                        <input matInput formControlName="phoneNumber">                       
+                        <mat-error *ngIf="hasError('phoneNumber', 'pattern')">Invalid Phone-Number</mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field [style.width.px]=200 class="form-field small-form-field" appearance="fill">
+                        <mat-label>Province</mat-label>
+                        <select matNativeControl 
+                            (change)="changeProvince($event)" 
+                            formControlName="province">
+                            <option value="">Choose Province</option>
+                            <option *ngFor="let p of provinceCollection">
+                                {{p}}
+                            </option>
+                        </select>
+                        <mat-error *ngIf="hasError('province', 'required')">
+                            Province is required
+                        </mat-error>
+                    </mat-form-field>
+                    <p></p>
+                    <mat-form-field [style.width.px]=200 class="form-field small-form-field" appearance="fill">
+                        <mat-label>City</mat-label>
+                        <select matNativeControl 
+                            formControlName="city">
+                            <option value="">Choose City</option>
+                            <option *ngFor="let c of cityCollection">
+                                {{c}}
+                            </option>
+                        </select>
+                        <mat-error *ngIf="hasError('city', 'required')">
+                            City is required
+                        </mat-error>
+                    </mat-form-field>
+                    <p></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

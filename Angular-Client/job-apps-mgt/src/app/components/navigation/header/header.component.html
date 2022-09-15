@@ -1,6 +1,6 @@
 <!-- left align tool bar -->
 <mat-toolbar color="primary">
-        <div fxHide.gt-xs>
+        <div fxHide.gt-md>
             <button mat-icon-button (click)="onToggleSidenav()">
                 <mat-icon>menu</mat-icon>
             </button>
@@ -8,7 +8,7 @@
         <span>Job-Apps</span>
         <span class="example-spacer"></span>
 
-        <div fxShow="true" fxHide.lt-sm="true">
+        <div fxShow="true" fxHide.lt-md="true"> 
             <a [routerLink]="['/home']" mat-button>
                 <mat-icon>home</mat-icon>
                 Home
