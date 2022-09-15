@@ -1,1 +1,62 @@
-<p>save-and-view-resume works!</p>
+<div class="personalContainer">
+    <div>
+        <h2>{{pageHeader}}</h2>
+    </div>
+
+    <p></p>
+    <div *ngIf="apiResponse" fxLayout fxLayoutAlign="center center">
+        <mat-card>
+            <mat-card-title>
+                <span class="error">{{apiResponse}}!</span>
+            </mat-card-title>
+        </mat-card>
+    </div>
+    <div *ngIf="successResponse" fxLayout fxLayoutAlign="center center">
+        <mat-card>
+            <mat-card-title>
+                <span class="success">{{successResponse}}!</span>
+            </mat-card-title>
+        </mat-card>
+    </div>
+    <p></p>
+
+    <div fxLayout="row" class="parent" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+        <div class="mainContentLeft" fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%">
+            <div class="saveButton">
+                <mat-card>
+                    <mat-card-title>
+                        View My Resume!
+                    </mat-card-title>
+                    <p></p>
+                    <div class="resumeDiv">
+                        <mat-card-content>
+                            <button (click)="createAndDownloadResume()" mat-raised-button color="primary" type="button">
+                                <mat-icon>save</mat-icon><span> &nbsp;&amp;&nbsp; </span>
+                                <mat-icon>account_box</mat-icon>
+                            </button>
+                        </mat-card-content>
+                    </div>
+
+                </mat-card>
+            </div>
+        </div>
+        <div class="mainContentRight" fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%">
+            <div class="saveButton">
+                <mat-card>
+                    <mat-card-title>
+                        Email My Resume!
+                    </mat-card-title>
+                    <p></p>
+                    <div class="resumeDiv">
+                        <mat-card-content>
+                            <button (click)="createAndEmailResume()" mat-raised-button color="primary" type="button">
+                                <mat-icon>save</mat-icon><span> &nbsp;&amp;&nbsp; </span>
+                                <mat-icon>email</mat-icon>
+                            </button>
+                        </mat-card-content>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

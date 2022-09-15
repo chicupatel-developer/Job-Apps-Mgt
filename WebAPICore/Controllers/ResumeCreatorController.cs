@@ -32,6 +32,7 @@ namespace WebAPICore.Controllers
             _emailSender = emailSender;
         }
 
+        // ng ok
         // create pdf resume as byte[] and display @ browser
         [HttpPost]
         [Route("createAndDownloadResume")]
@@ -136,7 +137,9 @@ namespace WebAPICore.Controllers
                 return StatusCode(500, _response);
             }                  
         }
-       
+
+
+        // ng ok
         // create pdf resume as byte[] 
         // and attach it as email attachment, but do not store .pdf file on server
         [HttpPost]
@@ -222,8 +225,8 @@ namespace WebAPICore.Controllers
                     // convert byte[] to memory-stream
                     MemoryStream stream = new MemoryStream(pdfBytes);
                     // create .pdf and attach it as email attachment, but do not store .pdf file on server
-                    var message = new Message(new string[] { myResume.EmailMyResumeTo }, "Test mail with Attachments", "This is the content from our mail with attachments.", null, stream, "pdf", "myResume.pdf");
-                    // var message = new Message(new string[] { "chicupatel202122@gmail.com" }, "Test mail with Attachments", "This is the content from our mail with attachments.", null, stream, "pdf", "myResume.pdf");
+                    // var message = new Message(new string[] { myResume.EmailMyResumeTo }, "Test mail with Attachments", "This is the content from our mail with attachments.", null, stream, "pdf", "myResume.pdf");
+                    var message = new Message(new string[] { "chicupatel202122@gmail.com" }, "Test mail with Attachments", "This is the content from our mail with attachments.", null, stream, "pdf", "myResume.pdf");
                     await _emailSender.SendEmailAsync(message);
 
                     return Ok("Resume sent in your Email-Attachment! Please check your Email!");
@@ -231,7 +234,7 @@ namespace WebAPICore.Controllers
                 else
                 {
                     _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Server Error!";
+                    _response.ResponseMessage = "Sending Email Error! (OR) Server Error!";
                     return StatusCode(500, _response);
                 }             
             }
