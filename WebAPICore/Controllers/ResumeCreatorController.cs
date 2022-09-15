@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAPICore.Controllers
 {
@@ -57,7 +58,8 @@ namespace WebAPICore.Controllers
                 {
                     _response.ResponseCode = -1;
                     _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    // return StatusCode(400, _response);
+                    return BadRequest("Personal Info Null - Bad Request!");
                 }
 
                 // Technical Skills List<string>
@@ -67,7 +69,8 @@ namespace WebAPICore.Controllers
                 {
                     _response.ResponseCode = -1;
                     _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    // return StatusCode(400, _response);
+                    return BadRequest("Skills Null - Bad Request!");
                 }
 
                 // Work Experience
@@ -77,7 +80,8 @@ namespace WebAPICore.Controllers
                 {
                     _response.ResponseCode = -1;
                     _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    // return StatusCode(400, _response);
+                    return BadRequest("Work Experience Null - Bad Request!");
                 }
 
                 // Education
@@ -87,7 +91,7 @@ namespace WebAPICore.Controllers
                 {
                     _response.ResponseCode = -1;
                     _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    return BadRequest("Education Null - Bad Request!");
                 }
 
                 var content = _resumeCreator.GetPageHeader() +
@@ -120,21 +124,17 @@ namespace WebAPICore.Controllers
                         UserIPAddress = myIpAddress.ToString().Substring(0,(myIpAddress.ToString().Length))
                 };
                 if (_resumeCreator.AddUserDataWhenResumeCreated(userData))
-                {
+                {                    
                     return File(pdfBytes, "application/pdf");
                 }
                 else
                 {
-                    _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Server Error!";
-                    return StatusCode(500, _response);
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Memory File Creation Error! (OR) Server Error!");
                 }                
             }
             catch(Exception ex)
             {
-                _response.ResponseCode = -1;
-                _response.ResponseMessage = "Server Error!";
-                return StatusCode(500, _response);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error!");                
             }                  
         }
 
@@ -162,18 +162,19 @@ namespace WebAPICore.Controllers
                 if (personalInfo == null)
                 {
                     _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    _response.ResponseMessage = "Personal Info Null - Bad Request!";
+                    // return StatusCode(400, _response);
+                    return BadRequest("Personal Info Null - Bad Request!");
                 }
-
+                
                 // Technical Skills List<string>
                 List<string> skills = new List<string>();
                 skills = myResume.Skills;
                 if (skills == null)
                 {
                     _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    _response.ResponseMessage = "Skills Null - Bad Request!";
+                    return BadRequest("Skills Null - Bad Request!");
                 }                
 
                 // Work Experience
@@ -182,8 +183,8 @@ namespace WebAPICore.Controllers
                 if (workExps == null)
                 {
                     _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    _response.ResponseMessage = "Work Experience Null - Bad Request!";
+                    return BadRequest("Work Experience Null - Bad Request!");
                 }
 
                 // Education
@@ -192,9 +193,10 @@ namespace WebAPICore.Controllers
                 if (educations == null)
                 {
                     _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Bad Request!";
-                    return StatusCode(400, _response);
+                    _response.ResponseMessage = "Education Null - Bad Request!";
+                    return BadRequest("Education Null - Bad Request!");
                 }
+                
 
                 var content = _resumeCreator.GetPageHeader() +
                                 _resumeCreator.GetPersonalInfoString(personalInfo) +
@@ -205,8 +207,7 @@ namespace WebAPICore.Controllers
 
                 var pdf = converter.ConvertHtmlString(content);
                 var pdfBytes = pdf.Save();
-
-
+                
                 // UserResumeEmail db-table
                 // process to add client's email address and datetime
                 // and PersonalInfo>FirstName and LastName @ db
@@ -221,12 +222,7 @@ namespace WebAPICore.Controllers
                     UserEmail = myResume.EmailMyResumeTo
                 };
                 if (_resumeCreator.AddUserDataWhenResumeEmailed(userData))
-                {
-                    _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Sending Email Error! (OR) Server Error!";
-                    return StatusCode(500, _response);
-
-                    /*
+                {                  
                     // convert byte[] to memory-stream
                     MemoryStream stream = new MemoryStream(pdfBytes);
                     // create .pdf and attach it as email attachment, but do not store .pdf file on server
@@ -234,21 +230,16 @@ namespace WebAPICore.Controllers
                     var message = new Message(new string[] { "chicupatel202122@gmail.com" }, "Test mail with Attachments", "This is the content from our mail with attachments.", null, stream, "pdf", "myResume.pdf");
                     await _emailSender.SendEmailAsync(message);
 
-                    return Ok("Resume sent in your Email-Attachment! Please check your Email!");
-                    */
+                    return Ok("Resume sent in your Email-Attachment! Please check your Email!");                    
                 }
                 else
                 {
-                    _response.ResponseCode = -1;
-                    _response.ResponseMessage = "Sending Email Error! (OR) Server Error!";
-                    return StatusCode(500, _response);
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Sending Email Error! (OR) Server Error!");
                 }             
             }
             catch(Exception ex)
             {
-                _response.ResponseCode = -1;
-                _response.ResponseMessage = "Server Error!";
-                return StatusCode(500, _response);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error!");
             }          
         }
 

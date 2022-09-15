@@ -36,7 +36,7 @@ export class SaveAndViewResumeComponent {
 
     var dataValid = false;
     var myResume = {};
-
+   
     if (personalInfo == null || skills == null || workExps == null || educations == null) {
       console.log('Resume Data Not Found!');
       dataValid = false;
@@ -58,7 +58,8 @@ export class SaveAndViewResumeComponent {
         }
       });
       // console.log(woExps);
-
+    
+    
       // format education's startDate/endDate
       var edus = educations;
       edus.forEach((edu) => {
@@ -76,6 +77,7 @@ export class SaveAndViewResumeComponent {
       
       myResume = {
         personalInfo: personalInfo,
+        // personalInfo: null,
         skills: skills,
         workExperience: woExps,
         education: edus
@@ -83,11 +85,13 @@ export class SaveAndViewResumeComponent {
       console.log(myResume);
       dataValid = true;      
     }
+    
 
     if (dataValid)
       return myResume;
     else
       return null;
+
   }
   
   createAndDownloadResume() {
@@ -112,11 +116,10 @@ export class SaveAndViewResumeComponent {
           },
           error => {
             if (error.status === 400) {
-              this.apiResponse = error.statusText;            
+              this.apiResponse = 'Bad Request!';            
             }
-            else if (error.status === 500) {             
-              // this.apiResponse = error.statusText;
-              this.apiResponse = error.responseMessage;
+            else if (error.status === 500) {   
+              this.apiResponse = 'Server Error!';
             }
             else {
               console.log(error);
@@ -150,17 +153,14 @@ export class SaveAndViewResumeComponent {
             }, 3000);
           },
           error => {
-            console.log(error);
-            console.log(error.error.responseMessage);
+            console.log(error);            
             if (error.status === 400) {
-              this.apiResponse = error.statusText;
+              this.apiResponse = error.error;
             }
-            else if (error.status == 500) {
-              // this.apiResponse = error.statusText;
-              this.apiResponse = error.error.responseMessage;
+            else if (error.status === 500) {
+              this.apiResponse = error.error;
             }
             else {
-              console.log(error);
               this.apiResponse = 'Error!';
             }
             setTimeout(() => {
