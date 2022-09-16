@@ -47,6 +47,8 @@ import { PersonalInfoCreateComponent } from './components/resume-components/pers
 import { SaveAndViewResumeComponent } from './components/resume-components/save-and-view-resume/save-and-view-resume.component';
 import { TechnicalSkillCreateComponent } from './components/resume-components/technical-skill-create/technical-skill-create.component';
 import { WorkExperienceCreateComponent } from './components/resume-components/work-experience-create/work-experience-create.component';
+import { ViewUserResumeCreateDataComponent } from './components/view-user-data/user-data-components/view-user-resume-create-data/view-user-resume-create-data.component';
+import { ViewUserResumeEmailDataComponent } from './components/view-user-data/user-data-components/view-user-resume-email-data/view-user-resume-email-data.component';
 
 
 
@@ -77,6 +79,8 @@ import { WorkExperienceCreateComponent } from './components/resume-components/wo
     SaveAndViewResumeComponent,
     TechnicalSkillCreateComponent,
     WorkExperienceCreateComponent,
+    ViewUserResumeCreateDataComponent,
+    ViewUserResumeEmailDataComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,55 @@
+table {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 500px;
+    padding-left: 50px;
+}
+
+th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
+}
+
+.mat-header-cell {
+    color: red;
+    font-size: larger;
+}
+
+.mat-paginator {
+    color: blue;
+    font-size: medium;
+}
+
+.mat-form-field {
+    color: green;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.spinnerDiv {
+    padding: 20px;
+}
+
+.error {
+    color: red;
+    font-size: medium;
+}
+
+.apiResponseDiv {
+    margin-bottom: 20px;
+}
+
+.pageSubHeader {
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: lightgoldenrodyellow;
+    color: black;
+    font-size: large;
+}

@@ -1,1 +1,27 @@
-<p>view-user-data works!</p>
+<div fxLayout="row wrap" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+
+    <div fxFlex="10%">
+    </div>
+    <div fxFlex="80%">
+        <div class="pageHeader">
+            User - Data
+        </div>
+        <p></p>
+        <div>
+            <mat-tab-group>
+                <mat-tab label="User-Data-By-Resume-Emailed">
+                    <div class="tabContainer">
+                        <app-view-user-resume-email-data>
+                        </app-view-user-resume-email-data>
+                    </div>
+                </mat-tab>
+                <mat-tab label="User-Data-By-Resume-Created">
+                    <div class="tabContainer">
+                        <app-view-user-resume-create-data>
+                        </app-view-user-resume-create-data>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

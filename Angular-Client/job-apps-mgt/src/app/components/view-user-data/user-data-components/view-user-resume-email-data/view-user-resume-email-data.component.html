@@ -1,0 +1,57 @@
+<div fxLayout="row wrap" fxLayout.lg="row " fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column">
+
+    <div fxFlex="100%">
+        <h4 class="pageSubHeader">
+            User-Data By Resume-Emailed
+        </h4>
+        <p></p>
+
+        <div *ngIf="apiResponse" fxLayout fxLayoutAlign="center center" class="apiResponseDiv">
+            <mat-card>
+                <mat-card-title>
+                    <span class="error">{{apiResponse}}</span>
+                </mat-card-title>
+            </mat-card>
+        </div>
+        <div *ngIf=" !apiResponse && dataSource.data.length<1 " class="spinnerDiv ">
+            <div fxLayout fxLayoutAlign="center center ">
+                <mat-spinner [diameter]="50 "></mat-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="dataSource.data.length>0">
+            <div fxLayout fxLayoutAlign="center center">
+                <mat-form-field fxFlex="20%">
+                    <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <table mat-table matSort [dataSource]="dataSource">
+            <ng-container matColumnDef="userResumeEmailId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> #</th>
+                <td mat-cell *matCellDef="let element"> {{element.userResumeEmailId}} </td>
+            </ng-container>
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="resumeEmailedAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Resume Emailed @</th>
+                <td mat-cell *matCellDef="let element"> {{element.resumeEmailedAt | date:"medium"}} </td>
+            </ng-container>
+            <ng-container matColumnDef="userEmail">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Email</th>
+                <td mat-cell *matCellDef="let element"> {{element.userEmail}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator *ngIf="!apiResponse" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+    </div>
+</div>
