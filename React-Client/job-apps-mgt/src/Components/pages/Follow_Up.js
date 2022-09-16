@@ -116,6 +116,10 @@ const useStyles = makeStyles((theme) => ({
   appStatus: {
     padding: "5px",
   },
+  searchDiv: {
+    textAlign: "center",
+    verticalAlign: "middle",
+  },
 }));
 
 const defaultValues = {
@@ -132,7 +136,7 @@ const Follow_Up = () => {
   const [appStatusTypes, setAppStatusTypes] = useState([]);
 
   const pull_data = (data) => {
-    console.log(data); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+    console.log(data); // LOGS DATA FROM CHILD
   };
 
   const getAllJobApps = () => {
@@ -317,17 +321,17 @@ const Follow_Up = () => {
 
   return (
     <div className={classes.pageHeader}>
-      <div>
-        <Filter_Job_Apps func={pull_data} />
-      </div>
-      <p></p>
-
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>
           <div></div>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <div className={classes.pageTitle}>Follow-Up</div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12}>
+          <div className={classes.searchDiv}>
+            <Filter_Job_Apps func={pull_data} />
+          </div>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
           <div>{jobAppsList}</div>

@@ -6,10 +6,19 @@ import { BrowserRouter } from "react-router-dom";
 
 import { createRoot } from "react-dom/client";
 
+// redux
+import store from "./redux/store";
+import { Provider } from "react-redux";
+
+
 // react - new version
 const container = document.getElementById("root");
 const root = createRoot(container);
-root.render(<App />);
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
 
 // react - old version
 /*

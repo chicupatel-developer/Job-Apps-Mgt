@@ -1,11 +1,11 @@
 import React from "react";
 
 const Filter_Job_Apps = (props) => {
-  props.func("My name is Dean Winchester & this is my brother Sammie");
+  props.func("This is search child component");
 
   return (
     <div>
-      <h1>I am the Child Component!</h1>
+      <h1>Search Component!</h1>
     </div>
   );
 };
