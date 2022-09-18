@@ -44,6 +44,10 @@ import Moment from "moment";
 
 import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 
+// redux
+import { connect } from "react-redux";
+import { retrieveJobApps } from "../../slices/jobApps";
+
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
   paper: {
@@ -129,10 +133,12 @@ const defaultValues = {
   appliedOn: null,
 };
 
-const Follow_Up = () => {
+const Follow_Up = (props) => {
   const classes = useStyles();
 
-  const [jobApps, setJobApps] = useState([]);
+  // const [jobApps, setJobApps] = useState([]);
+  const { jobApps } = props;
+  
   const [appStatusTypes, setAppStatusTypes] = useState([]);
 
   const pull_data = (data) => {
@@ -143,7 +149,7 @@ const Follow_Up = () => {
     JobApplicationService.getAllJobApps()
       .then((response) => {
         console.log(response.data);
-        setJobApps(response.data);
+        // setJobApps(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -161,7 +167,9 @@ const Follow_Up = () => {
   };
 
   useEffect(() => {
-    getAllJobApps();
+    // getAllJobApps();
+    props.retrieveJobApps();
+
     getAppStatusTypes();
   }, []);
 
@@ -319,6 +327,8 @@ const Follow_Up = () => {
       );
     }, this);
 
+ 
+
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
@@ -341,4 +351,14 @@ const Follow_Up = () => {
   );
 };
 
-export default Follow_Up;
+// export default Follow_Up;
+
+const mapStateToProps = (state) => {
+  return {
+    jobApps: state.jobApps,
+  };
+};
+
+export default connect(mapStateToProps, {
+  retrieveJobApps,
+})(Follow_Up);

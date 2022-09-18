@@ -18,10 +18,23 @@ import { makeStyles } from "@material-ui/core";
 import JobApplicationService from "../../services/job.application.service";
 import { getProvinces, getCities } from "../../services/local.service";
 
+/*
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDatePicker } from "@material-ui/pickers";
+*/
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+
 import moment from "moment";
+
+// redux
+import { connect } from "react-redux";
+import { createJobApp } from "../../slices/jobApps";
 
 const useStyles = makeStyles((theme) => ({
   modelError: {
@@ -106,10 +119,10 @@ const defaultValues = {
   phoneNumber: "",
   province: "",
   city: "",
-  appliedOn: null,
+  appliedOn: new Date(),
 };
 
-const Apply_To_Job = () => {
+const Apply_To_Job = (props) => {
   const classes = useStyles();
 
   const [modelErrors, setModelErrors] = useState([]);
@@ -170,10 +183,10 @@ const Apply_To_Job = () => {
         companyName: formValues.companyName,
         agencyName: formValues.agencyName,
         webURL: formValues.webURL,
-        // contactPersonName: formValues.contactPersonName,
-        contactPersonName: "",
-        // contactEmail: formValues.contactEmail,
-        contactEmail: "",
+        contactPersonName: formValues.contactPersonName,
+        // contactPersonName: "",
+        contactEmail: formValues.contactEmail,
+        // contactEmail: "",
         phoneNumber: formValues.phoneNumber,
         province: formValues.province,
         // province: "",
@@ -184,6 +197,7 @@ const Apply_To_Job = () => {
 
       // api call
       JobApplicationService.addJobApplication(jobAppData)
+        // props.createJobApp(jobAppData)
         .then((response) => {
           console.log(response.data);
 
@@ -195,6 +209,7 @@ const Apply_To_Job = () => {
             responseMessage: response.data.responseMessage,
           };
           if (response.data.responseCode === 0) {
+            props.createJobApp(jobAppData);
             resetForm();
             setJobAppCreateResponse(jobAppCreateResponse);
           } else if (response.data.responseCode === -1) {
@@ -567,4 +582,5 @@ const Apply_To_Job = () => {
   );
 };
 
-export default Apply_To_Job;
+// export default Apply_To_Job;
+export default connect(null, { createJobApp })(Apply_To_Job);
