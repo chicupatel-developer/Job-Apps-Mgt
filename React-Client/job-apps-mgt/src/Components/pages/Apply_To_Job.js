@@ -209,7 +209,11 @@ const Apply_To_Job = (props) => {
             responseMessage: response.data.responseMessage,
           };
           if (response.data.responseCode === 0) {
+            
+            // after successful api call
+            // add data{} to redux-jobApps[]
             props.createJobApp(jobAppData);
+
             resetForm();
             setJobAppCreateResponse(jobAppCreateResponse);
           } else if (response.data.responseCode === -1) {
@@ -303,8 +307,12 @@ const Apply_To_Job = (props) => {
     if (!contactEmail || contactEmail === "")
       newErrors.contactEmail = "Contact-Email is Required!";
     if (!(!contactEmail || contactEmail === "")) {
-      if (!checkForEmail(contactEmail))
+      if (!checkForEmail(contactEmail)) {
         newErrors.contactEmail = "Invalid Email!";
+      } else {
+        var key = "contactEmail";
+        delete newErrors[key];
+      }
     }
 
     if (!province || province === "")

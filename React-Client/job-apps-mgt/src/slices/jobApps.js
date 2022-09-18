@@ -3,6 +3,8 @@ import JobApplicationService from "../services/job.application.service";
 
 const initialState = [];
 
+// api call
+// update redux-jobApps[]
 export const retrieveJobApps = createAsyncThunk(
   "jobApps/retrieve",
   async () => {
@@ -11,9 +13,9 @@ export const retrieveJobApps = createAsyncThunk(
   }
 );
 
+// after successful api call
+// add data{} to redux-jobApps[]
 export const createJobApp = createAsyncThunk("jobApp/create", async (data) => {
-  // const res = await JobApplicationService.addJobApplication(data);
-  // console.log(res.data);
   return data;
 });
 
