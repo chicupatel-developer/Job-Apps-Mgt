@@ -12,5 +12,9 @@ class JobApplicationService {
   getAppStatusTypes = async () => {
     return await http.get(`/getAppStatusTypes`);
   };
+
+  viewJobApp = async (jobAppId) => {
+    return await http.get(`/viewJobApp/${jobAppId}`);
+  };
 }
 export default new JobApplicationService();

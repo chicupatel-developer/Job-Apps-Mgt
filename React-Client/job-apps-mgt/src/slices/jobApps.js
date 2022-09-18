@@ -19,6 +19,9 @@ export const createJobApp = createAsyncThunk("jobApp/create", async (data) => {
   return data;
 });
 
+
+
+
 // action = { type, payload }
 const jobAppsSlice = createSlice({
   name: "jobApps",
@@ -30,6 +33,7 @@ const jobAppsSlice = createSlice({
     [createJobApp.fulfilled]: (state, action) => {
       state.push(action.payload);
     },
+  
   },
 });
 
