@@ -39,12 +39,11 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
+import CloseIcon from "@material-ui/icons/Close";
 
 import Moment from "moment";
 
-// redux
-import { connect } from "react-redux";
-import { retrieveJobApps } from "../../slices/jobApps";
+import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
@@ -122,39 +121,99 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     verticalAlign: "middle",
   },
+
+  // modal
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalPaper: {
+    position: "absolute",
+    width: 550,
+    height: 500,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
-const View_JobApp = (props) => {
+const rand = () => {
+  return Math.round(Math.random() * 20) - 10;
+};
+const getModalStyle = () => {
+  const top = 50 + rand();
+  const left = 50 + rand();
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+};
 
+const View_JobApp = (props) => {
   const classes = useStyles();
 
   const [jobApp, setJobApp] = useState({});
-  
+
+  // modal
+  const [modalStyle] = useState(getModalStyle());
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const getJobApp = () => {
     JobApplicationService.viewJobApp(2)
       .then((response) => {
         console.log(response.data);
         setJobApp(response.data);
+
+        setOpen(true);
       })
       .catch((e) => {
         console.log(e);
       });
-  };  
+  };
 
   useEffect(() => {
     getJobApp();
   }, []);
 
-  
-    return (
-      <div>
-        <h3>React Simple Modal Example</h3>
+  return (
+    <div>
+      <Modal
+        style={{ alignItems: "center", justifyContent: "center" }}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={open}
+        onClose={handleClose}
+      >
+        <div style={modalStyle} className={classes.modalPaper}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12} md={10}>
+              <h2>[VIEW] Job-Application # {jobApp.jobApplicationId}</h2>
+            </Grid>
+            <Grid item xs={12} sm={12} md={2}>
+              <Button
+                className={classes.btnDelete}
+                variant="contained"
+                type="button"
+                onClick={handleClose}
+              >
+                <CloseIcon />
+              </Button>
+            </Grid>
+          </Grid>
 
-        <Button variant="contained" color="primary">
-          Open Modal
-        </Button>
-      </div>
-    );
+          <div>Job Application Data</div>
+        </div>
+      </Modal>
+    </div>
+  );
 };
 
 export default View_JobApp;

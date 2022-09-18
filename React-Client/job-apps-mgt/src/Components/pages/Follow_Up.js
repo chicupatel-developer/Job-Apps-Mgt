@@ -45,25 +45,12 @@ import Moment from "moment";
 
 import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 
-import Modal from "@material-ui/core/Modal";
+// modal
+import View_JobApp from "./View_JobApp";
 
 // redux
 import { connect } from "react-redux";
 import { retrieveJobApps } from "../../slices/jobApps";
-
-// modal
-const rand = () => {
-  return Math.round(Math.random() * 20) - 10;
-};
-const getModalStyle = () => {
-  const top = 50 + rand();
-  const left = 50 + rand();
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-};
 
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
@@ -141,21 +128,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     verticalAlign: "middle",
   },
-
-  // modal
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalPaper: {
-    position: "absolute",
-    width: 550,
-    height: 500,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
 }));
 
 const defaultValues = {
@@ -169,13 +141,9 @@ const Follow_Up = (props) => {
   const classes = useStyles();
 
   // modal
-  const [modalStyle] = useState(getModalStyle());
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
   };
 
   // const [jobApps, setJobApps] = useState([]);
@@ -221,6 +189,8 @@ const Follow_Up = (props) => {
   };
   const viewJobApp = (e, jobApplicationId) => {
     console.log("view job app,,,", jobApplicationId);
+
+    // this will open child-component,,, that contains modal content
     handleOpen();
   };
   const editJobApp = (e, jobApplicationId) => {
@@ -373,36 +343,7 @@ const Follow_Up = (props) => {
 
   return (
     <div className={classes.pageHeader}>
-      <Modal
-        style={{ alignItems: "center", justifyContent: "center" }}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={open}
-        onClose={handleClose}
-      >
-        <div style={modalStyle} className={classes.modalPaper}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={10}>
-              <h2>[VIEW] Job-Application # </h2>
-            </Grid>
-            <Grid item xs={12} sm={12} md={2}>
-              <Button
-                className={classes.btnDelete}
-                variant="contained"
-                type="button"
-                onClick={handleClose}
-              >
-                <CloseIcon />
-              </Button>
-            </Grid>
-          </Grid>
-
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            accumsan odio enim, non pharetra est ultrices et.
-          </div>
-        </div>
-      </Modal>
+      {open && <View_JobApp />}
 
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>
