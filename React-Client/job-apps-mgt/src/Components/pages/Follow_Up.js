@@ -142,9 +142,7 @@ const Follow_Up = (props) => {
 
   // modal
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const [jobApp, setJobApp] = useState({});
 
   // const [jobApps, setJobApps] = useState([]);
   // redux
@@ -154,6 +152,13 @@ const Follow_Up = (props) => {
 
   const pull_data = (data) => {
     console.log(data); // LOGS DATA FROM CHILD
+  };
+
+  // this will get notified when child-modal is closed
+  // callback as props
+  const viewJobAppIsClosed = (data) => {
+    console.log("received at parent,,,", data); // LOGS DATA FROM CHILD
+    setOpen(false);
   };
 
   const getAllJobApps = () => {
@@ -190,8 +195,17 @@ const Follow_Up = (props) => {
   const viewJobApp = (e, jobApplicationId) => {
     console.log("view job app,,,", jobApplicationId);
 
-    // this will open child-component,,, that contains modal content
-    handleOpen();
+    JobApplicationService.viewJobApp(2)
+      .then((response) => {
+        console.log(response.data);
+        setJobApp(response.data);
+
+        // this will open child-component,,, that contains modal content
+        setOpen(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   const editJobApp = (e, jobApplicationId) => {
     console.log("edit job app,,,", jobApplicationId);
@@ -343,7 +357,7 @@ const Follow_Up = (props) => {
 
   return (
     <div className={classes.pageHeader}>
-      {open && <View_JobApp />}
+      {open && <View_JobApp jobApp={jobApp} func={viewJobAppIsClosed} />}
 
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>

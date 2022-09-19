@@ -151,36 +151,24 @@ const getModalStyle = () => {
   };
 };
 
-const View_JobApp = (props) => {
-  const classes = useStyles();
+const View_JobApp = (props) => { 
 
-  const [jobApp, setJobApp] = useState({});
+  const classes = useStyles();
 
   // modal
   const [modalStyle] = useState(getModalStyle());
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const [open, setOpen] = useState(false); 
   const handleClose = () => {
+    console.log("model is closing,,,");
     setOpen(false);
-  };
 
-  const getJobApp = () => {
-    JobApplicationService.viewJobApp(2)
-      .then((response) => {
-        console.log(response.data);
-        setJobApp(response.data);
-
-        setOpen(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // callback as props
+    props.func("view job-app is closed");
   };
 
   useEffect(() => {
-    getJobApp();
+    console.log("child component,,," + props.jobApp.jobApplicationId);
+    setOpen(true);
   }, []);
 
   return (
@@ -195,7 +183,7 @@ const View_JobApp = (props) => {
         <div style={modalStyle} className={classes.modalPaper}>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={10}>
-              <h2>[VIEW] Job-Application # {jobApp.jobApplicationId}</h2>
+              <h2>[VIEW] Job-Application # {props.jobApp.jobApplicationId}</h2>
             </Grid>
             <Grid item xs={12} sm={12} md={2}>
               <Button
