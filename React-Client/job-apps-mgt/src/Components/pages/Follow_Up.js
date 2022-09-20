@@ -49,6 +49,7 @@ import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 // child-component
 // modal
 import View_JobApp from "../Child_Components/View_JobApp";
+import Edit_JobApp from "../Child_Components/Edit_JobApp";
 
 // redux
 import { connect } from "react-redux";
@@ -147,7 +148,9 @@ const Follow_Up = (props) => {
   const classes = useStyles();
 
   // modal
+  // view
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [jobApp, setJobApp] = useState({});
 
   // redux
@@ -162,6 +165,10 @@ const Follow_Up = (props) => {
   const viewJobAppIsClosed = (data) => {
     console.log("received at parent,,,", data); // LOGS DATA FROM CHILD
     setOpen(false);
+  };
+  const editJobAppIsClosed = (data) => {
+    console.log("received at parent,,,", data); // LOGS DATA FROM CHILD
+    setOpenEdit(false);
   };
 
   useEffect(() => {
@@ -193,6 +200,21 @@ const Follow_Up = (props) => {
   };
   const editJobApp = (e, jobApplicationId) => {
     console.log("edit job app,,,", jobApplicationId);
+
+    // this will set value @ redux-store for appStatusTypes[]
+    props.setAppStatusTypes(appStatusTypes);
+
+    JobApplicationService.viewJobApp(jobApplicationId)
+      .then((response) => {
+        console.log(response.data);
+        setJobApp(response.data);
+
+        // this will open child-component,,, that contains modal content
+        setOpenEdit(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   const deleteJobApp = (e, jobApplicationId) => {
     console.log("delete job app,,,", jobApplicationId);
@@ -342,6 +364,8 @@ const Follow_Up = (props) => {
   return (
     <div className={classes.pageHeader}>
       {open && <View_JobApp jobApp={jobApp} func={viewJobAppIsClosed} />}
+
+      {openEdit && <Edit_JobApp jobApp={jobApp} func={editJobAppIsClosed} />}
 
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>

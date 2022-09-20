@@ -21,7 +21,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Moment from "moment";
 
 import Modal from "@material-ui/core/Modal";
-import { lightGreen } from "@material-ui/core/colors";
 
 // redux
 import { connect } from "react-redux";
