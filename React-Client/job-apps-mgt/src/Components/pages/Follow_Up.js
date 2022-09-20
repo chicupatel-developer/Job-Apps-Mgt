@@ -43,14 +43,20 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import Moment from "moment";
 
+// child-component
 import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 
+// child-component
 // modal
-import View_JobApp from "./View_JobApp";
+import View_JobApp from "../Child_Components/View_JobApp";
 
 // redux
 import { connect } from "react-redux";
 import { retrieveJobApps } from "../../slices/jobApps";
+import {
+  retrieveAppStatusTypes,
+  setAppStatusTypes,
+} from "../../slices/appStatusTypes";
 
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
@@ -144,11 +150,8 @@ const Follow_Up = (props) => {
   const [open, setOpen] = useState(false);
   const [jobApp, setJobApp] = useState({});
 
-  // const [jobApps, setJobApps] = useState([]);
   // redux
-  const { jobApps } = props;
-
-  const [appStatusTypes, setAppStatusTypes] = useState([]);
+  const { jobApps, appStatusTypes } = props;
 
   const pull_data = (data) => {
     console.log(data); // LOGS DATA FROM CHILD
@@ -161,32 +164,10 @@ const Follow_Up = (props) => {
     setOpen(false);
   };
 
-  const getAllJobApps = () => {
-    JobApplicationService.getAllJobApps()
-      .then((response) => {
-        console.log(response.data);
-        // setJobApps(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-  const getAppStatusTypes = () => {
-    JobApplicationService.getAppStatusTypes()
-      .then((response) => {
-        console.log(response.data);
-        setAppStatusTypes(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
   useEffect(() => {
-    // getAllJobApps();
+    // retrieve values from redux-store
     props.retrieveJobApps();
-
-    getAppStatusTypes();
+    props.retrieveAppStatusTypes();
   }, []);
 
   const downloadResume = (e, jobApplicationId) => {
@@ -194,6 +175,9 @@ const Follow_Up = (props) => {
   };
   const viewJobApp = (e, jobApplicationId) => {
     console.log("view job app,,,", jobApplicationId);
+
+    // this will set value @ redux-store for appStatusTypes[]
+    props.setAppStatusTypes(appStatusTypes);
 
     JobApplicationService.viewJobApp(jobApplicationId)
       .then((response) => {
@@ -357,10 +341,7 @@ const Follow_Up = (props) => {
 
   return (
     <div className={classes.pageHeader}>
-      {open && <View_JobApp
-        appStatusTypes={appStatusTypes}
-        jobApp={jobApp}
-        func={viewJobAppIsClosed} />}
+      {open && <View_JobApp jobApp={jobApp} func={viewJobAppIsClosed} />}
 
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>
@@ -387,9 +368,12 @@ const Follow_Up = (props) => {
 const mapStateToProps = (state) => {
   return {
     jobApps: state.jobApps,
+    appStatusTypes: state.appStatusTypes,
   };
 };
 
 export default connect(mapStateToProps, {
   retrieveJobApps,
+  retrieveAppStatusTypes,
+  setAppStatusTypes,
 })(Follow_Up);

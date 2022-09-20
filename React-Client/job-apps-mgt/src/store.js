@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import jobAppsReducer from "./slices/jobApps";
+import appStatusTypesReducer from "./slices/appStatusTypes";
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
 /*
@@ -13,6 +14,7 @@ const customizedMiddleware = getDefaultMiddleware({
 
 const reducer = {
   jobApps: jobAppsReducer,
+  appStatusTypes: appStatusTypesReducer,
 };
 
 const store = configureStore({

@@ -23,6 +23,10 @@ import Moment from "moment";
 import Modal from "@material-ui/core/Modal";
 import { lightGreen } from "@material-ui/core/colors";
 
+// redux
+import { connect } from "react-redux";
+import { getAppStatusTypes } from "../../slices/appStatusTypes";
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -61,8 +65,10 @@ const getModalStyle = () => {
 };
 
 const View_JobApp = (props) => {
-  const jobApp = props.jobApp;
-  const appStatusTypes = props.appStatusTypes;
+  // redux
+  const { jobApp, appStatusTypes } = props;
+  // jobApp is coming from parent
+  // appStatusTypes is coming from redux-store
 
   const classes = useStyles();
 
@@ -79,6 +85,11 @@ const View_JobApp = (props) => {
 
   useEffect(() => {
     console.log("child component,,," + jobApp.jobApplicationId);
+
+    // retrieve values from redux-store
+    // this will popup appStatusTypes from redux-store
+    props.getAppStatusTypes();
+
     setOpen(true);
   }, []);
 
@@ -211,4 +222,14 @@ const View_JobApp = (props) => {
   );
 };
 
-export default View_JobApp;
+// export default View_JobApp;
+
+const mapStateToProps = (state) => {
+  return {
+    appStatusTypes: state.appStatusTypes,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getAppStatusTypes,
+})(View_JobApp);
