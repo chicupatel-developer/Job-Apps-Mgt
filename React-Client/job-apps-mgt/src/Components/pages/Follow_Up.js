@@ -195,7 +195,7 @@ const Follow_Up = (props) => {
   const viewJobApp = (e, jobApplicationId) => {
     console.log("view job app,,,", jobApplicationId);
 
-    JobApplicationService.viewJobApp(2)
+    JobApplicationService.viewJobApp(jobApplicationId)
       .then((response) => {
         console.log(response.data);
         setJobApp(response.data);
@@ -357,7 +357,10 @@ const Follow_Up = (props) => {
 
   return (
     <div className={classes.pageHeader}>
-      {open && <View_JobApp jobApp={jobApp} func={viewJobAppIsClosed} />}
+      {open && <View_JobApp
+        appStatusTypes={appStatusTypes}
+        jobApp={jobApp}
+        func={viewJobAppIsClosed} />}
 
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>

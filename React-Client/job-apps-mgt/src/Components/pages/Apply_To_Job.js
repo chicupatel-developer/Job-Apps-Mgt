@@ -18,11 +18,6 @@ import { makeStyles } from "@material-ui/core";
 import JobApplicationService from "../../services/job.application.service";
 import { getProvinces, getCities } from "../../services/local.service";
 
-/*
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-*/
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
