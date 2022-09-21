@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import { useNavigate } from "react-router";
+
 import Grid from "@material-ui/core/Grid";
 import {
   Box,
@@ -31,19 +33,23 @@ import {
   getAppStatusTypeColor,
 } from "../../services/local.service";
 
-import moment from "moment";
-
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 
-import Moment from "moment";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+
+import moment from "moment";
 
 import Modal from "@material-ui/core/Modal";
 
 // redux
 import { connect } from "react-redux";
 import { getAppStatusTypes } from "../../slices/appStatusTypes";
-import { BorderLeftOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   modalClass: {
@@ -152,6 +158,8 @@ const getModalStyle = () => {
 };
 
 const Edit_JobApp = (props) => {
+  let navigate = useNavigate();
+
   // redux
   const { jobApp, appStatusTypes } = props;
   // jobApp is coming from parent
@@ -172,6 +180,9 @@ const Edit_JobApp = (props) => {
     props.func("edit job-app is closed");
   };
 
+  const [showAppStatusChangedOn, setShowAppStatusChangedOn] = useState(false);
+  const [prevAppStatus, setPrevAppStatus] = useState("");
+
   useEffect(() => {
     console.log("child component,,," + jobApp.jobApplicationId);
 
@@ -181,7 +192,13 @@ const Edit_JobApp = (props) => {
     // this will popup appStatusTypes from redux-store
     props.getAppStatusTypes();
 
-    setJobApp_(jobApp);
+    // setJobApp_(jobApp);
+    setPrevAppStatus(jobApp.appStatus);
+
+    setJobApp_({
+      ...jobApp,
+      ["appStatusChangedOn"]: new Date(),
+    });
 
     setOpen(true);
   }, []);
@@ -218,6 +235,12 @@ const Edit_JobApp = (props) => {
       jobApp_.city = "";
     }
 
+    if (field === "appStatus" && value !== "" && value !== prevAppStatus) {
+      setShowAppStatusChangedOn(true);
+    } else {
+      setShowAppStatusChangedOn(false);
+    }
+
     setJobApp_({
       ...jobApp_,
       [field]: value,
@@ -241,6 +264,8 @@ const Edit_JobApp = (props) => {
       province,
       city,
       appliedOn,
+      appStatus,
+      appStatusChangedOn,
     } = jobApp_;
     const newErrors = {};
 
@@ -268,6 +293,11 @@ const Edit_JobApp = (props) => {
       if (!checkForPhoneNumber(phoneNumber))
         newErrors.phoneNumber = "Invalid Phone Number!";
     }
+
+    if (!String(appStatus) || String(appStatus) === "")
+      newErrors.appStatus = "App-Status is Required!";
+    if (!appStatusChangedOn || appStatusChangedOn === "")
+      newErrors.appStatusChangedOn = "App-Status Changed-On is Required!";
 
     return newErrors;
   };
@@ -301,6 +331,66 @@ const Edit_JobApp = (props) => {
       setErrors(newErrors);
     } else {
       console.log(jobApp_);
+
+      var jobApplicationEditVM = {};
+
+      if (Number(jobApp_.appStatus) !== Number(prevAppStatus)) {
+        jobApplicationEditVM = {
+          jobApplication: jobApp_,
+          appStatusChanged: true,
+          appStatusChangedOn: jobApp_.appStatusChangedOn,
+        };
+      } else {
+        jobApplicationEditVM = {
+          jobApplication: jobApp_,
+          appStatusChanged: false,
+          appStatusChangedOn: new Date(),
+        };
+      }
+
+      console.log(jobApplicationEditVM);
+
+      // api call
+      JobApplicationService.editJobApplication(jobApplicationEditVM)
+        .then((response) => {
+          console.log(response.data);
+
+          setModelErrors([]);
+          setJobAppEditResponse({});
+
+          var jobAppEditResponse = {
+            responseCode: response.data.responseCode,
+            responseMessage: response.data.responseMessage,
+          };
+          if (response.data.responseCode === 0) {
+            setJobAppEditResponse(jobAppEditResponse);
+
+            setTimeout(() => {
+              handleClose();
+              navigate("/follow-up");
+            }, 3000);
+          } else if (response.data.responseCode === -1) {
+            setJobAppEditResponse(jobAppEditResponse);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setModelErrors([]);
+          setJobAppEditResponse({});
+          // 400
+          // ModelState
+          if (error.response.status === 400) {
+            console.log("400 !");
+            var modelErrors = handleModelState(error);
+            setModelErrors(modelErrors);
+          }
+          if (error.code === "ERR_NETWORK") {
+            setJobAppEditResponse({
+              responseCode: -1,
+              responseMessage: "Network Error !",
+            });
+          }
+        });
     }
   };
   let modelErrorList =
@@ -315,9 +405,9 @@ const Edit_JobApp = (props) => {
   const renderOptionsForAppStatusTypes = () => {
     return appStatusTypes.map((dt, i) => {
       return (
-        <option value={i} key={i} name={dt}>
+        <MenuItem value={i} key={i}>
           {dt}
-        </option>
+        </MenuItem>
       );
     });
   };
@@ -379,7 +469,7 @@ const Edit_JobApp = (props) => {
                     </Button>
                   </Grid>
                 </Grid>
-                <form >
+                <form>
                   <div className={classes.detailsDiv}>
                     <Grid container spacing={1}>
                       <Grid item xs={12} sm={12} md={6}>
@@ -410,7 +500,7 @@ const Edit_JobApp = (props) => {
                           />
                         </Paper>
                       </Grid>
-                      
+
                       <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <TextField
@@ -539,6 +629,86 @@ const Edit_JobApp = (props) => {
                             <FormHelperText className={classes.controlError}>
                               {" "}
                               {errors.city}
+                            </FormHelperText>
+                          )}
+                        </Paper>
+                      </Grid>
+
+                      <Grid item xs={12} sm={12} md={4}>
+                        <Paper className={classes.paper}>
+                          <InputLabel shrink>App-Status</InputLabel>
+                          <Select
+                            displayEmpty
+                            value={jobApp_.appStatus}
+                            name="appStatus"
+                            onChange={(e) =>
+                              setField("appStatus", e.target.value)
+                            }
+                            style={{ marginTop: 5 }}
+                          >
+                            <MenuItem value="">
+                              <em>---Select App-Status---</em>
+                            </MenuItem>
+                            {renderOptionsForAppStatusTypes()}
+                          </Select>
+                          {!jobApp_.appStatus && errors.appStatus && (
+                            <FormHelperText className={classes.controlError}>
+                              {" "}
+                              {errors.appStatus}
+                            </FormHelperText>
+                          )}
+                        </Paper>
+                      </Grid>
+                      {jobApp_.appStatus !== prevAppStatus && (
+                        <Grid item xs={12} sm={12} md={4}>
+                          <Paper className={classes.paper}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <KeyboardDatePicker
+                                disableToolbar
+                                fullWidth
+                                variant="inline"
+                                format="MM/dd/yyyy"
+                                margin="normal"
+                                id="date-picker-inline"
+                                label="App-Status Changed-On"
+                                value={jobApp_.appStatusChangedOn}
+                                onChange={(e) =>
+                                  setField("appStatusChangedOn", e)
+                                }
+                              />
+                            </MuiPickersUtilsProvider>
+                            {!jobApp_.appStatusChangedOn &&
+                              errors.appStatusChangedOn && (
+                                <FormHelperText
+                                  className={classes.controlError}
+                                >
+                                  {" "}
+                                  {errors.appStatusChangedOn}
+                                </FormHelperText>
+                              )}
+                          </Paper>
+                        </Grid>
+                      )}
+
+                      <Grid item xs={12} sm={12} md={4}>
+                        <Paper className={classes.paper}>
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                              disableToolbar
+                              fullWidth
+                              variant="inline"
+                              format="MM/dd/yyyy"
+                              margin="normal"
+                              id="date-picker-inline"
+                              label="Applied On"
+                              value={jobApp_.appliedOn}
+                              onChange={(e) => setField("appliedOn", e)}
+                            />
+                          </MuiPickersUtilsProvider>
+                          {!jobApp_.appliedOn && errors.appliedOn && (
+                            <FormHelperText className={classes.controlError}>
+                              {" "}
+                              {errors.appliedOn}
                             </FormHelperText>
                           )}
                         </Paper>

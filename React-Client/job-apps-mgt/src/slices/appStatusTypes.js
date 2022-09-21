@@ -41,7 +41,7 @@ const appStatusTypesSlice = createSlice({
       return [...action.payload];
     },
     [setAppStatusTypes.fulfilled]: (state, action) => {
-      state.push(action.payload);
+      if (state.length <= 0) state.push(action.payload);
     },
     [getAppStatusTypes.fulfilled]: (state, action) => {
       return state;

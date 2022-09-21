@@ -16,5 +16,9 @@ class JobApplicationService {
   viewJobApp = async (jobAppId) => {
     return await http.get(`/viewJobApp/${jobAppId}`);
   };
+
+  editJobApplication = async (data) => {
+    return await http.post(`/editJobApplication`, data);
+  };
 }
 export default new JobApplicationService();
