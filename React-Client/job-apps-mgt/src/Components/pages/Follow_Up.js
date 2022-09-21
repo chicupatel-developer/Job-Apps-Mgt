@@ -162,13 +162,18 @@ const Follow_Up = (props) => {
 
   // this will get notified when child-modal is closed
   // callback as props
+  // callback-view
   const viewJobAppIsClosed = (data) => {
     console.log("received at parent,,,", data); // LOGS DATA FROM CHILD
     setOpen(false);
   };
+  // callback-edit
   const editJobAppIsClosed = (data) => {
     console.log("received at parent,,,", data); // LOGS DATA FROM CHILD
     setOpenEdit(false);
+
+    // reload jobApps from redux-store
+    props.retrieveJobApps();
   };
 
   useEffect(() => {
