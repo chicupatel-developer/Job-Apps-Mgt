@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+} from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -28,18 +34,15 @@ import { connect } from "react-redux";
 import { getAppStatusTypes } from "../../slices/appStatusTypes";
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
+  modalClass: {
+    position: "absolute",
+    overflow: "scroll", // adding scroll bar
+    height: "75%",
+    width: "60%",
+    display: "block",
+    // display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  modalPaper: {
-    position: "absolute",
-    width: 650,
-    height: 500,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
   btnDelete: {
     color: "black",
@@ -51,19 +54,30 @@ const useStyles = makeStyles((theme) => ({
   },
   detailsDiv: {
     backgroundColor: "orange",
-    padding: "10px",
+    padding: "30px",
+    fontSize: "medium",
   },
-  titleDiv: {
-    paddingTop: "30px",
+  headerDiv: {
+    fontSize: "large",
+    fontWeight: "bold",
+    paddingBottom: "10px",
+    paddingTop: "10px",
+    textAlign: "center",
+    verticalAlign: "middle",
+  },
+  headerBtns: {
+    fontWeight: "bold",
+    paddingBottom: "10px",
+    paddingTop: "10px",
+    textAlign: "center",
+    verticalAlign: "middle",
+    marginBottom: "30px",
   },
 }));
 
-const rand = () => {
-  return Math.round(Math.random() * 20) - 10;
-};
 const getModalStyle = () => {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
   return {
     top: `${top}%`,
     left: `${left}%`,
@@ -105,142 +119,165 @@ const Delete_JobApp = (props) => {
   return (
     <div>
       <Modal
-        style={{ alignItems: "center", justifyContent: "center" }}
+        className={classes.modalClass}
+        style={modalStyle}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={open}
         onClose={handleClose}
       >
-        <div style={modalStyle} className={classes.modalPaper}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={9}>
-              <h2>
-                [DELETE] Apply Job Details For # {jobApp.jobApplicationId}
-              </h2>
-            </Grid>
-            <Grid item xs={12} sm={12} md={3}>
-              <Button
-                className={classes.btnCancel}
-                variant="contained"
-                type="button"
-                onClick={handleClose}
-              >
-                <BackspaceIcon />
-              </Button>
-            </Grid>
-          </Grid>
+        <div>
+          <Box className={classes.root}>
+            <Card>
+              <CardContent>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <h2>
+                      [DELETE] Apply Job Details For # {jobApp.jobApplicationId}
+                    </h2>
+                  </Grid>
 
-          <div className={classes.detailsDiv}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12} md={2} className={classes.titleDiv}>
-                <Button
-                  onClick={handleDelete}
-                  variant="contained"
-                  type="button"
-                  className={classes.btnDelete}
-                >
-                  <DeleteForeverIcon />
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={12} md={10}>
-                <h3>Are you sure wants to delete this Job-Application?</h3>
-              </Grid>
-              <p></p>
-              <Grid item xs={12} sm={12} md={4}>
-                <span
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "large",
-                  }}
-                >
-                  App-Status :
-                </span>
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                <span
-                  style={{
-                    color: getAppStatusTypeColor(jobApp.appStatus),
-                    fontWeight: "bold",
-                    fontSize: "large",
-                  }}
-                >
-                  {getAppStatus(appStatusTypes, jobApp.appStatus)}
-                </span>
-              </Grid>
+                  <div className={classes.detailsDiv}>
+                    <Grid container spacing={1}>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        className={classes.headerDiv}
+                      >
+                        <h2>
+                          Are you sure wants to delete this Job-Application?
+                        </h2>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        className={classes.headerBtns}
+                      >
+                        <Button
+                          onClick={handleDelete}
+                          variant="contained"
+                          type="button"
+                          className={classes.btnDelete}
+                        >
+                          <DeleteForeverIcon style={{ fontSize: 50 }} />
+                        </Button>
+                        &nbsp;&nbsp;
+                        <Button
+                          className={classes.btnCancel}
+                          variant="contained"
+                          type="button"
+                          onClick={handleClose}
+                        >
+                          <BackspaceIcon style={{ fontSize: 50 }} />
+                        </Button>
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Notes :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.followUpNotes ? jobApp.followUpNotes : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: "large",
+                          }}
+                        >
+                          App-Status :
+                        </span>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        <span
+                          style={{
+                            color: getAppStatusTypeColor(jobApp.appStatus),
+                            fontWeight: "bold",
+                            fontSize: "large",
+                          }}
+                        >
+                          {getAppStatus(appStatusTypes, jobApp.appStatus)}
+                        </span>
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Company Name :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.companyName ? jobApp.companyName : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Notes :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.followUpNotes ? jobApp.followUpNotes : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Agency Name :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.agencyName ? jobApp.agencyName : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Company Name :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.companyName ? jobApp.companyName : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Web URL :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.webURL ? jobApp.webURL : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Agency Name :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.agencyName ? jobApp.agencyName : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Contact Person :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.contactPersonName ? jobApp.contactPersonName : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Web URL :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.webURL ? jobApp.webURL : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Contact Email :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.contactEmail ? jobApp.contactEmail : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Contact Person :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.contactPersonName
+                          ? jobApp.contactPersonName
+                          : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Phone Number :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.phoneNumber ? jobApp.phoneNumber : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Contact Email :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.contactEmail ? jobApp.contactEmail : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Province :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.province ? jobApp.province : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Phone Number :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.phoneNumber ? jobApp.phoneNumber : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                City :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.city ? jobApp.city : "N/A"}
-              </Grid>
+                      <Grid item xs={12} sm={12} md={4}>
+                        Province :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.province ? jobApp.province : "N/A"}
+                      </Grid>
 
-              <Grid item xs={12} sm={12} md={4}>
-                Applied On :
-              </Grid>
-              <Grid item xs={12} sm={12} md={8}>
-                {jobApp.appliedOn
-                  ? Moment(jobApp.appliedOn).format("DD-MMM-YYYY")
-                  : "N/A"}
-              </Grid>
-            </Grid>
-          </div>
+                      <Grid item xs={12} sm={12} md={4}>
+                        City :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.city ? jobApp.city : "N/A"}
+                      </Grid>
+
+                      <Grid item xs={12} sm={12} md={4}>
+                        Applied On :
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={8}>
+                        {jobApp.appliedOn
+                          ? Moment(jobApp.appliedOn).format("DD-MMM-YYYY")
+                          : "N/A"}
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Grid>
+              </CardContent>
+              <CardActions></CardActions>
+            </Card>
+          </Box>
         </div>
       </Modal>
     </div>
