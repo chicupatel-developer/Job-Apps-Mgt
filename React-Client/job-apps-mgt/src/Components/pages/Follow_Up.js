@@ -53,7 +53,7 @@ import Edit_JobApp from "../Child_Components/Edit_JobApp";
 
 // redux
 import { connect } from "react-redux";
-import { retrieveJobApps } from "../../slices/jobApps";
+import { retrieveJobApps, editJobApp } from "../../slices/jobApps";
 import {
   retrieveAppStatusTypes,
   setAppStatusTypes,
@@ -169,11 +169,16 @@ const Follow_Up = (props) => {
   };
   // callback-edit
   const editJobAppIsClosed = (data) => {
-    console.log("received at parent,,,", data); // LOGS DATA FROM CHILD
+    console.log("received at parent,,,edited new jobApp,,,", data); // LOGS DATA FROM CHILD
     setOpenEdit(false);
 
-    // reload jobApps from redux-store
-    props.retrieveJobApps();
+    // no need for reloading jobApps[] from api via redux-store
+    // reload jobApps[] from redux-store
+    // props.retrieveJobApps();
+
+    // here data === just edited jobApp{} comping from child-modal
+    // so no need for reloading jobApps[] from api via redux-store
+    props.editJobApp(data);
   };
 
   useEffect(() => {
@@ -403,6 +408,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   retrieveJobApps,
+  editJobApp,
   retrieveAppStatusTypes,
   setAppStatusTypes,
 })(Follow_Up);

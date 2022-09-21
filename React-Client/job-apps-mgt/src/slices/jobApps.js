@@ -19,8 +19,11 @@ export const createJobApp = createAsyncThunk("jobApp/create", async (data) => {
   return data;
 });
 
-
-
+// after successful api call
+// edit data{} to redux-jobApps[]
+export const editJobApp = createAsyncThunk("jobApp/edit", async (data) => {
+  return data;
+});
 
 // action = { type, payload }
 const jobAppsSlice = createSlice({
@@ -33,7 +36,15 @@ const jobAppsSlice = createSlice({
     [createJobApp.fulfilled]: (state, action) => {
       state.push(action.payload);
     },
-  
+    [editJobApp.fulfilled]: (state, action) => {
+      const index = state.findIndex(
+        (jobApp) => jobApp.jobApplicationId === action.payload.jobApplicationId
+      );
+      state[index] = {
+        ...state[index],
+        ...action.payload,
+      };
+    },
   },
 });
 

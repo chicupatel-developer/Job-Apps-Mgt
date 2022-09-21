@@ -181,7 +181,8 @@ const Edit_JobApp = (props) => {
     setOpen(false);
 
     // callback as props
-    props.func("edit job-app is closed");
+    // props.func("edit job-app is closed");
+    props.func(jobApp_);
   };
 
   const [showAppStatusChangedOn, setShowAppStatusChangedOn] = useState(false);
@@ -310,7 +311,7 @@ const Edit_JobApp = (props) => {
     if (error.response.status === 400) {
       if (error.response.data.errors === undefined) {
         console.log("Bad Request!!!");
-        errors.push(error.response.data);
+        errors.push(error.response.data.title);
       } else {
         for (let prop in error.response.data.errors) {
           if (error.response.data.errors[prop].length > 1) {
@@ -335,6 +336,10 @@ const Edit_JobApp = (props) => {
       setErrors(newErrors);
     } else {
       console.log(jobApp_);
+
+      // modelstate check @ api
+      // jobApp_.contactPersonName = null;
+      // jobApp_.contactEmail = null;
 
       var jobApplicationEditVM = {};
 
@@ -491,10 +496,18 @@ const Edit_JobApp = (props) => {
                         )}
                       </span>
                     )}
-                    {modelErrors.length > 0 ? (
+                    {modelErrors.length > 1 ? (
                       <div className={classes.modelError}>{modelErrorList}</div>
                     ) : (
-                      <span></span>
+                      <span>
+                        {modelErrors.length === 1 ? (
+                          <div className={classes.jobAppEditError}>
+                            {modelErrors[0]}
+                          </div>
+                        ) : (
+                          <span></span>
+                        )}
+                      </span>
                     )}
                   </Grid>
                 </Grid>
