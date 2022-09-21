@@ -43,20 +43,18 @@ import Modal from "@material-ui/core/Modal";
 // redux
 import { connect } from "react-redux";
 import { getAppStatusTypes } from "../../slices/appStatusTypes";
+import { BorderLeftOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
+  modalClass: {
+    position: "absolute",
+    overflow: "scroll", // adding scroll bar
+    height: "75%",
+    width: "60%",
+    display: "block",
+    // display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  modalPaper: {
-    position: "absolute",
-    width: 850,
-    height: 600,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
   btnClose: {
     color: "black",
@@ -107,7 +105,6 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
     fontSize: "x-large",
   },
-  pageHeader: {},
   controlError: {
     color: "red",
     fontSize: "medium; ",
@@ -143,8 +140,10 @@ const rand = () => {
   return Math.round(Math.random() * 20) - 10;
 };
 const getModalStyle = () => {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  // const top = 50 + rand();
+  const top = 50;
+  // const left = 50 + rand();
+  const left = 50;
   return {
     top: `${top}%`,
     left: `${left}%`,
@@ -294,7 +293,7 @@ const Edit_JobApp = (props) => {
     }
     return errors;
   };
-  const handleSubmit = (e) => {
+  const handleEdit = (e) => {
     e.preventDefault();
     const newErrors = findFormErrors();
 
@@ -343,13 +342,14 @@ const Edit_JobApp = (props) => {
   return (
     <div>
       <Modal
-        style={{ alignItems: "center", justifyContent: "center" }}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={open}
         onClose={handleClose}
+        className={classes.modalClass}
+        style={modalStyle}
       >
-        <div style={modalStyle} className={classes.modalPaper}>
+        <div>
           <Box className={classes.root}>
             <Card>
               <CardContent>
@@ -360,14 +360,17 @@ const Edit_JobApp = (props) => {
                     </h2>
                   </Grid>
                   <Grid item xs={12} sm={12} md={3}>
-                    <Button variant="contained" 
+                    <Button
+                      onClick={handleEdit}
+                      variant="contained"
                       color="primary"
-                      type="submit">
+                      type="button"
+                    >
                       <EditIcon />
                     </Button>
                     &nbsp;&nbsp;
                     <Button
-                      color="primary"
+                      className={classes.btnClose}
                       variant="contained"
                       type="button"
                       onClick={handleClose}
@@ -376,10 +379,10 @@ const Edit_JobApp = (props) => {
                     </Button>
                   </Grid>
                 </Grid>
-                <form onSubmit={handleSubmit}>
+                <form >
                   <div className={classes.detailsDiv}>
                     <Grid container spacing={1}>
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <TextField
                             id="companyName-input"
@@ -393,7 +396,7 @@ const Edit_JobApp = (props) => {
                           />
                         </Paper>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <TextField
                             id="agencyName-input"
@@ -407,7 +410,8 @@ const Edit_JobApp = (props) => {
                           />
                         </Paper>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={4}>
+                      
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <TextField
                             id="webURL-input"
@@ -419,8 +423,7 @@ const Edit_JobApp = (props) => {
                           />
                         </Paper>
                       </Grid>
-
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           {" "}
                           <TextField
@@ -442,7 +445,8 @@ const Edit_JobApp = (props) => {
                             )}
                         </Paper>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={4}>
+
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <TextField
                             id="contactEmail-input"
@@ -467,7 +471,7 @@ const Edit_JobApp = (props) => {
                           )}
                         </Paper>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <TextField
                             id="phoneNumber-input"
@@ -488,7 +492,7 @@ const Edit_JobApp = (props) => {
                         </Paper>
                       </Grid>
 
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <InputLabel shrink>Province</InputLabel>
                           <Select
@@ -513,7 +517,7 @@ const Edit_JobApp = (props) => {
                           )}
                         </Paper>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <InputLabel shrink>City</InputLabel>
                           <Select
@@ -540,7 +544,7 @@ const Edit_JobApp = (props) => {
                         </Paper>
                       </Grid>
                     </Grid>
-                  </div>                 
+                  </div>
                 </form>
               </CardContent>
               <CardActions></CardActions>
