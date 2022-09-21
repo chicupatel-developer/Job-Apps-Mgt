@@ -16,8 +16,8 @@ import {
 
 import moment from "moment";
 
-import CloseIcon from "@material-ui/icons/Close";
-import RemoveIcon from "@material-ui/icons/Remove";
+import BackspaceIcon from "@material-ui/icons/Backspace";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import Moment from "moment";
 
@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
   detailsDiv: {
     backgroundColor: "orange",
     padding: "10px",
+  },
+  titleDiv: {
+    paddingTop: "30px",
   },
 }));
 
@@ -117,26 +120,32 @@ const Delete_JobApp = (props) => {
             </Grid>
             <Grid item xs={12} sm={12} md={3}>
               <Button
-                onClick={handleDelete}
-                variant="contained"
-                className={classes.btnDelete}
-                type="button"
-              >
-                <RemoveIcon />
-              </Button>
-              <Button
                 className={classes.btnCancel}
                 variant="contained"
                 type="button"
                 onClick={handleClose}
               >
-                <CloseIcon />
+                <BackspaceIcon />
               </Button>
             </Grid>
           </Grid>
 
           <div className={classes.detailsDiv}>
             <Grid container spacing={1}>
+              <Grid item xs={12} sm={12} md={2} className={classes.titleDiv}>
+                <Button
+                  onClick={handleDelete}
+                  variant="contained"
+                  type="button"
+                  className={classes.btnDelete}
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={12} md={10}>
+                <h3>Are you sure wants to delete this Job-Application?</h3>
+              </Grid>
+              <p></p>
               <Grid item xs={12} sm={12} md={4}>
                 <span
                   style={{
