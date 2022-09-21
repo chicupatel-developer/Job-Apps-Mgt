@@ -11,6 +11,7 @@ import {
   CardActions,
 } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import TextArea from "@material-ui/core/TextareaAutosize";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -62,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  appStatusGrp: {
+    backgroundColor: "lightgreen",
+  },
   btnClose: {
     color: "black",
     backgroundColor: "orange",
@@ -79,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     paddingTop: "10px",
   },
-  jobAppCreateError: {
+  jobAppEditError: {
     color: "red",
     fontSize: "medium",
     fontWeight: "bold",
@@ -90,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid red",
     borderRadius: "10px",
   },
-  jobAppCreateSuccess: {
+  jobAppEditSuccess: {
     color: "green",
     fontSize: "medium",
     fontWeight: "bold",
@@ -468,7 +472,33 @@ const Edit_JobApp = (props) => {
                       <CloseIcon />
                     </Button>
                   </Grid>
+
+                  <p></p>
+                  <Grid item xs={12} sm={12} md={12}>
+                    {jobAppEditResponse &&
+                    jobAppEditResponse.responseCode === -1 ? (
+                      <div className={classes.jobAppEditError}>
+                        {jobAppEditResponse.responseMessage}
+                      </div>
+                    ) : (
+                      <span>
+                        {jobAppEditResponse.responseCode === 0 ? (
+                          <div className={classes.jobAppEditSuccess}>
+                            {jobAppEditResponse.responseMessage}
+                          </div>
+                        ) : (
+                          <span></span>
+                        )}
+                      </span>
+                    )}
+                    {modelErrors.length > 0 ? (
+                      <div className={classes.modelError}>{modelErrorList}</div>
+                    ) : (
+                      <span></span>
+                    )}
+                  </Grid>
                 </Grid>
+                <p></p>
                 <form>
                   <div className={classes.detailsDiv}>
                     <Grid container spacing={1}>
@@ -634,10 +664,34 @@ const Edit_JobApp = (props) => {
                         </Paper>
                       </Grid>
 
-                      <Grid item xs={12} sm={12} md={4}>
+                      <Grid item xs={12} sm={12} md={6}>
+                        <Paper className={classes.paper}>
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                              disableToolbar
+                              fullWidth
+                              variant="inline"
+                              format="MM/dd/yyyy"
+                              margin="normal"
+                              id="date-picker-inline"
+                              label="Applied On"
+                              value={jobApp_.appliedOn}
+                              onChange={(e) => setField("appliedOn", e)}
+                            />
+                          </MuiPickersUtilsProvider>
+                          {!jobApp_.appliedOn && errors.appliedOn && (
+                            <FormHelperText className={classes.controlError}>
+                              {" "}
+                              {errors.appliedOn}
+                            </FormHelperText>
+                          )}
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={6}>
                         <Paper className={classes.paper}>
                           <InputLabel shrink>App-Status</InputLabel>
                           <Select
+                            className={classes.appStatusGrp}
                             displayEmpty
                             value={jobApp_.appStatus}
                             name="appStatus"
@@ -659,11 +713,27 @@ const Edit_JobApp = (props) => {
                           )}
                         </Paper>
                       </Grid>
+
+                      <Grid item xs={12} sm={12} md={6}>
+                        <Paper className={classes.paper}>
+                          <TextArea
+                            id="notes-input"
+                            name="followUpNotes"
+                            label="Notes!"
+                            type="text"
+                            value={jobApp_.followUpNotes}
+                            onChange={(e) =>
+                              setField("followUpNotes", e.target.value)
+                            }
+                          />
+                        </Paper>
+                      </Grid>
                       {jobApp_.appStatus !== prevAppStatus && (
-                        <Grid item xs={12} sm={12} md={4}>
+                        <Grid item xs={12} sm={12} md={6}>
                           <Paper className={classes.paper}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <KeyboardDatePicker
+                                className={classes.appStatusGrp}
                                 disableToolbar
                                 fullWidth
                                 variant="inline"
@@ -689,30 +759,6 @@ const Edit_JobApp = (props) => {
                           </Paper>
                         </Grid>
                       )}
-
-                      <Grid item xs={12} sm={12} md={4}>
-                        <Paper className={classes.paper}>
-                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                              disableToolbar
-                              fullWidth
-                              variant="inline"
-                              format="MM/dd/yyyy"
-                              margin="normal"
-                              id="date-picker-inline"
-                              label="Applied On"
-                              value={jobApp_.appliedOn}
-                              onChange={(e) => setField("appliedOn", e)}
-                            />
-                          </MuiPickersUtilsProvider>
-                          {!jobApp_.appliedOn && errors.appliedOn && (
-                            <FormHelperText className={classes.controlError}>
-                              {" "}
-                              {errors.appliedOn}
-                            </FormHelperText>
-                          )}
-                        </Paper>
-                      </Grid>
                     </Grid>
                   </div>
                 </form>

@@ -106,7 +106,7 @@ namespace WebAPICore.Controllers
             try
             {         
                 // check for null
-                // jobAppData = null;
+                jobAppData = null;
                 if (jobAppData == null)
                 {
                     return BadRequest();
