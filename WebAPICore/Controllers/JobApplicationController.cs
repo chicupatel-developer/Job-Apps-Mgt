@@ -96,7 +96,7 @@ namespace WebAPICore.Controllers
             return Ok(appStatusTypes);
         }
 
-        // react wip
+        // react ok
         // ng ok
         [HttpPost]
         [Route("editJobApplication")]
@@ -171,6 +171,7 @@ namespace WebAPICore.Controllers
             }          
         }
 
+        // react wip
         // ng ok
         [HttpPost]
         [Route("deleteJobApplication")]

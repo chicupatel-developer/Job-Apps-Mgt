@@ -50,10 +50,15 @@ import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 // modal
 import View_JobApp from "../Child_Components/View_JobApp";
 import Edit_JobApp from "../Child_Components/Edit_JobApp";
+import Delete_JobApp from "../Child_Components/Delete_JobApp";
 
 // redux
 import { connect } from "react-redux";
-import { retrieveJobApps, editJobApp } from "../../slices/jobApps";
+import {
+  retrieveJobApps,
+  editJobApp,
+  deleteJobApp,
+} from "../../slices/jobApps";
 import {
   retrieveAppStatusTypes,
   setAppStatusTypes,
@@ -150,7 +155,10 @@ const Follow_Up = (props) => {
   // modal
   // view
   const [open, setOpen] = useState(false);
+  // edit
   const [openEdit, setOpenEdit] = useState(false);
+  // delete
+  const [openDelete, setOpenDelete] = useState(false);
   const [jobApp, setJobApp] = useState({});
 
   // redux
@@ -179,6 +187,13 @@ const Follow_Up = (props) => {
     // here data === just edited jobApp{} comping from child-modal
     // so no need for reloading jobApps[] from api via redux-store
     props.editJobApp(data);
+  };
+  // callback-edit
+  const deleteJobAppIsClosed = (data) => {
+    console.log("received at parent,,,deleted jobApp,,,", data); // LOGS DATA FROM CHILD
+    setOpenDelete(false);
+
+    props.deleteJobApp(data);
   };
 
   useEffect(() => {
@@ -228,6 +243,21 @@ const Follow_Up = (props) => {
   };
   const deleteJobApp = (e, jobApplicationId) => {
     console.log("delete job app,,,", jobApplicationId);
+
+    // this will set value @ redux-store for appStatusTypes[]
+    props.setAppStatusTypes(appStatusTypes);
+
+    JobApplicationService.viewJobApp(jobApplicationId)
+      .then((response) => {
+        console.log(response.data);
+        setJobApp(response.data);
+
+        // this will open child-component,,, that contains modal content
+        setOpenDelete(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   const uploadResume = (e, jobApplicationId) => {
     console.log("upload resume,,,", jobApplicationId);
@@ -377,6 +407,10 @@ const Follow_Up = (props) => {
 
       {openEdit && <Edit_JobApp jobApp={jobApp} func={editJobAppIsClosed} />}
 
+      {openDelete && (
+        <Delete_JobApp jobApp={jobApp} func={deleteJobAppIsClosed} />
+      )}
+
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>
           <div></div>
@@ -409,6 +443,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   retrieveJobApps,
   editJobApp,
+  deleteJobApp,
   retrieveAppStatusTypes,
   setAppStatusTypes,
 })(Follow_Up);

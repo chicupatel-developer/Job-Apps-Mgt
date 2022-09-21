@@ -25,6 +25,12 @@ export const editJobApp = createAsyncThunk("jobApp/edit", async (data) => {
   return data;
 });
 
+// after successful api call
+// delete data{} from redux-jobApps[]
+export const deleteJobApp = createAsyncThunk("jobApp/delete", async (data) => {
+  return data;
+});
+
 // action = { type, payload }
 const jobAppsSlice = createSlice({
   name: "jobApps",
@@ -44,6 +50,13 @@ const jobAppsSlice = createSlice({
         ...state[index],
         ...action.payload,
       };
+    },
+    [deleteJobApp.fulfilled]: (state, action) => {
+      let index = state.findIndex(
+        ({ jobApplicationId }) =>
+          jobApplicationId === action.payload.jobApplicationId
+      );
+      state.splice(index, 1);
     },
   },
 });

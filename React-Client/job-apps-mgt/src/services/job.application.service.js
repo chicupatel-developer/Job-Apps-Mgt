@@ -20,5 +20,9 @@ class JobApplicationService {
   editJobApplication = async (data) => {
     return await http.post(`/editJobApplication`, data);
   };
+
+  deleteJobApplication = async (data) => {
+    return await http.post(`/deleteJobApplication`, data);
+  };
 }
 export default new JobApplicationService();
