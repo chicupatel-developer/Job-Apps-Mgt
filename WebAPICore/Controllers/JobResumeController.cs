@@ -35,7 +35,7 @@ namespace WebAPICore.Controllers
             _configuration = configuration;
         }               
 
-        // react wip
+        // react ok
         // ng ok
         // file-upload
         [HttpPost, DisableRequestSizeLimit]

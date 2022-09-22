@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useNavigate, useLocation } from "react-router";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
-import {
-  Box,
-  Typography,
-  Button,
-  ListItem,
-  withStyles,
-} from "@material-ui/core";
+import { Box, Typography, Button, withStyles } from "@material-ui/core";
 
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -23,15 +15,6 @@ const useStyles = makeStyles((theme) => ({
   detailsDiv: {
     backgroundColor: "lightblue",
     padding: "10px",
-  },
-  paper: {
-    padding: theme.spacing(1),
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    marginBottom: theme.spacing(2),
-    // textAlign: "center",
-    textAlign: "left",
-    // color: theme.palette.text.secondary,
   },
   pageTitle: {
     textAlign: "center",
@@ -45,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "lightseagreen",
     color: "black",
     fontSize: "x-large; ",
+  },
+  uploadSuccess: {
+    color: "green",
+  },
+  uploadError: {
+    color: "red",
   },
 }));
 
@@ -123,17 +112,20 @@ const Upload_Resume = () => {
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
+        setIsError(true);
+        console.log(error);
         // 400
         if (error.response.status === 400) {
           console.log("400 !");
-          setMessage("400 !");
-          // setClassName("uploadError");
+          if (error.response.data.responseCode === -1) {
+            setMessage(error.response.data.responseMessage);
+          } else {
+            setMessage(error.response.data);
+          }
         }
         // 500
         else {
-          setMessage(error.response.data.message);
-          // setClassName("uploadError");
+          setMessage(error.response.data);
         }
       });
 
@@ -184,6 +176,7 @@ const Upload_Resume = () => {
                   type="file"
                   onChange={selectFile}
                 />
+                <p></p>
                 <Button
                   className="btn-choose"
                   variant="outlined"
@@ -192,11 +185,13 @@ const Upload_Resume = () => {
                   Choose Files
                 </Button>
               </label>
+              <p></p>
               <div className="file-name">
                 {selectedFiles && selectedFiles.length > 0
                   ? selectedFiles[0].name
                   : null}
               </div>
+              <p></p>
               <Button
                 className="btn-upload"
                 color="primary"
@@ -208,11 +203,14 @@ const Upload_Resume = () => {
                 Upload
               </Button>
 
+              <p></p>
               <Typography
                 variant="subtitle2"
-                className={`upload-message ${isError ? "error" : ""}`}
+                className={
+                  isError ? classes.uploadError : classes.uploadSuccess
+                }
               >
-                Upload Response : {message}
+                {message}
               </Typography>
             </div>
           </div>
