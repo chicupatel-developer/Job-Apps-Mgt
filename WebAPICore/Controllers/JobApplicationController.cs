@@ -171,7 +171,7 @@ namespace WebAPICore.Controllers
             }          
         }
 
-        // react wip
+        // react ok
         // ng ok
         [HttpPost]
         [Route("deleteJobApplication")]

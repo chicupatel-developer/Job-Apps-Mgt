@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
+import { useNavigate } from "react-router";
 
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {
   Box,
@@ -19,8 +20,6 @@ import {
   getAppStatus,
   getAppStatusTypeColor,
 } from "../../services/local.service";
-
-import moment from "moment";
 
 import BackspaceIcon from "@material-ui/icons/Backspace";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
@@ -73,6 +72,28 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "middle",
     marginBottom: "30px",
   },
+  jobAppDeleteError: {
+    color: "red",
+    fontSize: "medium",
+    fontWeight: "bold",
+    paddingBottom: "10px",
+    paddingTop: "10px",
+    textAlign: "center",
+    verticalAlign: "middle",
+    border: "2px solid red",
+    borderRadius: "10px",
+  },
+  jobAppDeleteSuccess: {
+    color: "green",
+    fontSize: "medium",
+    fontWeight: "bold",
+    paddingBottom: "10px",
+    paddingTop: "10px",
+    textAlign: "center",
+    verticalAlign: "middle",
+    border: "2px solid green",
+    borderRadius: "10px",
+  },
 }));
 
 const getModalStyle = () => {
@@ -86,6 +107,10 @@ const getModalStyle = () => {
 };
 
 const Delete_JobApp = (props) => {
+  const [jobAppDeleteResponse, setJobAppDeleteResponse] = useState({});
+
+  let navigate = useNavigate();
+
   // redux
   const { jobApp, appStatusTypes } = props;
   // jobApp is coming from parent
@@ -101,7 +126,8 @@ const Delete_JobApp = (props) => {
     setOpen(false);
 
     // callback as props
-    props.func("delete job-app is closed");
+    // props.func("delete job-app is closed");
+      props.func(jobApp);
   };
 
   useEffect(() => {
@@ -114,7 +140,50 @@ const Delete_JobApp = (props) => {
     setOpen(true);
   }, []);
 
-  const handleDelete = (e) => {};
+  const handleDelete = (e, jobApp) => {
+    // api call
+    JobApplicationService.deleteJobApplication(jobApp)
+      .then((response) => {
+        console.log(response.data);
+
+        setJobAppDeleteResponse({});
+
+        var jobAppDeleteResponse = {
+          responseCode: response.data.responseCode,
+          responseMessage: response.data.responseMessage,
+        };
+        if (response.data.responseCode === 0) {
+          setJobAppDeleteResponse(jobAppDeleteResponse);
+
+          setTimeout(() => {
+            handleClose();
+            navigate("/follow-up");
+          }, 3000);
+        } else if (response.data.responseCode === -1) {
+          setJobAppDeleteResponse(jobAppDeleteResponse);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setJobAppDeleteResponse({});
+        // 400
+        if (error.response.status === 400) {
+          console.log("400 !");
+          setJobAppDeleteResponse({
+            responseCode: -1,
+            responseMessage: error.response.data,
+          });
+        }
+        // 500
+        if (error.response.status === 500) {
+          console.log("500 !");
+          setJobAppDeleteResponse({
+            responseCode: -1,
+            responseMessage: error.response.data,
+          });
+        }      
+      });
+  };
 
   return (
     <div>
@@ -135,6 +204,25 @@ const Delete_JobApp = (props) => {
                     <h2>
                       [DELETE] Apply Job Details For # {jobApp.jobApplicationId}
                     </h2>
+                  </Grid>
+                  <p></p>
+                  <Grid item xs={12} sm={12} md={12}>
+                    {jobAppDeleteResponse &&
+                    jobAppDeleteResponse.responseCode === -1 ? (
+                      <div className={classes.jobAppDeleteError}>
+                        {jobAppDeleteResponse.responseMessage}
+                      </div>
+                    ) : (
+                      <span>
+                        {jobAppDeleteResponse.responseCode === 0 ? (
+                          <div className={classes.jobAppDeleteSuccess}>
+                            {jobAppDeleteResponse.responseMessage}
+                          </div>
+                        ) : (
+                          <span></span>
+                        )}
+                      </span>
+                    )}
                   </Grid>
 
                   <div className={classes.detailsDiv}>
@@ -158,7 +246,9 @@ const Delete_JobApp = (props) => {
                         className={classes.headerBtns}
                       >
                         <Button
-                          onClick={handleDelete}
+                          onClick={(e) => {
+                            handleDelete(e, jobApp);
+                          }}
                           variant="contained"
                           type="button"
                           className={classes.btnDelete}

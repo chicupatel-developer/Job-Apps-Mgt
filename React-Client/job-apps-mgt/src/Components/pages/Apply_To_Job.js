@@ -225,13 +225,7 @@ const Apply_To_Job = (props) => {
             console.log("400 !");
             var modelErrors = handleModelState(error);
             setModelErrors(modelErrors);
-          }
-          if (error.code === "ERR_NETWORK") {
-            setJobAppCreateResponse({
-              responseCode: -1,
-              responseMessage: "Network Error !",
-            });
-          }
+          }       
         });
     }
   };

@@ -9,3 +9,4 @@ C:\Job-Apps-Mgt\EFCore\obj\Debug\netcoreapp3.1\EFCore.csproj.CoreCompileInputs.c
 C:\Job-Apps-Mgt\EFCore\obj\Debug\netcoreapp3.1\EFCore.dll
 C:\Job-Apps-Mgt\EFCore\obj\Debug\netcoreapp3.1\EFCore.pdb
 C:\Job-Apps-Mgt\EFCore\obj\Debug\netcoreapp3.1\EFCore.genruntimeconfig.cache
+C:\Job-Apps-Mgt\EFCore\obj\Debug\netcoreapp3.1\EFCore.csproj.AssemblyReference.cache

@@ -184,22 +184,29 @@ const Follow_Up = (props) => {
     // reload jobApps[] from redux-store
     // props.retrieveJobApps();
 
-    // here data === just edited jobApp{} comping from child-modal
+    // here data === just edited jobApp{} coming from child-modal
     // so no need for reloading jobApps[] from api via redux-store
     props.editJobApp(data);
   };
-  // callback-edit
+  // callback-delete
   const deleteJobAppIsClosed = (data) => {
     console.log("received at parent,,,deleted jobApp,,,", data); // LOGS DATA FROM CHILD
     setOpenDelete(false);
 
+    // here data === just deleted jobApp{} from child-modal
+    // refresh redux-store for jobApps[]
     props.deleteJobApp(data);
   };
 
   useEffect(() => {
     // retrieve values from redux-store
-    props.retrieveJobApps();
-    props.retrieveAppStatusTypes();
+    try {
+      console.log("getting job-apps,,,app-status-types");
+      props.retrieveJobApps();
+      props.retrieveAppStatusTypes();
+    } catch (error) {
+      console.log("error,,,", error);
+    }
   }, []);
 
   const downloadResume = (e, jobApplicationId) => {

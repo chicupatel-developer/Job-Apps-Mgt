@@ -392,13 +392,7 @@ const Edit_JobApp = (props) => {
             console.log("400 !");
             var modelErrors = handleModelState(error);
             setModelErrors(modelErrors);
-          }
-          if (error.code === "ERR_NETWORK") {
-            setJobAppEditResponse({
-              responseCode: -1,
-              responseMessage: "Network Error !",
-            });
-          }
+          }       
         });
     }
   };
