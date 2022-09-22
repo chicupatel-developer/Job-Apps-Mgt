@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -150,6 +152,8 @@ const defaultValues = {
 };
 
 const Follow_Up = (props) => {
+  let navigate = useNavigate();
+
   const classes = useStyles();
 
   // modal
@@ -159,11 +163,13 @@ const Follow_Up = (props) => {
   const [openEdit, setOpenEdit] = useState(false);
   // delete
   const [openDelete, setOpenDelete] = useState(false);
+  
   const [jobApp, setJobApp] = useState({});
 
   // redux
   const { jobApps, appStatusTypes } = props;
 
+  // callback-search
   const pull_data = (data) => {
     console.log(data); // LOGS DATA FROM CHILD
   };
@@ -266,8 +272,12 @@ const Follow_Up = (props) => {
         console.log(e);
       });
   };
-  const uploadResume = (e, jobApplicationId) => {
-    console.log("upload resume,,,", jobApplicationId);
+  const uploadResume = (e, selectedJobApp) => {
+    console.log("upload resume,,,", selectedJobApp.jobApplicationId);
+
+    setTimeout(() => {
+      navigate("/upload-resume", { state: selectedJobApp });
+    }, 1000);
   };
   const viewJobAppStatus = (e, jobApplicationId) => {
     console.log("view job app status,,,", jobApplicationId);
@@ -321,7 +331,7 @@ const Follow_Up = (props) => {
                       variant="contained"
                       type="button"
                       onClick={(e) => {
-                        uploadResume(e, item.jobApplicationId);
+                        uploadResume(e, item);
                       }}
                     >
                       <CloudUpload /> Resume
