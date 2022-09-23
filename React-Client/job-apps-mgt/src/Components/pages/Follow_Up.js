@@ -54,6 +54,7 @@ import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 import View_JobApp from "../Child_Components/View_JobApp";
 import Edit_JobApp from "../Child_Components/Edit_JobApp";
 import Delete_JobApp from "../Child_Components/Delete_JobApp";
+import Job_App_Status from "../Child_Components/Job_App_Status";
 
 // redux
 import { connect } from "react-redux";
@@ -175,6 +176,8 @@ const Follow_Up = (props) => {
   const [openEdit, setOpenEdit] = useState(false);
   // delete
   const [openDelete, setOpenDelete] = useState(false);
+  // tracking job-app
+  const [openTracking, setOpenTracking] = useState(false);
 
   const [jobApp, setJobApp] = useState({});
 
@@ -214,6 +217,11 @@ const Follow_Up = (props) => {
     // here data === just deleted jobApp{} from child-modal
     // refresh redux-store for jobApps[]
     props.deleteJobApp(data);
+  };
+  // callback-tracking
+  const trackingJobAppIsClosed = (data) => {
+    console.log("received at parent,,,tracked jobApp,,,", data); // LOGS DATA FROM CHILD
+    setOpenTracking(false);
   };
 
   useEffect(() => {
@@ -325,8 +333,14 @@ const Follow_Up = (props) => {
       navigate("/upload-resume", { state: selectedJobApp });
     }, 1000);
   };
-  const viewJobAppStatus = (e, jobApplicationId) => {
-    console.log("view job app status,,,", jobApplicationId);
+  const trackJobAppStatus = (e, jobApplicationId) => {
+    console.log("tracking job app status,,,", jobApplicationId);
+
+    // this will set value @ redux-store for appStatusTypes[]
+    props.setAppStatusTypes(appStatusTypes);
+
+    // this will open child-component,,, that contains modal content
+    setOpenTracking(true);
   };
   let jobAppsList =
     jobApps.length > 0 &&
@@ -388,7 +402,7 @@ const Follow_Up = (props) => {
                       variant="contained"
                       type="button"
                       onClick={(e) => {
-                        viewJobAppStatus(e, item.jobApplicationId);
+                        trackJobAppStatus(e, item.jobApplicationId);
                       }}
                     >
                       <Autorenew /> App Status
@@ -480,6 +494,15 @@ const Follow_Up = (props) => {
 
   return (
     <div className={classes.pageHeader}>
+      {openTracking && (
+        <Job_App_Status
+          bgcolor="orange"
+          progress="30"
+          height={30}
+          func={trackingJobAppIsClosed}
+        />
+      )}
+
       {open && <View_JobApp jobApp={jobApp} func={viewJobAppIsClosed} />}
 
       {openEdit && <Edit_JobApp jobApp={jobApp} func={editJobAppIsClosed} />}
