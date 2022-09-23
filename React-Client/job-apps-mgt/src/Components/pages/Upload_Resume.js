@@ -4,12 +4,14 @@ import { useNavigate, useLocation } from "react-router";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Box, Typography, Button, withStyles } from "@material-ui/core";
-
+import CloudUpload from "@material-ui/icons/CloudUpload";
+import BackspaceIcon from "@material-ui/icons/Backspace";
 import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core";
 
 import JobResumeService from "../../services/job.resume.service";
+import { Backspace } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   detailsDiv: {
@@ -132,6 +134,12 @@ const Upload_Resume = () => {
     setSelectedFiles(undefined);
   };
 
+  const cancelUpload = () => {
+    setTimeout(() => {
+      navigate("/follow-up");
+    }, 1000);
+  };
+
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
@@ -150,6 +158,23 @@ const Upload_Resume = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <div className={classes.detailsDiv}>
+            <div>
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={12} md={12}>
+                  <div>
+                    <h3>Job Application # {jobApplicationId}</h3>
+                    <div>Contact Name : {contactPersonName}</div>
+                    <div>Contact Email : {contactEmail}</div>
+                    <div>Phone : {phoneNumber ? phoneNumber : "N/A"}</div>
+                    <div>Company : {companyName ? companyName : "N/A"}</div>
+                    <div>Agency : {agencyName ? agencyName : "N/A"}</div>
+                    <div>URL : {webURL ? webURL : "N/A"}</div>
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
+
+            <p></p>
             <div className="mg20">
               {currentFile && (
                 <Box className="mb25" display="flex" alignItems="center">
@@ -167,7 +192,6 @@ const Upload_Resume = () => {
                   </Box>
                 </Box>
               )}
-
               <label htmlFor="btn-upload">
                 <input
                   id="btn-upload"
@@ -200,9 +224,19 @@ const Upload_Resume = () => {
                 disabled={!selectedFiles}
                 onClick={upload}
               >
-                Upload
+                <CloudUpload />
+                &nbsp; Upload
               </Button>
-
+              &nbsp;
+              <Button
+                className="btn-upload"
+                variant="contained"
+                component="span"
+                onClick={cancelUpload}
+              >
+                <Backspace />
+                &nbsp; Cancel
+              </Button>
               <p></p>
               <Typography
                 variant="subtitle2"
