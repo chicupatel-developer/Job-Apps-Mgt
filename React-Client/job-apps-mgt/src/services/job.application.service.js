@@ -24,5 +24,9 @@ class JobApplicationService {
   deleteJobApplication = async (data) => {
     return await http.post(`/deleteJobApplication`, data);
   };
+
+  trackJobAppStatus = async (jobAppId) => {
+    return await http.get(`/trackJobAppStatus/${jobAppId}`);
+  };
 }
 export default new JobApplicationService();

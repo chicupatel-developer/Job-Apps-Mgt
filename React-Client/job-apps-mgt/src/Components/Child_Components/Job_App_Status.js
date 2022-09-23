@@ -44,7 +44,7 @@ const getModalStyle = () => {
 
 // const Job_App_Status = ({ bgcolor, progress, height }) => {
 const Job_App_Status = (props) => {
-  const { bgcolor, progress, height } = props;
+  const { bgcolor, progress, height, trackingData } = props;
 
   const classes = useStyles();
 
@@ -52,6 +52,8 @@ const Job_App_Status = (props) => {
     console.log("child component,,,tracking job-application,,,");
 
     setOpen(true);
+
+    console.log(trackingData);
   }, []);
 
   // modal

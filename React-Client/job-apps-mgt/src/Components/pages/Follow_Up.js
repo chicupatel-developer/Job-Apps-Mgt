@@ -178,6 +178,7 @@ const Follow_Up = (props) => {
   const [openDelete, setOpenDelete] = useState(false);
   // tracking job-app
   const [openTracking, setOpenTracking] = useState(false);
+  const [jobAppTrackingData, setJobAppTrackingData] = useState([]);
 
   const [jobApp, setJobApp] = useState({});
 
@@ -333,14 +334,40 @@ const Follow_Up = (props) => {
       navigate("/upload-resume", { state: selectedJobApp });
     }, 1000);
   };
-  const trackJobAppStatus = (e, jobApplicationId) => {
-    console.log("tracking job app status,,,", jobApplicationId);
+  const trackJobAppStatus = (e, jobApp) => {
+    console.log("tracking job app status,,,", jobApp.jobApplicationId);
 
     // this will set value @ redux-store for appStatusTypes[]
     props.setAppStatusTypes(appStatusTypes);
 
-    // this will open child-component,,, that contains modal content
-    setOpenTracking(true);
+    JobApplicationService.trackJobAppStatus(jobApp.jobApplicationId)
+      .then((response) => {
+        // console.log(response.data);
+        var data_ = [];
+        if (response.data != null && response.data.length > 0) {
+          response.data.forEach((element) => {
+            data_.push({
+              appStatusLogId: element.appStatusLogId,
+              appStatus: element.appStatus,
+              appStatusChangedOn: element.appStatusChangedOn,
+              jobApplicationId: element.jobApplicationId,
+              appStatusDisplay: getAppStatus(appStatusTypes, element.appStatus),
+              appCompleted:
+                20 * element.appStatus === 0
+                  ? 5
+                  : element.appStatus === 6
+                  ? 0
+                  : 20 * element.appStatus,
+              companyName: jobApp.companyName,
+            });
+          });
+          setJobAppTrackingData(data_);
+        }
+        // console.log(data_);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   let jobAppsList =
     jobApps.length > 0 &&
@@ -402,7 +429,7 @@ const Follow_Up = (props) => {
                       variant="contained"
                       type="button"
                       onClick={(e) => {
-                        trackJobAppStatus(e, item.jobApplicationId);
+                        trackJobAppStatus(e, item);
                       }}
                     >
                       <Autorenew /> App Status
@@ -499,6 +526,7 @@ const Follow_Up = (props) => {
           bgcolor="orange"
           progress="30"
           height={30}
+          trackingData={jobAppTrackingData}
           func={trackingJobAppIsClosed}
         />
       )}
