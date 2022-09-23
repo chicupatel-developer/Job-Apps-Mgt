@@ -14,5 +14,12 @@ class JobResumeService {
       onUploadProgress,
     });
   }
+
+  download = async (jobApplicationId) => {
+    return await http.get(`/download/${jobApplicationId}`, {     
+      responseType: "blob",
+      // "Content-Type": "application/pdf",
+    });
+  };
 }
 export default new JobResumeService();

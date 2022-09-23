@@ -22,6 +22,7 @@ import { Autorenew, CloudDownload, ExpandMore } from "@material-ui/icons";
 
 import { makeStyles } from "@material-ui/core";
 
+import JobResumeService from "../../services/job.resume.service";
 import JobApplicationService from "../../services/job.application.service";
 import {
   getProvinces,
@@ -142,6 +143,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     verticalAlign: "middle",
   },
+  downloadSuccess: {
+    color: "green",
+  },
+  downloadError: {
+    color: "red",
+  },
 }));
 
 const defaultValues = {
@@ -156,14 +163,19 @@ const Follow_Up = (props) => {
 
   const classes = useStyles();
 
-  // modal
+  // download resume
+  const [downloadMsg, setDownloadMsg] = useState("");
+  const [resumeToDownload, setResumeToDownload] = useState("");
+  const [isError, setIsError] = useState(false);
+
+  // modals
   // view
   const [open, setOpen] = useState(false);
   // edit
   const [openEdit, setOpenEdit] = useState(false);
   // delete
   const [openDelete, setOpenDelete] = useState(false);
-  
+
   const [jobApp, setJobApp] = useState({});
 
   // redux
@@ -215,8 +227,42 @@ const Follow_Up = (props) => {
     }
   }, []);
 
-  const downloadResume = (e, jobApplicationId) => {
-    console.log("download resume,,,", jobApplicationId);
+  const downloadResume = (e, jobApp) => {
+    console.log("download resume,,,for jopbApp,,,", jobApp);
+
+    setResumeToDownload(jobApp.jobApplicationId);
+    setIsError(false);
+
+    JobResumeService.download(jobApp.jobApplicationId)
+      .then((blob) => {
+        console.log(blob);
+        setDownloadMsg("Downloading...");
+
+        // const myFile = new Blob([blob.data], { type: 'text/csv' });
+        const myFile = new Blob([blob.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(myFile);
+        window.open(url);
+
+        setTimeout(() => {
+          setDownloadMsg("");
+          setResumeToDownload("");
+        }, 4000);
+      })
+      .catch((e) => {
+        console.log(e);
+        setIsError(true);
+        if (e.response.status === 500) {
+          setDownloadMsg("Server Error !");
+        } else if (e.response.status === 400) {
+          setDownloadMsg("File Not Found !");
+        }
+
+        setTimeout(() => {
+          setDownloadMsg("");
+          setResumeToDownload("");
+          setIsError(false);
+        }, 4000);
+      });
   };
   const viewJobApp = (e, jobApplicationId) => {
     console.log("view job app,,,", jobApplicationId);
@@ -380,11 +426,25 @@ const Follow_Up = (props) => {
                         variant="contained"
                         type="button"
                         onClick={(e) => {
-                          downloadResume(e, item.jobApplicationId);
+                          downloadResume(e, item);
                         }}
                       >
                         <CloudDownload /> Resume
                       </Button>
+                      <br />
+                      {resumeToDownload &&
+                        Number(resumeToDownload) ===
+                          Number(item.jobApplicationId) && (
+                          <span
+                            className={
+                              isError
+                                ? classes.downloadError
+                                : classes.downloadSuccess
+                            }
+                          >
+                            {downloadMsg}
+                          </span>
+                        )}
                     </div>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
