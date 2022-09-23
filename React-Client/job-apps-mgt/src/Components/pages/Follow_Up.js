@@ -54,7 +54,7 @@ import Filter_Job_Apps from "../Child_Components/Filter_Job_Apps";
 import View_JobApp from "../Child_Components/View_JobApp";
 import Edit_JobApp from "../Child_Components/Edit_JobApp";
 import Delete_JobApp from "../Child_Components/Delete_JobApp";
-import Job_App_Status from "../Child_Components/Job_App_Status";
+import Job_App_Tracking from "../Child_Components/Job_App_Tracking";
 
 // redux
 import { connect } from "react-redux";
@@ -362,6 +362,7 @@ const Follow_Up = (props) => {
             });
           });
           setJobAppTrackingData(data_);
+          setOpenTracking(true);
         }
         // console.log(data_);
       })
@@ -522,10 +523,7 @@ const Follow_Up = (props) => {
   return (
     <div className={classes.pageHeader}>
       {openTracking && (
-        <Job_App_Status
-          bgcolor="orange"
-          progress="30"
-          height={30}
+        <Job_App_Tracking
           trackingData={jobAppTrackingData}
           func={trackingJobAppIsClosed}
         />

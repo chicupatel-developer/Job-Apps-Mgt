@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  btnDelete: {
+  btnClose: {
     color: "black",
     backgroundColor: "orange",
   },
@@ -108,7 +108,7 @@ const View_JobApp = (props) => {
             </Grid>
             <Grid item xs={12} sm={12} md={2}>
               <Button
-                className={classes.btnDelete}
+                className={classes.btnClose}
                 variant="contained"
                 type="button"
                 onClick={handleClose}
