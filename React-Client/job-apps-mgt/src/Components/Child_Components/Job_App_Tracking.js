@@ -33,10 +33,17 @@ const useStyles = makeStyles((theme) => ({
   detailsDiv: {
     backgroundColor: "white",
     padding: "10px",
+    textAlign: "center",
+    verticalAlign: "middle",
+    border: "2px solid green",
+    borderRadius: "10px",
   },
   btnClose: {
     color: "black",
     backgroundColor: "orange",
+  },
+  companyNameSpan: {
+    fontSize: "medium",
   },
 }));
 
@@ -55,7 +62,7 @@ const getModalStyle = () => {
 
 // const Job_App_Tracking = ({ trackingData }) => {
 const Job_App_Tracking = (props) => {
-  const { trackingData } = props;
+  const { trackingData, trackingJobApp } = props;
 
   const classes = useStyles();
 
@@ -109,7 +116,18 @@ const Job_App_Tracking = (props) => {
               <CardContent>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={10}>
-                    <h2>[TRACKING] Job-Application # </h2>
+                    <h2>
+                      [TRACKING] Job-Application #{" "}
+                      {trackingJobApp.jobApplicationId}
+                      <br />
+                      {trackingJobApp.companyName ? (
+                        <span className={classes.companyNameSpan}>
+                          Company : {trackingJobApp.companyName}
+                        </span>
+                      ) : (
+                        "N/A"
+                      )}
+                    </h2>
                   </Grid>
                   <Grid item xs={12} sm={12} md={2}>
                     <Button

@@ -29,6 +29,7 @@ import {
   getCities,
   getAppStatus,
   getAppStatusTypeColor,
+  displayBtn,
 } from "../../services/local.service";
 
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -181,6 +182,7 @@ const Follow_Up = (props) => {
   const [jobAppTrackingData, setJobAppTrackingData] = useState([]);
 
   const [jobApp, setJobApp] = useState({});
+  const [trackingJobApp, setTrackingJobApp] = useState({});
 
   // redux
   const { jobApps, appStatusTypes } = props;
@@ -361,10 +363,14 @@ const Follow_Up = (props) => {
               companyName: jobApp.companyName,
             });
           });
+          var trackingJobApp_ = {
+            jobApplicationId: jobApp.jobApplicationId,
+            companyName: jobApp.companyName,
+          };
           setJobAppTrackingData(data_);
+          setTrackingJobApp(trackingJobApp_);
           setOpenTracking(true);
         }
-        // console.log(data_);
       })
       .catch((e) => {
         console.log(e);
@@ -392,16 +398,18 @@ const Follow_Up = (props) => {
                       <ViewModuleIcon />
                     </Button>
                     &nbsp;&nbsp;
-                    <Button
-                      className={classes.btnEdit}
-                      variant="contained"
-                      type="button"
-                      onClick={(e) => {
-                        editJobApp(e, item.jobApplicationId);
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
+                    {displayBtn(item.appStatus) && (
+                      <Button
+                        className={classes.btnEdit}
+                        variant="contained"
+                        type="button"
+                        onClick={(e) => {
+                          editJobApp(e, item.jobApplicationId);
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
+                    )}
                     &nbsp;&nbsp;
                     <Button
                       className={classes.btnDelete}
@@ -414,16 +422,18 @@ const Follow_Up = (props) => {
                       <DeleteForeverIcon />
                     </Button>
                     &nbsp;&nbsp;
-                    <Button
-                      className={classes.btnUpload}
-                      variant="contained"
-                      type="button"
-                      onClick={(e) => {
-                        uploadResume(e, item);
-                      }}
-                    >
-                      <CloudUpload /> Resume
-                    </Button>
+                    {displayBtn(item.appStatus) && (
+                      <Button
+                        className={classes.btnUpload}
+                        variant="contained"
+                        type="button"
+                        onClick={(e) => {
+                          uploadResume(e, item);
+                        }}
+                      >
+                        <CloudUpload /> Resume
+                      </Button>
+                    )}
                     &nbsp;&nbsp;
                     <Button
                       className={classes.btnAppStatus}
@@ -525,6 +535,7 @@ const Follow_Up = (props) => {
       {openTracking && (
         <Job_App_Tracking
           trackingData={jobAppTrackingData}
+          trackingJobApp={trackingJobApp}
           func={trackingJobAppIsClosed}
         />
       )}

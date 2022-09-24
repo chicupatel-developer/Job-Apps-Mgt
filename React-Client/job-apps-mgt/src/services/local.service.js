@@ -22,3 +22,9 @@ export function getAppStatusTypeColor(appStatusType) {
   if (appStatusType === 6) return "orange";
   else return "purple";
 }
+
+export function displayBtn(appStatusType) {
+  console.log(appStatusType);
+  if (appStatusType <= 5) return true;
+  if (appStatusType === 6) return false;
+}
