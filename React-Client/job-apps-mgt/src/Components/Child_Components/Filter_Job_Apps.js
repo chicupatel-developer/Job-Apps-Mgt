@@ -121,7 +121,10 @@ const Filter_Job_Apps = (props) => {
 
   const allJobApps = () => {
     setSearchObject(defaultValues);
-    searchJobApps();
+
+    // callback as props
+    // returns all job-Apps[] & no-search(false)
+    props.func(jobApps, false);
   };
   const searchJobApps = () => {
     console.log("search job app,,,", searchObject);
@@ -146,8 +149,9 @@ const Filter_Job_Apps = (props) => {
       });
     }
 
-    console.log(jobApps_);
-    props.func(jobApps_);
+    // callback as props
+    // returns searched job-Apps[] & search(true)
+    props.func(jobApps_, true);
   };
   return (
     <div>

@@ -191,14 +191,6 @@ const Follow_Up = (props) => {
   // redux
   const { jobApps, appStatusTypes } = props;
 
-  // callback-search
-  const pull_data = (data) => {
-    console.log(data); // LOGS DATA FROM CHILD
-
-    setJobAppsSearch(data);
-    setDoSearch(true);
-  };
-
   // this will get notified when child-modal is closed
   // callback as props
   // callback-view
@@ -232,6 +224,14 @@ const Follow_Up = (props) => {
   const trackingJobAppIsClosed = (data) => {
     console.log("received at parent,,,tracked jobApp,,,", data); // LOGS DATA FROM CHILD
     setOpenTracking(false);
+  };
+  // callback-search
+  const searchPanel = (data, flag) => {
+    // here data===searched jobApps[]
+    setJobAppsSearch(data);
+
+    // here flag decides,,, weather search was requested or not(all-jobApps)
+    setDoSearch(flag);
   };
 
   useEffect(() => {
@@ -718,7 +718,7 @@ const Follow_Up = (props) => {
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
           <div className={classes.searchDiv}>
-            <Filter_Job_Apps jobApps={jobApps} func={pull_data} />
+            <Filter_Job_Apps jobApps={jobApps} func={searchPanel} />
           </div>
         </Grid>
         {!doSearch ? (
