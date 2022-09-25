@@ -66,13 +66,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const defaultValues = { 
-  contactPersonName: "", 
+const defaultValues = {
+  contactPersonName: "",
   province: "",
   city: "",
 };
 const Filter_Job_Apps = (props) => {
-  props.func("This is search child component");
+  const { jobApps } = props;
 
   const classes = useStyles();
 
@@ -119,9 +119,35 @@ const Filter_Job_Apps = (props) => {
     });
   };
 
-  const searchJobApp = () => {
+  const allJobApps = () => {
+    setSearchObject(defaultValues);
+    searchJobApps();
+  };
+  const searchJobApps = () => {
     console.log("search job app,,,", searchObject);
-  
+
+    var jobApps_ = jobApps;
+
+    if (searchObject.contactPersonName !== "") {
+      jobApps_ = jobApps_.filter(function (job) {
+        return job.contactPersonName === searchObject.contactPersonName;
+      });
+    }
+
+    if (searchObject.province !== "") {
+      jobApps_ = jobApps_.filter(function (job) {
+        return job.province === searchObject.province;
+      });
+    }
+
+    if (searchObject.city !== "") {
+      jobApps_ = jobApps_.filter(function (job) {
+        return job.city === searchObject.city;
+      });
+    }
+
+    console.log(jobApps_);
+    props.func(jobApps_);
   };
   return (
     <div>
@@ -146,10 +172,22 @@ const Filter_Job_Apps = (props) => {
                   color="primary"
                   type="button"
                   onClick={(e) => {
-                    searchJobApp(e);
+                    searchJobApps(e);
                   }}
                 >
-                  Search Job-App
+                  Search Job-Apps!
+                </Button>
+                &nbsp;
+                <Button
+                  className={classes.btn}
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  onClick={(e) => {
+                    allJobApps(e);
+                  }}
+                >
+                  All Job-Apps*
                 </Button>
               </div>
               <Grid container spacing={1}>

@@ -31,6 +31,7 @@ export const deleteJobApp = createAsyncThunk("jobApp/delete", async (data) => {
   return data;
 });
 
+
 // action = { type, payload }
 const jobAppsSlice = createSlice({
   name: "jobApps",
