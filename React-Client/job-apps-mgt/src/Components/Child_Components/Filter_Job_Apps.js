@@ -81,6 +81,7 @@ const Filter_Job_Apps = (props) => {
 
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
+
   useEffect(() => {
     setProvinces(getProvinces());
   }, []);
@@ -248,6 +249,7 @@ const Filter_Job_Apps = (props) => {
                     </Select>
                   </Paper>
                 </Grid>
+                <Grid item xs={12} sm={12} md={3}></Grid>
               </Grid>
             </div>
           </Grid>

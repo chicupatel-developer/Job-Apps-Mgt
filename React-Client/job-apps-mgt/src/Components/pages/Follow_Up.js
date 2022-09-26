@@ -216,9 +216,15 @@ const Follow_Up = (props) => {
     console.log("received at parent,,,deleted jobApp,,,", data); // LOGS DATA FROM CHILD
     setOpenDelete(false);
 
-    // here data === just deleted jobApp{} from child-modal
-    // refresh redux-store for jobApps[]
-    props.deleteJobApp(data);
+    if (data !== null) {
+      // here data === just deleted jobApp{} from child-modal
+      // refresh redux-store for jobApps[]
+      props.deleteJobApp(data);
+    }
+    else {
+      // job-app was not deleted from child-modal
+      // so no need to refresh jobApps[]
+    }
   };
   // callback-tracking
   const trackingJobAppIsClosed = (data) => {

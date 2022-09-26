@@ -108,6 +108,7 @@ const getModalStyle = () => {
 
 const Delete_JobApp = (props) => {
   const [jobAppDeleteResponse, setJobAppDeleteResponse] = useState({});
+  const [deleted, setDeleted] = useState(false);
 
   let navigate = useNavigate();
 
@@ -123,11 +124,20 @@ const Delete_JobApp = (props) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     console.log("model is closing,,,");
+
+    console.log("deleted,,,", deleted);
+    console.log("delete response,,,", jobAppDeleteResponse);
+
     setOpen(false);
 
-    // callback as props
-    // props.func("delete job-app is closed");
+    // if (deleted) {
+    if (jobAppDeleteResponse.responseCode === 0) {
+      // callback as props
+      // props.func("delete job-app is closed");
       props.func(jobApp);
+    } else {
+      props.func(null);
+    }
   };
 
   useEffect(() => {
@@ -154,7 +164,7 @@ const Delete_JobApp = (props) => {
         };
         if (response.data.responseCode === 0) {
           setJobAppDeleteResponse(jobAppDeleteResponse);
-
+          setDeleted(true);
           setTimeout(() => {
             handleClose();
             navigate("/follow-up");
@@ -181,7 +191,7 @@ const Delete_JobApp = (props) => {
             responseCode: -1,
             responseMessage: error.response.data,
           });
-        }      
+        }
       });
   };
 
