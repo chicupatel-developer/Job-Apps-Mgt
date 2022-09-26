@@ -375,6 +375,178 @@ const Follow_Up = (props) => {
         console.log(e);
       });
   };
+
+  const displayJobApps = (jobApplications) => {
+    console.log(doSearch);
+    return (
+      <div>
+        {jobApplications.length > 0 && (
+          <div>
+            {" "}
+            {jobApps.map((item, i) => {
+              return (
+                <div key={i}>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12} sm={12} md={1}></Grid>
+                    <Grid item xs={12} sm={12} md={10}>
+                      <div className={classes.jobAppContainer}>
+                        <Grid container spacing={1}>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <Button
+                              className={classes.btnView}
+                              variant="contained"
+                              type="button"
+                              onClick={(e) => {
+                                viewJobApp(e, item.jobApplicationId);
+                              }}
+                            >
+                              <ViewModuleIcon />
+                            </Button>
+                            &nbsp;&nbsp;
+                            {displayBtn(item.appStatus) && (
+                              <Button
+                                className={classes.btnEdit}
+                                variant="contained"
+                                type="button"
+                                onClick={(e) => {
+                                  editJobApp(e, item.jobApplicationId);
+                                }}
+                              >
+                                <EditIcon />
+                              </Button>
+                            )}
+                            &nbsp;&nbsp;
+                            <Button
+                              className={classes.btnDelete}
+                              variant="contained"
+                              type="button"
+                              onClick={(e) => {
+                                deleteJobApp(e, item.jobApplicationId);
+                              }}
+                            >
+                              <DeleteForeverIcon />
+                            </Button>
+                            &nbsp;&nbsp;
+                            {displayBtn(item.appStatus) && (
+                              <Button
+                                className={classes.btnUpload}
+                                variant="contained"
+                                type="button"
+                                onClick={(e) => {
+                                  uploadResume(e, item);
+                                }}
+                              >
+                                <CloudUpload /> Resume
+                              </Button>
+                            )}
+                            &nbsp;&nbsp;
+                            <Button
+                              className={classes.btnAppStatus}
+                              variant="contained"
+                              type="button"
+                              onClick={(e) => {
+                                trackJobAppStatus(e, item);
+                              }}
+                            >
+                              <Autorenew /> App Status
+                            </Button>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <div className={classes.appStatus}>
+                              <span
+                                style={{
+                                  color: getAppStatusTypeColor(item.appStatus),
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                [{getAppStatus(appStatusTypes, item.appStatus)}]
+                                &nbsp;{" "}
+                                {Moment(item.appliedOn).format("MMMM DD, YYYY")}
+                                <span>
+                                  &nbsp;&nbsp;@ {item.city}, {item.province}
+                                </span>
+                              </span>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <div className={classes.jobAppDetails}>
+                              Contact Name : {item.contactPersonName}
+                            </div>
+                            <div className={classes.jobAppDetails}>
+                              Contact Email : {item.contactEmail}
+                            </div>
+                            <div className={classes.jobAppDetails}>
+                              Phone :{" "}
+                              {item.phoneNumber ? item.phoneNumber : "N/A"}
+                            </div>
+                            <div className={classes.jobAppDetails}>
+                              <Button
+                                className={classes.btnDownload}
+                                variant="contained"
+                                type="button"
+                                onClick={(e) => {
+                                  downloadResume(e, item);
+                                }}
+                              >
+                                <CloudDownload /> Resume
+                              </Button>
+                              <br />
+                              {resumeToDownload &&
+                                Number(resumeToDownload) ===
+                                  Number(item.jobApplicationId) && (
+                                  <span
+                                    className={
+                                      isError
+                                        ? classes.downloadError
+                                        : classes.downloadSuccess
+                                    }
+                                  >
+                                    {downloadMsg}
+                                  </span>
+                                )}
+                            </div>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <div className={classes.jobAppDetails}>
+                              Company :{" "}
+                              {item.companyName ? item.companyName : "N/A"}
+                            </div>
+                            <div className={classes.jobAppDetails}>
+                              Agency :{" "}
+                              {item.agencyName ? item.agencyName : "N/A"}
+                            </div>
+                            <div className={classes.jobAppDetails}>
+                              URL : {item.webURL ? item.webURL : "N/A"}
+                            </div>
+                            <div className={classes.followUpNotes}>
+                              <Accordion>
+                                <AccordionSummary expandIcon={<ExpandMore />}>
+                                  Follow-Up-Notes!
+                                </AccordionSummary>
+
+                                <AccordionDetails>
+                                  {item.followUpNotes
+                                    ? item.followUpNotes
+                                    : "N/A"}
+                                </AccordionDetails>
+                              </Accordion>
+                            </div>
+                          </Grid>
+                        </Grid>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={1}></Grid>
+                  </Grid>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  /*
   let jobAppsList =
     jobApps.length > 0 &&
     jobApps.map((item, i) => {
@@ -528,6 +700,7 @@ const Follow_Up = (props) => {
         </div>
       );
     }, this);
+  */
 
   let searchJobAppsList =
     jobAppsSearch.length > 0 &&
@@ -715,7 +888,7 @@ const Follow_Up = (props) => {
         </Grid>
         {!doSearch ? (
           <Grid item xs={12} sm={12} md={12}>
-            <div>{jobAppsList}</div>
+            <div>{displayJobApps(jobApps)}</div>
           </Grid>
         ) : (
           <Grid item xs={12} sm={12} md={12}>

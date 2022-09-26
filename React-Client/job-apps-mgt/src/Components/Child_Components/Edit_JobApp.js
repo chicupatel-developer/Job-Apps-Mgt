@@ -392,7 +392,7 @@ const Edit_JobApp = (props) => {
             console.log("400 !");
             var modelErrors = handleModelState(error);
             setModelErrors(modelErrors);
-          }       
+          }
         });
     }
   };
@@ -728,7 +728,9 @@ const Edit_JobApp = (props) => {
                             name="followUpNotes"
                             label="Notes!"
                             type="text"
-                            value={jobApp_.followUpNotes}
+                            value={
+                              jobApp_.followUpNotes ? jobApp_.followUpNotes : ""
+                            }
                             onChange={(e) =>
                               setField("followUpNotes", e.target.value)
                             }
