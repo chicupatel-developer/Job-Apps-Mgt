@@ -59,11 +59,7 @@ import Job_App_Tracking from "../Child_Components/Job_App_Tracking";
 
 // redux
 import { connect } from "react-redux";
-import {
-  retrieveJobApps,
-  editJobApp,
-  deleteJobApp,
-} from "../../slices/jobApps";
+import { retrieveJobApps, editJobApp } from "../../slices/jobApps";
 import {
   retrieveAppStatusTypes,
   setAppStatusTypes,
@@ -215,16 +211,6 @@ const Follow_Up = (props) => {
   const deleteJobAppIsClosed = (data) => {
     console.log("received at parent,,,deleted jobApp,,,", data); // LOGS DATA FROM CHILD
     setOpenDelete(false);
-
-    if (data !== null) {
-      // here data === just deleted jobApp{} from child-modal
-      // refresh redux-store for jobApps[]
-      props.deleteJobApp(data);
-    }
-    else {
-      // job-app was not deleted from child-modal
-      // so no need to refresh jobApps[]
-    }
   };
   // callback-tracking
   const trackingJobAppIsClosed = (data) => {
@@ -753,7 +739,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   retrieveJobApps,
   editJobApp,
-  deleteJobApp,
   retrieveAppStatusTypes,
   setAppStatusTypes,
 })(Follow_Up);

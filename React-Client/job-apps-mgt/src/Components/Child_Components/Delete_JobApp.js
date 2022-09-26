@@ -31,6 +31,7 @@ import Modal from "@material-ui/core/Modal";
 // redux
 import { connect } from "react-redux";
 import { getAppStatusTypes } from "../../slices/appStatusTypes";
+import { deleteJobApp } from "../../slices/jobApps";
 
 const useStyles = makeStyles((theme) => ({
   modalClass: {
@@ -108,7 +109,8 @@ const getModalStyle = () => {
 
 const Delete_JobApp = (props) => {
   const [jobAppDeleteResponse, setJobAppDeleteResponse] = useState({});
-  const [deleted, setDeleted] = useState(false);
+
+  const [deleted, setDeleted] = React.useState(false);
 
   let navigate = useNavigate();
 
@@ -125,19 +127,8 @@ const Delete_JobApp = (props) => {
   const handleClose = () => {
     console.log("model is closing,,,");
 
-    console.log("deleted,,,", deleted);
-    console.log("delete response,,,", jobAppDeleteResponse);
-
     setOpen(false);
-
-    // if (deleted) {
-    if (jobAppDeleteResponse.responseCode === 0) {
-      // callback as props
-      // props.func("delete job-app is closed");
-      props.func(jobApp);
-    } else {
-      props.func(null);
-    }
+    props.func(jobApp);
   };
 
   useEffect(() => {
@@ -155,7 +146,6 @@ const Delete_JobApp = (props) => {
     JobApplicationService.deleteJobApplication(jobApp)
       .then((response) => {
         console.log(response.data);
-
         setJobAppDeleteResponse({});
 
         var jobAppDeleteResponse = {
@@ -164,7 +154,10 @@ const Delete_JobApp = (props) => {
         };
         if (response.data.responseCode === 0) {
           setJobAppDeleteResponse(jobAppDeleteResponse);
-          setDeleted(true);
+
+          // delete from jobApps[] redux-store
+          props.deleteJobApp(jobApp);
+          
           setTimeout(() => {
             handleClose();
             navigate("/follow-up");
@@ -389,9 +382,11 @@ const Delete_JobApp = (props) => {
 const mapStateToProps = (state) => {
   return {
     appStatusTypes: state.appStatusTypes,
+    jobApps: state.jobApps,
   };
 };
 
 export default connect(mapStateToProps, {
   getAppStatusTypes,
+  deleteJobApp,
 })(Delete_JobApp);
