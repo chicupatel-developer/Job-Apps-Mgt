@@ -10,6 +10,11 @@ export const savePersonalInfo = createAsyncThunk(
   }
 );
 
+export const getPersonalInfo = createAsyncThunk(
+  "resumeCreator/getPersonalInfo",
+  async () => {}
+);
+
 // action = { type, payload }
 const resumeDataSlice = createSlice({
   name: "myResume",
@@ -20,6 +25,10 @@ const resumeDataSlice = createSlice({
         ...state,
         personalInfo: action.payload,
       };
+    },
+
+    [getPersonalInfo.fulfilled]: (state, action) => {
+      return state.personalInfo;
     },
   },
 });
