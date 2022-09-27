@@ -126,6 +126,18 @@ const useStyles = makeStyles((theme) => ({
   downloadError: {
     color: "red",
   },
+  zeroSearch: {
+    textAlign: "center",
+    verticalAlign: "middle",
+    marginTop: "20px",
+    paddingTop: "10px",
+    paddingBottom: "10px",
+    marginBottom: "20px",
+    border: "2px solid red",
+    borderRadius: "10px",
+    backgroundColor: "lightyellow",
+    color: "red",
+  },
 }));
 
 const defaultValues = {
@@ -561,7 +573,23 @@ const Follow_Up = (props) => {
           </Grid>
         ) : (
           <Grid item xs={12} sm={12} md={12}>
-            <div>{displayJobApps(jobAppsSearch)}</div>
+            <div>
+              {jobAppsSearch && jobAppsSearch.length > 0 ? (
+                <div>{displayJobApps(jobAppsSearch)}</div>
+              ) : (
+                <div>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12} sm={12} md={1}></Grid>
+                    <Grid item xs={12} sm={12} md={10}>
+                      <div className={classes.zeroSearch}>
+                        <h2>No Job-Apps Found!!!</h2>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={1}></Grid>
+                  </Grid>
+                </div>
+              )}
+            </div>
           </Grid>
         )}
       </Grid>

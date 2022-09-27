@@ -190,6 +190,22 @@ const Filter_Job_Apps = (props) => {
       });
     }
 
+    if (
+      searchObject.startDate !== null &&
+      searchObject.startDate !== "" &&
+      searchObject.endDate !== null &&
+      searchObject.endDate !== ""
+    ) {
+      jobApps_ = jobApps_.filter(function (job) {
+        return (
+          moment(job.appliedOn).format("YYYY-MM-DD") <=
+            moment(searchObject.endDate).format("YYYY-MM-DD") &&
+          moment(job.appliedOn).format("YYYY-MM-DD") >=
+            moment(searchObject.startDate).format("YYYY-MM-DD")
+        );
+      });
+    }
+
     // callback as props
     // returns searched job-Apps[] & search(true)
     props.func(jobApps_, true);
@@ -236,7 +252,7 @@ const Filter_Job_Apps = (props) => {
                 </Button>
               </div>
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} sm={12} md={2}>
                   <Paper className={classes.paper}>
                     {" "}
                     <TextField
@@ -249,12 +265,12 @@ const Filter_Job_Apps = (props) => {
                     />
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} sm={12} md={2}>
                   <Paper className={classes.paper}>
                     <InputLabel shrink>Province</InputLabel>
                     <Select
                       renderValue={(value) =>
-                        value ? value : <em>---Select Province---</em>
+                        value ? value : <em>-Province-</em>
                       }
                       value={searchObject.province}
                       displayEmpty
@@ -269,13 +285,11 @@ const Filter_Job_Apps = (props) => {
                     </Select>
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={3}>
+                <Grid item xs={12} sm={12} md={2}>
                   <Paper className={classes.paper}>
                     <InputLabel shrink>City</InputLabel>
                     <Select
-                      renderValue={(value) =>
-                        value ? value : <em>---Select City---</em>
-                      }
+                      renderValue={(value) => (value ? value : <em>-City-</em>)}
                       value={searchObject.city}
                       displayEmpty
                       name="city"
@@ -306,6 +320,10 @@ const Filter_Job_Apps = (props) => {
                         }}
                       />
                     </MuiPickersUtilsProvider>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} sm={12} md={3}>
+                  <Paper className={classes.paper}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
                         disableToolbar
