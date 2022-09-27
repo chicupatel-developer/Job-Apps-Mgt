@@ -37,8 +37,6 @@ import {
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 
-import moment from "moment";
-
 import Modal from "@material-ui/core/Modal";
 
 // redux

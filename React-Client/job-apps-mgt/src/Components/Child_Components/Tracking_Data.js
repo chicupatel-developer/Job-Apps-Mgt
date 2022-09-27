@@ -1,6 +1,14 @@
 import React from "react";
 
-const Tracking_Data = ({ bgcolor, height, appCompleted, appStatusDisplay }) => {
+import Moment from "moment";
+
+const Tracking_Data = ({
+  bgcolor,
+  height,
+  appCompleted,
+  appStatusDisplay,
+  appStatusChangedOn,
+}) => {
   const Parentdiv = {
     height: height,
     width: "90%",
@@ -34,7 +42,9 @@ const Tracking_Data = ({ bgcolor, height, appCompleted, appStatusDisplay }) => {
       <div style={Childdiv}>
         <span style={progressText}>{`${appCompleted}%`}</span>
       </div>
-      <span style={appStatusDisplayText}>{appStatusDisplay}</span>
+      <span style={appStatusDisplayText}>
+        {appStatusDisplay} @ {Moment(appStatusChangedOn).format("MMM DD, YYYY")}
+      </span>
     </div>
   );
 };

@@ -331,6 +331,7 @@ const Apply_To_Job = (props) => {
         </ul>
       );
     }, this);
+  
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>

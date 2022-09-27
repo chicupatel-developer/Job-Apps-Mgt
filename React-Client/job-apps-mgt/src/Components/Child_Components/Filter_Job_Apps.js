@@ -6,6 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -58,12 +59,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     paddingBottom: "20px",
   },
+  controlError: {
+    color: "red",
+    fontSize: "medium; ",
+  },
 }));
 
 const defaultValues = {
   contactPersonName: "",
   province: "",
   city: "",
+  startDate: null,
+  endDate: null,
 };
 const Filter_Job_Apps = (props) => {
   const { jobApps } = props;
@@ -113,6 +120,36 @@ const Filter_Job_Apps = (props) => {
       [name]: value,
     });
   };
+  const handleDateChange = (e, propName) => {
+    console.log(e, propName);
+    let formattedDate = moment(e).format("DD/MM/YYYY");
+    console.log(formattedDate);
+
+    setSearchObject({
+      ...searchObject,
+      [propName]: e,
+    });
+  };
+
+  const findFormErrors = () => {
+    const { startDate, endDate } = searchObject;
+    const newErrors = {};
+
+    if (
+      startDate !== "" &&
+      startDate !== null &&
+      endDate !== "" &&
+      endDate !== null
+    ) {
+      if (startDate > endDate) {
+        newErrors.dateError = "Invalid Dates!";
+      } else {
+        delete newErrors.dateError;
+      }
+    }
+
+    return newErrors;
+  };
 
   const allJobApps = () => {
     setSearchObject(defaultValues);
@@ -122,7 +159,16 @@ const Filter_Job_Apps = (props) => {
     props.func(jobApps, false);
   };
   const searchJobApps = () => {
-    console.log("search job app,,,", searchObject);
+    const newErrors = findFormErrors();
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      console.log(newErrors);
+      return;
+    } else {
+      setErrors({});
+      console.log("search job app,,,", searchObject);
+    }
 
     var jobApps_ = jobApps;
 
@@ -243,7 +289,50 @@ const Filter_Job_Apps = (props) => {
                     </Select>
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={3}></Grid>
+                <Grid item xs={12} sm={12} md={3}>
+                  <Paper className={classes.paper}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        fullWidth
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Start Date"
+                        value={searchObject.startDate}
+                        onChange={(e) => {
+                          handleDateChange(e, "startDate");
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        fullWidth
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="End Date"
+                        value={searchObject.endDate}
+                        onChange={(e) => {
+                          handleDateChange(e, "endDate");
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                    {searchObject.startDate &&
+                    searchObject.endDate &&
+                    errors.dateError ? (
+                      <FormHelperText className={classes.controlError}>
+                        {" "}
+                        {errors.dateError}
+                      </FormHelperText>
+                    ) : (
+                      <span></span>
+                    )}
+                  </Paper>
+                </Grid>
               </Grid>
             </div>
           </Grid>

@@ -95,6 +95,7 @@ const Job_App_Tracking = (props) => {
             height={30}
             appCompleted={item.appCompleted}
             appStatusDisplay={item.appStatusDisplay}
+            appStatusChangedOn={item.appStatusChangedOn}
           />
         </div>
       );
