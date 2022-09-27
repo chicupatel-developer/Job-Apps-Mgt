@@ -43,6 +43,11 @@ function DrawerComponent() {
               <Link to="/follow-up">Follow-Up</Link>
             </ListItemText>
           </ListItem>
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText>
+              <Link to="/resume-creator">Create-Resume</Link>
+            </ListItemText>
+          </ListItem>
         </List>
       </Drawer>
       <IconButton onClick={() => setOpenDrawer(!openDrawer)}>

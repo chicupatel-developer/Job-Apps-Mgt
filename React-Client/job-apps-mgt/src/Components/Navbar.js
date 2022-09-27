@@ -18,7 +18,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 const useStyles = makeStyles((theme) => ({
   navlinks: {
     // marginLeft: theme.spacing(2), // right align menu items
-    marginRight: theme.spacing(80), // left align menu items
+    marginRight: theme.spacing(60), // left align menu items
     display: "flex",
   },
   logo: {
@@ -65,6 +65,10 @@ function Navbar() {
             <Link to="/follow-up" className={classes.link}>
               <NotificationsIcon />
               Follow-Up
+            </Link>
+            <Link to="/resume-creator" className={classes.link}>
+              <NotificationsIcon />
+              Create-Resume
             </Link>
           </div>
         )}
