@@ -15,8 +15,6 @@ import { makeStyles } from "@material-ui/core";
 
 import JobApplicationService from "../../services/job.application.service";
 import {
-  getProvinces,
-  getCities,
   getAppStatus,
   getAppStatusTypeColor,
 } from "../../services/local.service";

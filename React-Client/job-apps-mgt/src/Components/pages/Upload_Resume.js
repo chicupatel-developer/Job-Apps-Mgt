@@ -5,7 +5,6 @@ import { useNavigate, useLocation } from "react-router";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Box, Typography, Button, withStyles } from "@material-ui/core";
 import CloudUpload from "@material-ui/icons/CloudUpload";
-import BackspaceIcon from "@material-ui/icons/Backspace";
 import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core";

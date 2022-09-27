@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 
 import { makeStyles } from "@material-ui/core";
 
-import JobApplicationService from "../../services/job.application.service";
 import {
-  getProvinces,
-  getCities,
   getAppStatus,
   getAppStatusTypeColor,
 } from "../../services/local.service";
-
-import moment from "moment";
 
 import CloseIcon from "@material-ui/icons/Close";
 

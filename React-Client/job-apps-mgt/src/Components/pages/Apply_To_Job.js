@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import Radio from "@material-ui/core/Radio";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -204,7 +199,6 @@ const Apply_To_Job = (props) => {
             responseMessage: response.data.responseMessage,
           };
           if (response.data.responseCode === 0) {
-            
             // after successful api call
             // add data{} to redux-jobApps[]
             props.createJobApp(jobAppData);
@@ -225,7 +219,7 @@ const Apply_To_Job = (props) => {
             console.log("400 !");
             var modelErrors = handleModelState(error);
             setModelErrors(modelErrors);
-          }       
+          }
         });
     }
   };
