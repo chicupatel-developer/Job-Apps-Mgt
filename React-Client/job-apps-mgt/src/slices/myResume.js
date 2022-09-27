@@ -12,26 +12,32 @@ export const savePersonalInfo = createAsyncThunk(
 
 export const getPersonalInfo = createAsyncThunk(
   "resumeCreator/getPersonalInfo",
-  async () => {}
+  async () => {
+    console.log("getting personal-info from redux-store,,,");
+  }
 );
 
 // action = { type, payload }
-const resumeDataSlice = createSlice({
+const myResumeSlice = createSlice({
   name: "myResume",
   initialState,
   extraReducers: {
     [savePersonalInfo.fulfilled]: (state, action) => {
+      console.log("saving,,,", action.payload);
+      state = action.payload;
+      /*
       state = {
         ...state,
         personalInfo: action.payload,
       };
+      */
     },
 
     [getPersonalInfo.fulfilled]: (state, action) => {
-      return state.personalInfo;
+      return state;
     },
   },
 });
 
-const { reducer } = resumeDataSlice;
+const { reducer } = myResumeSlice;
 export default reducer;

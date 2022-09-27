@@ -15,7 +15,7 @@ import { getProvinces, getCities } from "../../services/local.service";
 
 // redux
 import { connect } from "react-redux";
-import { savePersonalInfo, getPersonalInfo } from "../../slices/resumeData";
+import { savePersonalInfo, getPersonalInfo } from "../../slices/myResume";
 
 const useStyles = makeStyles((theme) => ({
   piCreateError: {
@@ -403,11 +403,10 @@ const Personal_Info = (props) => {
 // export default Personal_Info;
 const mapStateToProps = (state) => {
   return {
-    resumeData: state.resumeData,
+    myResume: state.myResume,
   };
 };
 
 export default connect(mapStateToProps, {
   savePersonalInfo,
-  getPersonalInfo,
 })(Personal_Info);

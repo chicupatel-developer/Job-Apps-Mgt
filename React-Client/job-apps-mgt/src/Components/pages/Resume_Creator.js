@@ -65,7 +65,6 @@ const Resume_Creator = (props) => {
               )}
               {tabIndex === 1 && (
                 <Box>
-                  <Typography>Skills</Typography>
                   <Skills />
                 </Box>
               )}
