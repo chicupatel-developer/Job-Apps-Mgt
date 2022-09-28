@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-
 import { makeStyles } from "@material-ui/core";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setSkills, getSkills } from "../../slices/skills";
-
-// chip
-import ChipInput from "material-ui-chip-input";
+import { getPersonalInfo } from "../../slices/personalInfo";
+import { getSkills } from "../../slices/skills";
 
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
@@ -43,25 +39,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Skills = () => {
+const Your_Resume = () => {
   const classes = useStyles();
 
   // redux
+  const personalInfo = useSelector((state) => state.personalInfo);
   const skills = useSelector((state) => state.skills);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getPersonalInfo());
     dispatch(getSkills());
   }, []);
 
-  const saveSkills = (event) => {
-    dispatch(setSkills(skills));
-  };
-
-  const handleChange = (chips) => {
-    console.log(chips);
-    dispatch(setSkills(chips));
-  };
+  let techSkills =
+    skills.length > 0 &&
+    skills.map((item, i) => {
+      return (
+        <ul key={i} value={item}>
+          <li style={{ marginTop: 20 }}>{item}</li>
+        </ul>
+      );
+    }, this);
 
   return (
     <div className={classes.pageHeader}>
@@ -70,46 +69,28 @@ const Skills = () => {
           <div></div>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <div className={classes.pageTitle}>Skills</div>
+          <div className={classes.pageTitle}>Your-Resume</div>
           <p></p>
           <div>
-            <ChipInput
-              label={"Enter Your Core Skills"}
-              defaultValue={
-                skills && skills.length > 0
-                  ? skills
-                  : ["C#", "MVC", "Web API", "EF"]
-              }
-              onChange={(chips) => handleChange(chips)}
-              InputProps={{}}
-            />
+            <h3>Skills</h3>
+            <div>{techSkills}</div>
+          </div>
+          <p></p>
+          <div>
+            <h3>Personal-Info</h3>
+            <div>
+              First Name : {personalInfo.firstName}
+              <br />
+              Last Name : {personalInfo.lastName}
+            </div>
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={3}>
           <div></div>
         </Grid>
       </Grid>
-
-      <p></p>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={12}>
-          <div className={classes.buttonPaper}>
-            <Button
-              className={classes.btn}
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={(e) => {
-                saveSkills(e);
-              }}
-            >
-              Save!
-            </Button>
-          </div>
-        </Grid>
-      </Grid>
     </div>
   );
 };
 
-export default Skills;
+export default Your_Resume;
