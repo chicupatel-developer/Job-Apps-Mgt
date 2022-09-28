@@ -14,8 +14,8 @@ import { makeStyles } from "@material-ui/core";
 import { getProvinces, getCities } from "../../services/local.service";
 
 // redux
-import { connect } from "react-redux";
-import { savePersonalInfo, getPersonalInfo } from "../../slices/myResume";
+import { useSelector, useDispatch } from "react-redux";
+import { setPersonalInfo } from "../../slices/personalInfo";
 
 const useStyles = makeStyles((theme) => ({
   piCreateError: {
@@ -91,11 +91,15 @@ const defaultValues = {
   city: "",
 };
 
-const Personal_Info = (props) => {
+const Personal_Info = () => {
   const classes = useStyles();
 
+  // redux
+  const personalInfo = useSelector((state) => state.personalInfo);
+  const dispatch = useDispatch();
+
   const [piCreateResponse, setPiCreateResponse] = useState({});
-  const [personalInfo, setPersonalInfo] = useState(defaultValues);
+  const [pInfo, setPInfo] = useState(defaultValues);
   const [errors, setErrors] = useState({});
 
   const [provinces, setProvinces] = useState([]);
@@ -131,18 +135,18 @@ const Personal_Info = (props) => {
       setCities([]);
     } else if (name === "province" && value !== "") {
       setCities(getCities(value));
-      personalInfo.city = "";
+      pInfo.city = "";
     }
 
-    setPersonalInfo({
-      ...personalInfo,
+    setPInfo({
+      ...pInfo,
       [name]: value,
     });
   };
 
   const resetForm = (e) => {
     setErrors({});
-    setPersonalInfo(defaultValues);
+    setPInfo(defaultValues);
     setPiCreateResponse({});
   };
 
@@ -161,8 +165,7 @@ const Personal_Info = (props) => {
   };
 
   const findFormErrors = () => {
-    const { firstName, lastName, email, phoneNumber, province, city } =
-      personalInfo;
+    const { firstName, lastName, email, phoneNumber, province, city } = pInfo;
     const newErrors = {};
 
     if (!firstName || firstName === "")
@@ -200,10 +203,10 @@ const Personal_Info = (props) => {
       console.log(newErrors);
     } else {
       setErrors({});
-      console.log(personalInfo);
+      console.log(pInfo);
 
       // save this personal-info @ redux-store
-      props.savePersonalInfo(personalInfo);
+      dispatch(setPersonalInfo(pInfo));
     }
   };
 
@@ -248,10 +251,10 @@ const Personal_Info = (props) => {
                 name="firstName"
                 label="First-Name"
                 type="text"
-                value={personalInfo.firstName}
+                value={pInfo.firstName}
                 onChange={handleInputChange}
               />
-              {!personalInfo.firstName && errors.firstName && (
+              {!pInfo.firstName && errors.firstName && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.firstName}
@@ -267,10 +270,10 @@ const Personal_Info = (props) => {
                 name="lastName"
                 label="Last-Name"
                 type="text"
-                value={personalInfo.lastName}
+                value={pInfo.lastName}
                 onChange={handleInputChange}
               />
-              {!personalInfo.lastName && errors.lastName && (
+              {!pInfo.lastName && errors.lastName && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.lastName}
@@ -288,16 +291,16 @@ const Personal_Info = (props) => {
                 name="email"
                 label="Email"
                 type="text"
-                value={personalInfo.email}
+                value={pInfo.email}
                 onChange={handleInputChange}
               />
-              {!personalInfo.email && errors.email && (
+              {!pInfo.email && errors.email && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.email}
                 </FormHelperText>
               )}
-              {personalInfo.email && errors.email && (
+              {pInfo.email && errors.email && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.email}
@@ -313,10 +316,10 @@ const Personal_Info = (props) => {
                 name="phoneNumber"
                 label="Phone-Number"
                 type="text"
-                value={personalInfo.phoneNumber}
+                value={pInfo.phoneNumber}
                 onChange={handleInputChange}
               />
-              {personalInfo.phoneNumber && errors.phoneNumber && (
+              {pInfo.phoneNumber && errors.phoneNumber && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.phoneNumber}
@@ -332,7 +335,7 @@ const Personal_Info = (props) => {
               <InputLabel shrink>Province</InputLabel>
               <Select
                 displayEmpty
-                value={personalInfo.province}
+                value={pInfo.province}
                 name="province"
                 onChange={handleInputChange}
                 style={{ marginTop: 5 }}
@@ -342,7 +345,7 @@ const Personal_Info = (props) => {
                 </MenuItem>
                 {renderOptionsForProvince()}
               </Select>
-              {!personalInfo.province && errors.province && (
+              {!pInfo.province && errors.province && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.province}
@@ -358,7 +361,7 @@ const Personal_Info = (props) => {
                   value ? value : <em>---Select City---</em>
                 }
                 displayEmpty
-                value={personalInfo.city}
+                value={pInfo.city}
                 name="city"
                 onChange={handleInputChange}
                 style={{ marginTop: 5 }}
@@ -368,7 +371,7 @@ const Personal_Info = (props) => {
                 </MenuItem>
                 {renderOptionsForCity()}
               </Select>
-              {!personalInfo.city && errors.city && (
+              {!pInfo.city && errors.city && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
                   {errors.city}
@@ -400,13 +403,4 @@ const Personal_Info = (props) => {
   );
 };
 
-// export default Personal_Info;
-const mapStateToProps = (state) => {
-  return {
-    myResume: state.myResume,
-  };
-};
-
-export default connect(mapStateToProps, {
-  savePersonalInfo,
-})(Personal_Info);
+export default Personal_Info;

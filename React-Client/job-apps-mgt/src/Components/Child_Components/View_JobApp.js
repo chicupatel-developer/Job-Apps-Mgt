@@ -82,6 +82,7 @@ const View_JobApp = (props) => {
     // retrieve values from redux-store
     // this will popup appStatusTypes from redux-store
     props.getAppStatusTypes();
+    console.log("from redux-store,,, appStatusTypes,,,", appStatusTypes);
 
     setOpen(true);
   }, []);
