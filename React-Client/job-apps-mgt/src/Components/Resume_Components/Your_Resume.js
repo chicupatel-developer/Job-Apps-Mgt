@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 // redux
@@ -37,6 +44,14 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
     fontSize: "x-large; ",
   },
+  detailsDiv: {
+    backgroundColor: "white",
+    padding: "10px",
+    textAlign: "left",
+    verticalAlign: "middle",
+    border: "2px solid green",
+    borderRadius: "10px",
+  },
 }));
 
 const Your_Resume = () => {
@@ -70,23 +85,71 @@ const Your_Resume = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <div className={classes.pageTitle}>Your-Resume</div>
-          <p></p>
-          <div>
-            <h3>Skills</h3>
-            <div>{techSkills}</div>
-          </div>
-          <p></p>
-          <div>
-            <h3>Personal-Info</h3>
-            <div>
-              First Name : {personalInfo.firstName}
-              <br />
-              Last Name : {personalInfo.lastName}
-            </div>
-          </div>
         </Grid>
         <Grid item xs={12} sm={12} md={3}>
           <div></div>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12} md={6}>
+          <div>
+            <Box className={classes.root}>
+              <Card>
+                <CardContent>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <h3>Personal-Info</h3>
+                    </Grid>
+                  </Grid>
+                  <div className={classes.detailsDiv}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <div>
+                          First Name : {personalInfo.firstName}
+                          <br />
+                          Last Name : {personalInfo.lastName}
+                          <br />
+                          Email : {personalInfo.email}
+                          <br />
+                          Phone :{" "}
+                          {personalInfo.phoneNumber
+                            ? personalInfo.phoneNumber
+                            : "N/A"}
+                          <br />
+                          Province : {personalInfo.province}
+                          <br />
+                          City : {personalInfo.city}
+                        </div>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </CardContent>
+              </Card>
+            </Box>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <div>
+            <Box className={classes.root}>
+              <Card>
+                <CardContent>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <h3>Skills</h3>
+                    </Grid>
+                  </Grid>
+                  <div className={classes.detailsDiv}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        {techSkills}
+                      </Grid>
+                    </Grid>
+                  </div>
+                </CardContent>
+              </Card>
+            </Box>
+          </div>
         </Grid>
       </Grid>
     </div>
