@@ -8,19 +8,17 @@ const defaultValues = {
   province: "",
   city: "",
 };
-// const initialState = defaultValues;
+const initialState = defaultValues;
 
 export const personalInfoSlice = createSlice({
   name: "personalInfo",
-  initialState: {},
+  initialState,
   reducers: {
     setPersonalInfo: (state, action) => {
-      console.log("saving personal info,,,", action.payload);
       state = action.payload;
-      console.log(state);
+      return state;
     },
-    getPersonalInfo: (state) => {
-      console.log("getting personal info,,,", state);
+    getPersonalInfo: (state, action) => {
       return state;
     },
   },

@@ -49,7 +49,7 @@ const Skills = () => {
 
   useEffect(() => {
     dispatch(getPersonalInfo());
-    console.log(personalInfo);
+    console.log("getting personal-info from skills,,,", personalInfo);
   }, []);
 
   const saveSkills = (event) => {};
