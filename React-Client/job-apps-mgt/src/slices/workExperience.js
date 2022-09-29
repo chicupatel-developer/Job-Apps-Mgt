@@ -1,24 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
-
 export const workExperienceSlice = createSlice({
   name: "workExperience",
-  initialState,
+  initialState: [],
   reducers: {
     setWorkExperience: (state, action) => {
-      state = [...state, action.payload];
-      console.log("setting wo,,,", state);
-      return state;
-    },
-    getWorkExperience: (state, action) => {
-      console.log("getting wo,,,", state);
-      return state;
-    },
+      state.push(action.payload);
+    },   
   },
 });
 
-export const { setWorkExperience, getWorkExperience } =
+// this is for dispatch
+export const { setWorkExperience,  } =
   workExperienceSlice.actions;
 
+// this is for configureStore
 export default workExperienceSlice.reducer;

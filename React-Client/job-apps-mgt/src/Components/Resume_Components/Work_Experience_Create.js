@@ -27,10 +27,7 @@ import moment from "moment";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setWorkExperience,
-  getWorkExperience,
-} from "../../slices/workExperience";
+import { setWorkExperience } from "../../slices/workExperience";
 
 const useStyles = makeStyles((theme) => ({
   woCreateError: {
@@ -122,8 +119,6 @@ const Work_Experience_Create = () => {
 
   useEffect(() => {
     setProvinces(getProvinces());
-
-    console.log(dispatch(getWorkExperience()));
   }, []);
   const renderOptionsForProvince = () => {
     return provinces.map((dt, i) => {
@@ -196,14 +191,12 @@ const Work_Experience_Create = () => {
 
       // save this work-experience @ redux-store
       dispatch(setWorkExperience(wo));
-
-      setAllWos(dispatch(getWorkExperience()));
     }
   };
 
   let displayAllWos =
-    allWos.length > 0 &&
-    allWos.map((item, i) => {
+    workExperience.length > 0 &&
+    workExperience.map((item, i) => {
       return (
         <div key={i}>
           <span style={{ marginTop: 20 }}>
