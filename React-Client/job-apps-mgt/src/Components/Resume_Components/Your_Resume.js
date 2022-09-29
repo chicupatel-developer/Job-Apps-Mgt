@@ -71,9 +71,9 @@ const Your_Resume = () => {
     skills.length > 0 &&
     skills.map((item, i) => {
       return (
-        <ul key={i} value={item}>
-          <li style={{ marginTop: 20 }}>{item}</li>
-        </ul>
+        <div key={i} value={item}>
+              <span style={{ marginTop: 20 }}>{i+1}) {item}</span>
+        </div>
       );
     }, this);
 

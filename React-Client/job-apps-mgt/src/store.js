@@ -3,6 +3,7 @@ import jobAppsReducer from "./slices/jobApps";
 import appStatusTypesReducer from "./slices/appStatusTypes";
 import personalInfoReducer from "./slices/personalInfo";
 import skillsReducer from "./slices/skills";
+import workExperienceReducer from "./slices/workExperience";
 
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
@@ -20,6 +21,7 @@ const reducer = {
   appStatusTypes: appStatusTypesReducer,
   personalInfo: personalInfoReducer,
   skills: skillsReducer,
+  workExperience: workExperienceReducer,
 };
 
 const store = configureStore({

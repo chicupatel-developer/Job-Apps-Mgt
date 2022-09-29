@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import SaveIcon from "@material-ui/icons/Save";
+
 import { makeStyles } from "@material-ui/core";
 
 // redux
@@ -72,6 +74,16 @@ const Skills = () => {
         <Grid item xs={12} sm={12} md={6}>
           <div className={classes.pageTitle}>Skills</div>
           <p></p>
+        </Grid>
+        <Grid item xs={12} sm={12} md={3}>
+          <div></div>
+        </Grid>
+      </Grid>
+
+      <p></p>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12} md={2}></Grid>
+        <Grid item xs={12} sm={12} md={8}>
           <div>
             <ChipInput
               label={"Enter Your Core Skills"}
@@ -85,9 +97,7 @@ const Skills = () => {
             />
           </div>
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <div></div>
-        </Grid>
+        <Grid item xs={12} sm={12} md={2}></Grid>
       </Grid>
 
       <p></p>
@@ -103,7 +113,8 @@ const Skills = () => {
                 saveSkills(e);
               }}
             >
-              Save!
+              <SaveIcon />
+              &nbsp;Save!
             </Button>
           </div>
         </Grid>

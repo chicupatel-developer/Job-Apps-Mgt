@@ -9,6 +9,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 
+import SaveIcon from "@material-ui/icons/Save";
+
 import { makeStyles } from "@material-ui/core";
 
 import { getProvinces, getCities } from "../../services/local.service";
@@ -240,7 +242,7 @@ const Personal_Info = () => {
           <div></div>
         </Grid>
       </Grid>
-
+      <p></p>
       <form>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={2}></Grid>
@@ -393,7 +395,8 @@ const Personal_Info = () => {
                   savePersonalInfo(e);
                 }}
               >
-                Save!
+                <SaveIcon />
+                &nbsp;Save!
               </Button>
             </div>
           </Grid>
