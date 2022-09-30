@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid green",
     borderRadius: "10px",
     backgroundColor: "lightskyblue",
-    width: "200px",
+    width: "120px",
     color: "black",
-    fontSize: "x-large",
+    fontSize: "medium",
   },
   buttonPaper: {
     textAlign: "center",

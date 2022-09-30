@@ -391,7 +391,6 @@ const Work_Experience_Edit = (props) => {
                     <Button
                       className={classes.cancelBtn}
                       variant="contained"
-                      color="danger"
                       type="button"
                       onClick={(e) => {
                         cancelEdit(e);

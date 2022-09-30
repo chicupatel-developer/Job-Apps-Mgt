@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid red",
     borderRadius: "10px",
   },
-  woiCreateSuccess: {
+  woCreateSuccess: {
     color: "green",
     fontSize: "medium",
     fontWeight: "bold",
@@ -65,9 +65,9 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid green",
     borderRadius: "10px",
     backgroundColor: "lightskyblue",
-    width: "200px",
+    width: "120px",
     color: "black",
-    fontSize: "x-large",
+    fontSize: "medium",
   },
   pageHeader: {},
   controlError: {

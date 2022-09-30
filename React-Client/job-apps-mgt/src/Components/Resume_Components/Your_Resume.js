@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { getPersonalInfo } from "../../slices/personalInfo";
 import { getSkills } from "../../slices/skills";
+import { setWorkExperience } from "../../slices/workExperience";
 
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
@@ -60,6 +61,7 @@ const Your_Resume = () => {
   // redux
   const personalInfo = useSelector((state) => state.personalInfo);
   const skills = useSelector((state) => state.skills);
+  const wos = useSelector((state) => state.workExperience);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -72,7 +74,30 @@ const Your_Resume = () => {
     skills.map((item, i) => {
       return (
         <div key={i} value={item}>
-              <span style={{ marginTop: 20 }}>{i+1}) {item}</span>
+          <span style={{ marginTop: 20 }}>
+            {i + 1}) {item}
+          </span>
+        </div>
+      );
+    }, this);
+
+  let displayWos =
+    wos.length > 0 &&
+    wos.map((wo, i) => {
+      return (
+        <div key={i} value={wo}>
+          <div style={{ marginTop: 20 }}>
+            {i + 1}) {wo.employerName}
+            <div>
+              <span>Start-Date # {wo.startDate ? wo.startDate : "N/A"}</span>
+              <br />
+              <span>End-Date # {wo.endDate ? wo.endDate : "N/A"}</span>
+              <br />
+              <span>City # {wo.city ? wo.city : "N/A"}</span>
+              <br />
+              <span>Province # {wo.province ? wo.province : "N/A"}</span>
+            </div>
+          </div>
         </div>
       );
     }, this);
@@ -143,6 +168,28 @@ const Your_Resume = () => {
                     <Grid container spacing={1}>
                       <Grid item xs={12} sm={12} md={12}>
                         {techSkills}
+                      </Grid>
+                    </Grid>
+                  </div>
+                </CardContent>
+              </Card>
+            </Box>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <div>
+            <Box className={classes.root}>
+              <Card>
+                <CardContent>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <h3>Work-Experience</h3>
+                    </Grid>
+                  </Grid>
+                  <div className={classes.detailsDiv}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        {displayWos}
                       </Grid>
                     </Grid>
                   </div>
