@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -10,8 +9,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 
-import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -28,13 +27,10 @@ import moment from "moment";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setWorkExperience,
-  edittWorkExperience,
-} from "../../slices/workExperience";
+import { edittWorkExperience } from "../../slices/workExperience";
 
 const useStyles = makeStyles((theme) => ({
-  woCreateError: {
+  woEditError: {
     color: "red",
     fontSize: "medium",
     fontWeight: "bold",
@@ -45,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid red",
     borderRadius: "10px",
   },
-  woiCreateSuccess: {
+  woEditSuccess: {
     color: "green",
     fontSize: "medium",
     fontWeight: "bold",
@@ -62,9 +58,19 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid green",
     borderRadius: "10px",
     backgroundColor: "lightskyblue",
-    width: "200px",
+    width: "120px",
     color: "black",
-    fontSize: "x-large",
+    fontSize: "medium",
+  },
+  cancelBtn: {
+    textAlign: "center",
+    verticalAlign: "middle",
+    border: "2px solid green",
+    borderRadius: "10px",
+    backgroundColor: "orange",
+    width: "120px",
+    color: "black",
+    fontSize: "medium",
   },
   pageHeader: {},
   controlError: {
@@ -83,19 +89,6 @@ const useStyles = makeStyles((theme) => ({
   buttonPaper: {
     textAlign: "center",
   },
-  pageTitle: {
-    textAlign: "center",
-    verticalAlign: "middle",
-    marginTop: "20px",
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    marginBottom: "20px",
-    border: "2px solid blue",
-    borderRadius: "2px",
-    backgroundColor: "lightyellow",
-    color: "black",
-    fontSize: "x-large; ",
-  },
   btnEdit: {
     textAlign: "center",
     verticalAlign: "middle",
@@ -105,14 +98,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const defaultValues = {
-  employerName: "",
-  startDate: null,
-  endDate: null,
-  jobDetails: [],
-  province: "",
-  city: "",
-};
 const Work_Experience_Edit = (props) => {
   const classes = useStyles();
 
@@ -120,8 +105,8 @@ const Work_Experience_Edit = (props) => {
   const workExperience = useSelector((state) => state.workExperience);
   const dispatch = useDispatch();
 
-  const [woCreateResponse, setWoCreateResponse] = useState({});
-  
+  const [woEditResponse, setWoEditResponse] = useState({});
+
   // incoming from parent - wo-create component
   const { wo } = props;
 
@@ -165,7 +150,6 @@ const Work_Experience_Edit = (props) => {
     });
   };
 
-  // edit
   const handleDateChange = (e, controlName) => {
     console.log(e);
     let formattedDate = moment(e).format("DD/MM/YYYY");
@@ -177,7 +161,6 @@ const Work_Experience_Edit = (props) => {
     });
   };
 
-  // edit
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -195,12 +178,6 @@ const Work_Experience_Edit = (props) => {
     });
   };
 
-  const resetForm = (e) => {
-    setErrors({});
-    // setWoEdit({});
-    setWoCreateResponse({});
-  };
-
   const findFormErrors = () => {
     const { employerName, startDate, endDate, jobDetails, province, city } =
       woEdit;
@@ -209,8 +186,6 @@ const Work_Experience_Edit = (props) => {
     return newErrors;
   };
 
-  // create
-  // edit
   const editWorkExperience = (event) => {
     const newErrors = findFormErrors();
 
@@ -223,49 +198,31 @@ const Work_Experience_Edit = (props) => {
       // edit woEdit
       console.log("edited woEdit,,,", woEdit);
       dispatch(edittWorkExperience(woEdit));
-
-      // resetForm();
     }
   };
 
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={3}>
-          <div></div>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6}>
-          <div className={classes.pageTitle}>Work-Experience</div>
-          <p></p>
-          {woCreateResponse && woCreateResponse.responseCode === -1 ? (
-            <div className={classes.woCreateError}>
-              {woCreateResponse.responseMessage}
-            </div>
-          ) : (
-            <span>
-              {woCreateResponse && woCreateResponse.responseCode === 0 ? (
-                <div className={classes.woCreateSuccess}>
-                  {woCreateResponse.responseMessage}
-                </div>
-              ) : (
-                <span></span>
-              )}
-            </span>
-          )}
-          <p></p>
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <div></div>
-        </Grid>
-      </Grid>
-      <p></p>
-
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={9}>
+        <Grid item xs={12} sm={12} md={12}>
           <div>
-            <div>
-              <h3>Edit-Work-Experience</h3>
-            </div>
+            {woEditResponse && woEditResponse.responseCode === -1 ? (
+              <div className={classes.woEditError}>
+                {woEditResponse.responseMessage}
+              </div>
+            ) : (
+              <span>
+                {woEditResponse && woEditResponse.responseCode === 0 ? (
+                  <div className={classes.woEditSuccess}>
+                    {woEditResponse.responseMessage}
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+              </span>
+            )}
+            <p></p>
+
             <form>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={2}></Grid>
@@ -427,20 +384,20 @@ const Work_Experience_Edit = (props) => {
                         editWorkExperience(e);
                       }}
                     >
-                      <SaveIcon />
+                      <EditIcon />
                       &nbsp;Edit
                     </Button>
-
+                    &nbsp;&nbsp;
                     <Button
-                      className={classes.btn}
+                      className={classes.cancelBtn}
                       variant="contained"
-                      color="primary"
+                      color="danger"
                       type="button"
                       onClick={(e) => {
                         cancelEdit(e);
                       }}
                     >
-                      <SaveIcon />
+                      <CancelIcon />
                       &nbsp;Return
                     </Button>
                   </div>

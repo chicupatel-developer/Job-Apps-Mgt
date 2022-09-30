@@ -106,6 +106,19 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "medium",
     marginBottom: "5px",
   },
+  opHeader: {
+    textAlign: "center",
+    verticalAlign: "middle",
+    marginTop: "5px",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    marginBottom: "5px",
+    border: "2px solid blue",
+    borderRadius: "2px",
+    backgroundColor: "lightyellow",
+    color: "black",
+    fontSize: "medium",
+  },
 }));
 
 const defaultValues = {
@@ -308,7 +321,14 @@ const Work_Experience_Create = () => {
           <div></div>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <div className={classes.pageTitle}>Work-Experience</div>
+          <div className={classes.pageTitle}>
+            Work-Experience
+            {woEditFlag ? (
+              <span>&nbsp;[Edit]</span>
+            ) : (
+              <span>&nbsp;[Create]</span>
+            )}
+          </div>
           <p></p>
           {woCreateResponse && woCreateResponse.responseCode === -1 ? (
             <div className={classes.woCreateError}>
@@ -334,13 +354,10 @@ const Work_Experience_Create = () => {
       <p></p>
 
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={9}>
-          {woEditFlag ? (
+        {woEditFlag ? (
+          <Grid item xs={12} sm={12} md={12}>
             <div>
               {/*
-              <div>
-                <h3>Edit-Work-Experience</h3>
-              </div>
               <form>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={2}></Grid>
@@ -509,14 +526,13 @@ const Work_Experience_Create = () => {
                   </Grid>
                 </Grid>
               </form>
-            */}
+              */}
               <Work_Experience_Edit wo={woEdit} func={callBackEditWo} />
             </div>
-          ) : (
+          </Grid>
+        ) : (
+          <Grid item xs={12} sm={12} md={9}>
             <div>
-              <div>
-                <h3>Create-Work-Experience</h3>
-              </div>
               <form>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={2}></Grid>
@@ -686,14 +702,16 @@ const Work_Experience_Create = () => {
                 </Grid>
               </form>
             </div>
-          )}
-        </Grid>
+          </Grid>
+        )}
         <Grid item xs={12} sm={12} md={3}>
-          <div>
-            <h3>Employers</h3>
-            <hr />
-            <div>{displayAllWos}</div>
-          </div>
+          {!woEditFlag && (
+            <div>
+              <h3>Employers</h3>
+              <hr />
+              <div>{displayAllWos}</div>
+            </div>
+          )}
         </Grid>
       </Grid>
     </div>
