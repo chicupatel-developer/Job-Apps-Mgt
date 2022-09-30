@@ -33,6 +33,9 @@ import {
   edittWorkExperience,
 } from "../../slices/workExperience";
 
+// child component for edit wo
+import Work_Experience_Edit from "./Work_Experience_Edit";
+
 const useStyles = makeStyles((theme) => ({
   woCreateError: {
     color: "red",
@@ -151,6 +154,13 @@ const Work_Experience_Create = () => {
         </MenuItem>
       );
     });
+  };
+
+  // callback from wo-edit
+  // callback-search
+  const callBackEditWo = (data) => {
+    setWoEditFlag(false);
+    console.log("just edited wo,,,", data);
   };
 
   // create
@@ -327,6 +337,7 @@ const Work_Experience_Create = () => {
         <Grid item xs={12} sm={12} md={9}>
           {woEditFlag ? (
             <div>
+              {/*
               <div>
                 <h3>Edit-Work-Experience</h3>
               </div>
@@ -498,6 +509,8 @@ const Work_Experience_Create = () => {
                   </Grid>
                 </Grid>
               </form>
+            */}
+              <Work_Experience_Edit wo={woEdit} func={callBackEditWo} />
             </div>
           ) : (
             <div>
