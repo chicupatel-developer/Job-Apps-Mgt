@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import TextArea from "@material-ui/core/TextareaAutosize";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 
 import SaveIcon from "@material-ui/icons/Save";
+import EditIcon from "@material-ui/icons/Edit";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -27,7 +28,10 @@ import moment from "moment";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setWorkExperience } from "../../slices/workExperience";
+import {
+  setWorkExperience,
+  edittWorkExperience,
+} from "../../slices/workExperience";
 
 const useStyles = makeStyles((theme) => ({
   woCreateError: {
@@ -92,6 +96,13 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
     fontSize: "x-large; ",
   },
+  btnEdit: {
+    textAlign: "center",
+    verticalAlign: "middle",
+    color: "blue",
+    fontSize: "medium",
+    marginBottom: "5px",
+  },
 }));
 
 const defaultValues = {
@@ -108,10 +119,13 @@ const Work_Experience_Create = () => {
   // redux
   const workExperience = useSelector((state) => state.workExperience);
   const dispatch = useDispatch();
-  const [allWos, setAllWos] = useState([]);
 
   const [woCreateResponse, setWoCreateResponse] = useState({});
   const [wo, setWo] = useState(defaultValues);
+
+  const [woEditFlag, setWoEditFlag] = useState(false);
+  const [woEdit, setWoEdit] = useState({});
+
   const [errors, setErrors] = useState({});
 
   const [provinces, setProvinces] = useState([]);
@@ -139,46 +153,90 @@ const Work_Experience_Create = () => {
     });
   };
 
+  // create
+  // edit
   const handleDateChange = (e, controlName) => {
     console.log(e);
-    let formattedDate = moment(e).format("DD/MM/YYYY");
-    console.log(formattedDate);
+    if (woEditFlag) {
+      let formattedDate = moment(e).format("DD/MM/YYYY");
+      console.log(formattedDate);
 
-    setWo({
-      ...wo,
-      [controlName]: e,
-    });
+      setWoEdit({
+        ...woEdit,
+        [controlName]: e,
+      });
+    } else {
+      let formattedDate = moment(e).format("DD/MM/YYYY");
+      console.log(formattedDate);
+
+      setWo({
+        ...wo,
+        [controlName]: e,
+      });
+    }
   };
+
+  // create
+  // edit
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     // console.log(name, value);
-    if (name === "province" && value === "") {
-      setCities([]);
-    } else if (name === "province" && value !== "") {
-      setCities(getCities(value));
-      wo.city = "";
-    }
 
-    setWo({
-      ...wo,
-      [name]: value,
-    });
+    if (woEditFlag) {
+      // edit
+      if (name === "province" && value === "") {
+        setCities([]);
+      } else if (name === "province" && value !== "") {
+        setCities(getCities(value));
+        woEdit.city = "";
+      }
+
+      setWoEdit({
+        ...woEdit,
+        [name]: value,
+      });
+    } else {
+      // create
+      if (name === "province" && value === "") {
+        setCities([]);
+      } else if (name === "province" && value !== "") {
+        setCities(getCities(value));
+        wo.city = "";
+      }
+
+      setWo({
+        ...wo,
+        [name]: value,
+      });
+    }
   };
 
   const resetForm = (e) => {
     setErrors({});
     setWo(defaultValues);
+    setWoEdit({});
     setWoCreateResponse({});
   };
 
   const findFormErrors = () => {
-    const { employerName, startDate, endDate, jobDetails, province, city } = wo;
-    const newErrors = {};
+    if (woEditFlag) {
+      const { employerName, startDate, endDate, jobDetails, province, city } =
+        woEdit;
+      const newErrors = {};
 
-    return newErrors;
+      return newErrors;
+    } else {
+      const { employerName, startDate, endDate, jobDetails, province, city } =
+        wo;
+      const newErrors = {};
+
+      return newErrors;
+    }
   };
 
+  // create
+  // edit
   const saveWorkExperience = (event) => {
     const newErrors = findFormErrors();
 
@@ -187,10 +245,28 @@ const Work_Experience_Create = () => {
       console.log(newErrors);
     } else {
       setErrors({});
-      console.log(wo);
 
-      // save this work-experience @ redux-store
-      dispatch(setWorkExperience(wo));
+      if (woEditFlag) {
+        // edit woEdit
+        console.log("edited woEdit,,,", woEdit);
+        dispatch(edittWorkExperience(woEdit));
+        setWoEditFlag(false);
+      } else {
+        // create wo
+        // save this work-experience @ redux-store
+        console.log("created wo,,,", wo);
+        dispatch(setWorkExperience(wo));
+      }
+      resetForm();
+    }
+  };
+
+  const editWorkExperience = (e, wo) => {
+    console.log("edit wo,,,", wo);
+    if (wo !== null) {
+      // make-ready form for edit
+      setWoEditFlag(true);
+      setWoEdit({ ...wo });
     }
   };
 
@@ -200,7 +276,16 @@ const Work_Experience_Create = () => {
       return (
         <div key={i}>
           <span style={{ marginTop: 20 }}>
-            {i + 1}) {item.employerName}
+            <Button
+              className={classes.btnEdit}
+              variant="contained"
+              type="button"
+              onClick={(e) => {
+                editWorkExperience(e, item);
+              }}
+            >
+              <EditIcon /> &nbsp; {item.employerName}
+            </Button>
           </span>
         </div>
       );
@@ -240,173 +325,355 @@ const Work_Experience_Create = () => {
 
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={9}>
-          <form>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12} md={2}></Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                  <TextField
-                    id="employerName-input"
-                    name="employerName"
-                    label="Employer-Name"
-                    type="text"
-                    value={wo.employerName}
-                    onChange={handleInputChange}
-                  />
-                  {!wo.employerName && errors.employerName && (
-                    <FormHelperText className={classes.controlError}>
-                      {" "}
-                      {errors.employerName}
-                    </FormHelperText>
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      disableToolbar
-                      fullWidth
-                      variant="inline"
-                      format="MM/dd/yyyy"
-                      margin="normal"
-                      id="date-picker-inline"
-                      label="End-Date"
-                      value={wo.endDate}
-                      onChange={(e) => {
-                        handleDateChange(e, "endDate");
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                  {!wo.endDate && errors.endDate && (
-                    <FormHelperText className={classes.controlError}>
-                      {" "}
-                      {errors.endDate}
-                    </FormHelperText>
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={12} md={2}></Grid>
+          {woEditFlag ? (
+            <div>
+              <div>
+                <h3>Edit-Work-Experience</h3>
+              </div>
+              <form>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <TextField
+                        id="employerName-input"
+                        name="employerName"
+                        label="Employer-Name"
+                        type="text"
+                        value={woEdit.employerName}
+                        onChange={handleInputChange}
+                      />
+                      {!woEdit.employerName && errors.employerName && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.employerName}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          fullWidth
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
+                          id="date-picker-inline"
+                          label="End-Date"
+                          value={woEdit.endDate}
+                          onChange={(e) => {
+                            handleDateChange(e, "endDate");
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                      {!woEdit.endDate && errors.endDate && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.endDate}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
 
-              <Grid item xs={12} sm={12} md={2}></Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      disableToolbar
-                      fullWidth
-                      variant="inline"
-                      format="MM/dd/yyyy"
-                      margin="normal"
-                      id="date-picker-inline"
-                      label="Start-Date"
-                      value={wo.startDate}
-                      onChange={(e) => {
-                        handleDateChange(e, "startDate");
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                  {!wo.startDate && errors.startDate && (
-                    <FormHelperText className={classes.controlError}>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          fullWidth
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
+                          id="date-picker-inline"
+                          label="Start-Date"
+                          value={woEdit.startDate}
+                          onChange={(e) => {
+                            handleDateChange(e, "startDate");
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                      {!woEdit.startDate && errors.startDate && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.startDate}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
                       {" "}
-                      {errors.startDate}
-                    </FormHelperText>
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                  {" "}
-                  <TextArea
-                    id="jobDetails-input"
-                    name="jobDetails"
-                    label="Job-Details"
-                    type="text"
-                    value={wo.jobDetails}
-                    onChange={handleInputChange}
-                  />
-                  {wo.jobDetails && errors.jobDetails && (
-                    <FormHelperText className={classes.controlError}>
-                      {" "}
-                      {errors.jobDetails}
-                    </FormHelperText>
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={12} md={2}></Grid>
+                      <TextField
+                        id="jobDetails-input"
+                        name="jobDetails"
+                        label="Job-Details"
+                        multiline
+                        maxRows={4}
+                        value={woEdit.jobDetails}
+                        onChange={handleInputChange}
+                      />
+                      {woEdit.jobDetails && errors.jobDetails && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.jobDetails}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
 
-              <Grid item xs={12} sm={12} md={2}></Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                  <InputLabel shrink>Province</InputLabel>
-                  <Select
-                    displayEmpty
-                    value={wo.province}
-                    name="province"
-                    onChange={handleInputChange}
-                    style={{ marginTop: 5 }}
-                  >
-                    <MenuItem value="">
-                      <em>---Select Province---</em>
-                    </MenuItem>
-                    {renderOptionsForProvince()}
-                  </Select>
-                  {!wo.province && errors.province && (
-                    <FormHelperText className={classes.controlError}>
-                      {" "}
-                      {errors.province}
-                    </FormHelperText>
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <Paper className={classes.paper}>
-                  <InputLabel shrink>City</InputLabel>
-                  <Select
-                    renderValue={(value) =>
-                      value ? value : <em>---Select City---</em>
-                    }
-                    displayEmpty
-                    value={wo.city}
-                    name="city"
-                    onChange={handleInputChange}
-                    style={{ marginTop: 5 }}
-                  >
-                    <MenuItem value="">
-                      <em>---Select City---</em>
-                    </MenuItem>
-                    {renderOptionsForCity()}
-                  </Select>
-                  {!wo.city && errors.city && (
-                    <FormHelperText className={classes.controlError}>
-                      {" "}
-                      {errors.city}
-                    </FormHelperText>
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={12} sm={12} md={2}></Grid>
-            </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <InputLabel shrink>Province</InputLabel>
+                      <Select
+                        displayEmpty
+                        value={woEdit.province}
+                        name="province"
+                        onChange={handleInputChange}
+                        style={{ marginTop: 5 }}
+                      >
+                        <MenuItem value="">
+                          <em>---Select Province---</em>
+                        </MenuItem>
+                        {renderOptionsForProvince()}
+                      </Select>
+                      {!woEdit.province && errors.province && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.province}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <InputLabel shrink>City</InputLabel>
+                      <Select
+                        renderValue={(value) =>
+                          value ? value : <em>---Select City---</em>
+                        }
+                        displayEmpty
+                        value={woEdit.city}
+                        name="city"
+                        onChange={handleInputChange}
+                        style={{ marginTop: 5 }}
+                      >
+                        <MenuItem value="">
+                          <em>---Select City---</em>
+                        </MenuItem>
+                        {renderOptionsForCity()}
+                      </Select>
+                      {!woEdit.city && errors.city && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.city}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                </Grid>
 
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12} md={12}>
-                <div className={classes.buttonPaper}>
-                  <Button
-                    className={classes.btn}
-                    variant="contained"
-                    color="primary"
-                    type="button"
-                    onClick={(e) => {
-                      saveWorkExperience(e);
-                    }}
-                  >
-                    <SaveIcon />
-                    &nbsp;Save!
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-          </form>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <div className={classes.buttonPaper}>
+                      <Button
+                        className={classes.btn}
+                        variant="contained"
+                        color="primary"
+                        type="button"
+                        onClick={(e) => {
+                          saveWorkExperience(e);
+                        }}
+                      >
+                        <SaveIcon />
+                        &nbsp;Edit
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+          ) : (
+            <div>
+              <div>
+                <h3>Create-Work-Experience</h3>
+              </div>
+              <form>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <TextField
+                        id="employerName-input"
+                        name="employerName"
+                        label="Employer-Name"
+                        type="text"
+                        value={wo.employerName}
+                        onChange={handleInputChange}
+                      />
+                      {!wo.employerName && errors.employerName && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.employerName}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          fullWidth
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
+                          id="date-picker-inline"
+                          label="End-Date"
+                          value={wo.endDate}
+                          onChange={(e) => {
+                            handleDateChange(e, "endDate");
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                      {!wo.endDate && errors.endDate && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.endDate}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          fullWidth
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
+                          id="date-picker-inline"
+                          label="Start-Date"
+                          value={wo.startDate}
+                          onChange={(e) => {
+                            handleDateChange(e, "startDate");
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                      {!wo.startDate && errors.startDate && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.startDate}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      {" "}
+                      <TextField
+                        id="jobDetails-input"
+                        name="jobDetails"
+                        label="Job-Details"
+                        multiline
+                        maxRows={4}
+                        value={wo.jobDetails}
+                        onChange={handleInputChange}
+                      />
+                      {wo.jobDetails && errors.jobDetails && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.jobDetails}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <InputLabel shrink>Province</InputLabel>
+                      <Select
+                        displayEmpty
+                        value={wo.province}
+                        name="province"
+                        onChange={handleInputChange}
+                        style={{ marginTop: 5 }}
+                      >
+                        <MenuItem value="">
+                          <em>---Select Province---</em>
+                        </MenuItem>
+                        {renderOptionsForProvince()}
+                      </Select>
+                      {!wo.province && errors.province && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.province}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={4}>
+                    <Paper className={classes.paper}>
+                      <InputLabel shrink>City</InputLabel>
+                      <Select
+                        renderValue={(value) =>
+                          value ? value : <em>---Select City---</em>
+                        }
+                        displayEmpty
+                        value={wo.city}
+                        name="city"
+                        onChange={handleInputChange}
+                        style={{ marginTop: 5 }}
+                      >
+                        <MenuItem value="">
+                          <em>---Select City---</em>
+                        </MenuItem>
+                        {renderOptionsForCity()}
+                      </Select>
+                      {!wo.city && errors.city && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.city}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2}></Grid>
+                </Grid>
+
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <div className={classes.buttonPaper}>
+                      <Button
+                        className={classes.btn}
+                        variant="contained"
+                        color="primary"
+                        type="button"
+                        onClick={(e) => {
+                          saveWorkExperience(e);
+                        }}
+                      >
+                        <SaveIcon />
+                        &nbsp;Create
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+          )}
         </Grid>
         <Grid item xs={12} sm={12} md={3}>
           <div>
