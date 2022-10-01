@@ -18,6 +18,8 @@ import { setWorkExperience } from "../../slices/workExperience";
 
 import moment from "moment";
 
+import { displayJobDetails } from "../../services/local.service";
+
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
 
@@ -103,6 +105,7 @@ const Your_Resume = () => {
                 {wo.endDate ? moment(wo.endDate).format("DD/MM/YYYY") : "N/A"}
               </span>
               <br />
+              <div>Job Details # {displayJobDetails(wo.jobDetails)}</div>
               <span>City # {wo.city ? wo.city : "N/A"}</span>
               <br />
               <span>Province # {wo.province ? wo.province : "N/A"}</span>

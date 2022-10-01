@@ -177,9 +177,17 @@ const Work_Experience_Create = () => {
   };
 
   // create
-  // edit
   const handleDateChange = (e, controlName) => {
     console.log(e);
+    let formattedDate = moment(e).format("DD/MM/YYYY");
+    console.log(formattedDate);
+
+    setWo({
+      ...wo,
+      [controlName]: e,
+    });
+
+    /*
     if (woEditFlag) {
       let formattedDate = moment(e).format("DD/MM/YYYY");
       console.log(formattedDate);
@@ -197,15 +205,27 @@ const Work_Experience_Create = () => {
         [controlName]: e,
       });
     }
+    */
   };
 
   // create
-  // edit
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     // console.log(name, value);
 
+    if (name === "province" && value === "") {
+      setCities([]);
+    } else if (name === "province" && value !== "") {
+      setCities(getCities(value));
+      wo.city = "";
+    }
+
+    setWo({
+      ...wo,
+      [name]: value,
+    });
+    /*
     if (woEditFlag) {
       // edit
       if (name === "province" && value === "") {
@@ -233,16 +253,23 @@ const Work_Experience_Create = () => {
         [name]: value,
       });
     }
+    */
   };
 
   const resetForm = (e) => {
     setErrors({});
     setWo(defaultValues);
-    setWoEdit({});
+    // setWoEdit({});
     setWoCreateResponse({});
   };
 
+  // create
   const findFormErrors = () => {
+    const { employerName, startDate, endDate, jobDetails, province, city } = wo;
+    const newErrors = {};
+
+    return newErrors;
+    /*
     if (woEditFlag) {
       const { employerName, startDate, endDate, jobDetails, province, city } =
         woEdit;
@@ -256,10 +283,10 @@ const Work_Experience_Create = () => {
 
       return newErrors;
     }
+    */
   };
 
   // create
-  // edit
   const saveWorkExperience = (event) => {
     const newErrors = findFormErrors();
 
@@ -269,6 +296,7 @@ const Work_Experience_Create = () => {
     } else {
       setErrors({});
 
+      /*
       if (woEditFlag) {
         // edit woEdit
         console.log("edited woEdit,,,", woEdit);
@@ -280,14 +308,21 @@ const Work_Experience_Create = () => {
         console.log("created wo,,,", wo);
         dispatch(setWorkExperience(wo));
       }
+      */
+
+      // create wo
+      // save this work-experience @ redux-store
+      console.log("created wo,,,", wo);
+      dispatch(setWorkExperience(wo));
+
       resetForm();
     }
   };
 
+  // make-ready for edit
   const editWorkExperience = (e, wo) => {
     console.log("edit wo,,,", wo);
     if (wo !== null) {
-      // make-ready form for edit
       setWoEditFlag(true);
       setWoEdit({ ...wo });
     }

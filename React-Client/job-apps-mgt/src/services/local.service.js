@@ -23,7 +23,47 @@ export function getAppStatusTypeColor(appStatusType) {
   else return "purple";
 }
 
-export function displayBtn(appStatusType) {  
+export function displayBtn(appStatusType) {
   if (appStatusType <= 5) return true;
   if (appStatusType === 6) return false;
+}
+
+export function displayJobDetails(jobDetails) {
+  const indexes = [];
+  for (let i = 0; i < jobDetails.length; i++) {
+    if (jobDetails[i] === "\n") {
+      indexes.push(i);
+    }
+  }
+
+  var parts = [];
+  var start = 0;
+  for (let i = 0; i < indexes.length; i++) {
+    var part = jobDetails.substring(start, indexes[i]);
+    parts.push(part);
+    start = indexes[i];
+  }
+
+  if (indexes[indexes.length] < jobDetails.length) {
+    parts.push(jobDetails.substring(indexes[indexes.length - 1]));
+  }
+
+  console.log(parts);
+
+  if (parts.length > 1) {
+    return (
+      <div>
+        {parts.map((part, i) => {
+          return (
+            <div>
+              <span>* {part}</span>
+              <br />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  return parts;
 }
