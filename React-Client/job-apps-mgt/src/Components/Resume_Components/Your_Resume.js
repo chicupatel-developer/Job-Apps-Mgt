@@ -16,6 +16,8 @@ import { getPersonalInfo } from "../../slices/personalInfo";
 import { getSkills } from "../../slices/skills";
 import { setWorkExperience } from "../../slices/workExperience";
 
+import moment from "moment";
+
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
 
@@ -89,9 +91,17 @@ const Your_Resume = () => {
           <div style={{ marginTop: 20 }}>
             {i + 1}) {wo.employerName}
             <div>
-              <span>Start-Date # {wo.startDate ? wo.startDate : "N/A"}</span>
+              <span>
+                Start-Date #{" "}
+                {wo.startDate
+                  ? moment(wo.startDate).format("DD/MM/YYYY")
+                  : "N/A"}
+              </span>
               <br />
-              <span>End-Date # {wo.endDate ? wo.endDate : "N/A"}</span>
+              <span>
+                End-Date #{" "}
+                {wo.endDate ? moment(wo.endDate).format("DD/MM/YYYY") : "N/A"}
+              </span>
               <br />
               <span>City # {wo.city ? wo.city : "N/A"}</span>
               <br />
@@ -127,28 +137,32 @@ const Your_Resume = () => {
                       <h3>Personal-Info</h3>
                     </Grid>
                   </Grid>
-                  <div className={classes.detailsDiv}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={12} sm={12} md={12}>
-                        <div>
-                          First Name : {personalInfo.firstName}
-                          <br />
-                          Last Name : {personalInfo.lastName}
-                          <br />
-                          Email : {personalInfo.email}
-                          <br />
-                          Phone :{" "}
-                          {personalInfo.phoneNumber
-                            ? personalInfo.phoneNumber
-                            : "N/A"}
-                          <br />
-                          Province : {personalInfo.province}
-                          <br />
-                          City : {personalInfo.city}
-                        </div>
+                  {personalInfo && personalInfo.firstName ? (
+                    <div className={classes.detailsDiv}>
+                      <Grid container spacing={1}>
+                        <Grid item xs={12} sm={12} md={12}>
+                          <div>
+                            First Name : {personalInfo.firstName}
+                            <br />
+                            Last Name : {personalInfo.lastName}
+                            <br />
+                            Email : {personalInfo.email}
+                            <br />
+                            Phone :{" "}
+                            {personalInfo.phoneNumber
+                              ? personalInfo.phoneNumber
+                              : "N/A"}
+                            <br />
+                            Province : {personalInfo.province}
+                            <br />
+                            City : {personalInfo.city}
+                          </div>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </div>
+                    </div>
+                  ) : (
+                    <div>N/A</div>
+                  )}
                 </CardContent>
               </Card>
             </Box>
@@ -167,7 +181,11 @@ const Your_Resume = () => {
                   <div className={classes.detailsDiv}>
                     <Grid container spacing={1}>
                       <Grid item xs={12} sm={12} md={12}>
-                        {techSkills}
+                        {techSkills && techSkills.length > 0 ? (
+                          <div>{techSkills}</div>
+                        ) : (
+                          <div>N/A</div>
+                        )}
                       </Grid>
                     </Grid>
                   </div>
@@ -189,7 +207,11 @@ const Your_Resume = () => {
                   <div className={classes.detailsDiv}>
                     <Grid container spacing={1}>
                       <Grid item xs={12} sm={12} md={12}>
-                        {displayWos}
+                        {wos && wos.length > 0 ? (
+                          <div>{displayWos}</div>
+                        ) : (
+                          <div>N/A</div>
+                        )}
                       </Grid>
                     </Grid>
                   </div>
