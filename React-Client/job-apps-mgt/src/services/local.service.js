@@ -28,7 +28,34 @@ export function displayBtn(appStatusType) {
   if (appStatusType === 6) return false;
 }
 
-export function displayJobDetails(jobDetails) {
+// this will display jobDetails[] @UI
+export function displayJobDetails(parts) {
+  if (parts.length > 1) {
+    return (
+      <div>
+        {parts.map((part, i) => {
+          return (
+            <div key={i}>
+              <span>* {part}</span>
+              <br />
+            </div>
+          );
+        })}
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <span>* {parts[0]}</span>
+      </div>
+    );
+  }
+}
+
+// this will return jobDetails as []
+// when you want to display jobDetails as [] @ UI,,, then displayFlag=true
+// when you just want jobDetails as [],,, then displayFlag=false
+export function getJobDetails(jobDetails, displayFlag) {
   const indexes = [];
   for (let i = 0; i < jobDetails.length; i++) {
     if (jobDetails[i] === "\n") {
@@ -44,12 +71,17 @@ export function displayJobDetails(jobDetails) {
     start = indexes[i];
   }
 
-  if (indexes[indexes.length] < jobDetails.length) {
+  console.log("length of indexes,,,", indexes.length);
+  if (jobDetails.length - 1 > indexes[indexes.length - 1]) {
+    console.log(",,,");
     parts.push(jobDetails.substring(indexes[indexes.length - 1]));
   }
 
+  // jobDetails[] is ready as parts[]
   console.log(parts);
 
+  // for display
+  /*
   if (parts.length > 1) {
     return (
       <div>
@@ -64,6 +96,14 @@ export function displayJobDetails(jobDetails) {
       </div>
     );
   }
+  */
 
-  return parts;
+  if (indexes.length < 1 && jobDetails !== null && jobDetails !== "") {
+    parts[0] = jobDetails;
+  }
+  if (displayFlag) {
+    return displayJobDetails(parts);
+  } else {
+    return parts;
+  }
 }
