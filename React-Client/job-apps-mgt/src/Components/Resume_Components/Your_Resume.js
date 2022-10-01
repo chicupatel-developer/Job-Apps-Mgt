@@ -9,6 +9,7 @@ import {
   CardActions,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
@@ -29,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid green",
     borderRadius: "10px",
     backgroundColor: "lightskyblue",
-    width: "200px",
+    width: "120px",
     color: "black",
-    fontSize: "x-large",
+    fontSize: "medium",
   },
   buttonPaper: {
     textAlign: "center",
@@ -72,6 +73,35 @@ const Your_Resume = () => {
     dispatch(getPersonalInfo());
     dispatch(getSkills());
   }, []);
+
+  const prepareResumeData = () => {
+    var personalInfo_ = personalInfo;
+    var skills_ = skills;
+    var wos_ = [...wos];
+
+    if (personalInfo_ === null || personalInfo_.firstName === "")
+      console.log("MISSING personal info,,,");
+    if (skills_ === null || skills_.length < 1)
+      console.log("MISSING skills,,,");
+    if (wos_ === null || wos_.length < 1) console.log("MISSING wos,,,");
+
+    console.log(personalInfo_, skills_, wos_);
+
+    var jobDetails_ = getJobDetails(wos_[0].jobDetails, false);
+    console.log(jobDetails_);
+    /*
+    wos.map((wo, i) => {
+      const index = wos_.findIndex(
+        (wo_) => wo_.employerName === wo.employerName
+      );
+      wos_[index] = {
+        ...wos_[index],
+        ...getJobDetails(wo.jobDetails, false),
+      };
+    });
+    */
+    // console.log(personalInfo_, skills_, wos_);
+  };
 
   let techSkills =
     skills.length > 0 &&
@@ -119,7 +149,19 @@ const Your_Resume = () => {
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3}>
-          <div></div>
+          <div>
+            <Button
+              className={classes.btn}
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={(e) => {
+                prepareResumeData(e);
+              }}
+            >
+              Download Resume
+            </Button>
+          </div>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <div className={classes.pageTitle}>Your-Resume</div>

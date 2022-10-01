@@ -71,14 +71,14 @@ export function getJobDetails(jobDetails, displayFlag) {
     start = indexes[i];
   }
 
-  console.log("length of indexes,,,", indexes.length);
+  // console.log("length of indexes,,,", indexes.length);
   if (jobDetails.length - 1 > indexes[indexes.length - 1]) {
     console.log(",,,");
     parts.push(jobDetails.substring(indexes[indexes.length - 1]));
   }
 
   // jobDetails[] is ready as parts[]
-  console.log(parts);
+  // console.log(parts);
 
   // for display
   /*
