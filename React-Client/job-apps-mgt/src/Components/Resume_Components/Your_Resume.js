@@ -21,6 +21,8 @@ import moment from "moment";
 
 import { displayJobDetails, getJobDetails } from "../../services/local.service";
 
+import ResumeCreatorService from "../../services/resume.creator.service";
+
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
 
@@ -77,30 +79,46 @@ const Your_Resume = () => {
   const prepareResumeData = () => {
     var personalInfo_ = personalInfo;
     var skills_ = skills;
-    var wos_ = [...wos];
+    // var wos_ = [...wos];
 
     if (personalInfo_ === null || personalInfo_.firstName === "")
       console.log("MISSING personal info,,,");
     if (skills_ === null || skills_.length < 1)
       console.log("MISSING skills,,,");
-    if (wos_ === null || wos_.length < 1) console.log("MISSING wos,,,");
+    if (wos === null || wos.length < 1) console.log("MISSING wos,,,");
 
-    console.log(personalInfo_, skills_, wos_);
+    console.log(personalInfo_, skills_, wos);
 
-    var jobDetails_ = getJobDetails(wos_[0].jobDetails, false);
+    var jobDetails_ = getJobDetails(wos[0].jobDetails, false);
     console.log(jobDetails_);
-    /*
+
+    var wos_ = [];
     wos.map((wo, i) => {
-      const index = wos_.findIndex(
-        (wo_) => wo_.employerName === wo.employerName
-      );
-      wos_[index] = {
-        ...wos_[index],
-        ...getJobDetails(wo.jobDetails, false),
-      };
+      var wo_ = { ...wo, jobDetails: getJobDetails(wo.jobDetails, false) };
+      console.log(wo_);
+      wos_.push(wo_);
     });
-    */
-    // console.log(personalInfo_, skills_, wos_);
+    console.log(wos_);
+
+    var myResume = {
+      personalInfo: personalInfo,
+      skills: skills,
+      workExperience: wos_,
+      emailMyResumeTo: "ankitjpatel2007@hotmail.com",
+    };
+    // api call
+    ResumeCreatorService.createAndDownloadResume(myResume)
+      .then((blob) => {
+        console.log(blob.data);
+
+        // const myFile = new Blob([blob.data], { type: 'text/csv' });
+        const myFile = new Blob([blob.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(myFile);
+        window.open(url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   let techSkills =
@@ -191,7 +209,7 @@ const Your_Resume = () => {
                             <br />
                             Last Name : {personalInfo.lastName}
                             <br />
-                            Email : {personalInfo.email}
+                            Email : {personalInfo.emailAddress}
                             <br />
                             Phone :{" "}
                             {personalInfo.phoneNumber

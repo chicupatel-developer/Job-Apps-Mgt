@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 const defaultValues = {
   firstName: "",
   lastName: "",
-  email: "",
+  emailAddress: "",
   phoneNumber: "",
   province: "",
   city: "",
@@ -167,7 +167,8 @@ const Personal_Info = () => {
   };
 
   const findFormErrors = () => {
-    const { firstName, lastName, email, phoneNumber, province, city } = pInfo;
+    const { firstName, lastName, emailAddress, phoneNumber, province, city } =
+      pInfo;
     const newErrors = {};
 
     if (!firstName || firstName === "")
@@ -175,12 +176,13 @@ const Personal_Info = () => {
     if (!lastName || lastName === "")
       newErrors.lastName = "Last-Name is Required!";
 
-    if (!email || email === "") newErrors.email = "Email is Required!";
-    if (!(!email || email === "")) {
-      if (!checkForEmail(email)) {
+    if (!emailAddress || emailAddress === "")
+      newErrors.emailAddress = "Email is Required!";
+    if (!(!emailAddress || emailAddress === "")) {
+      if (!checkForEmail(emailAddress)) {
         newErrors.email = "Invalid Email!";
       } else {
-        var key = "email";
+        var key = "emailAddress";
         delete newErrors[key];
       }
     }
@@ -289,23 +291,23 @@ const Personal_Info = () => {
           <Grid item xs={12} sm={12} md={4}>
             <Paper className={classes.paper}>
               <TextField
-                id="email-input"
-                name="email"
+                id="emailAddress-input"
+                name="emailAddress"
                 label="Email"
                 type="text"
-                value={pInfo.email}
+                value={pInfo.emailAddress}
                 onChange={handleInputChange}
               />
-              {!pInfo.email && errors.email && (
+              {!pInfo.emailAddress && errors.emailAddress && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
-                  {errors.email}
+                  {errors.emailAddress}
                 </FormHelperText>
               )}
-              {pInfo.email && errors.email && (
+              {pInfo.emailAddress && errors.emailAddress && (
                 <FormHelperText className={classes.controlError}>
                   {" "}
-                  {errors.email}
+                  {errors.emailAddress}
                 </FormHelperText>
               )}
             </Paper>

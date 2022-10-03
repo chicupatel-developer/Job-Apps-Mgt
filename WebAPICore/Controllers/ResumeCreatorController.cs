@@ -33,6 +33,7 @@ namespace WebAPICore.Controllers
             _emailSender = emailSender;
         }
 
+        // react wip
         // ng ok
         // create pdf resume as byte[] and display @ browser
         [HttpPost]
@@ -86,7 +87,17 @@ namespace WebAPICore.Controllers
 
                 // Education
                 List<Education> educations = new List<Education>();
-                educations = myResume.Education;
+                educations.Add(new Education()
+                {
+                     Country="India",
+                      DegreeName="haha",
+                       EndDate=DateTime.Now.Date.ToString(),
+                        Major="haha",
+                         StartDate=DateTime.Now.Date.ToString(),
+                          UniversityName="haha"
+                });         
+                // List<Education> educations = new List<Education>();
+                // educations = myResume.Education;
                 if (educations == null)
                 {
                     _response.ResponseCode = -1;
@@ -124,8 +135,9 @@ namespace WebAPICore.Controllers
                         UserIPAddress = myIpAddress.ToString().Substring(0,(myIpAddress.ToString().Length))
                 };
                 if (_resumeCreator.AddUserDataWhenResumeCreated(userData))
-                {                    
+                {
                     return File(pdfBytes, "application/pdf");
+                    // return File(pdfBytes, "application/pdf", "your_resume.pdf");
                 }
                 else
                 {
