@@ -2,7 +2,10 @@ import http from "../axios/resume-creator-http-common";
 
 class ResumeCreatorService {
   createAndDownloadResume = async (data) => {
-    return await http.post(`/createAndDownloadResume`, data);
+    return await http.post(`/createAndDownloadResume`, data, {
+      responseType: "blob",
+      // "Content-Type": "application/pdf",
+    });
   };
 }
 export default new ResumeCreatorService();
