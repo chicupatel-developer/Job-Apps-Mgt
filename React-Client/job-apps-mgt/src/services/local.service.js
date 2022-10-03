@@ -67,7 +67,7 @@ export function getJobDetails(jobDetails, displayFlag) {
   var start = 0;
   for (let i = 0; i < indexes.length; i++) {
     var part = jobDetails.substring(start, indexes[i]);
-    parts.push(part);
+    if (part !== "\n") parts.push(part);
     start = indexes[i];
   }
 
@@ -76,27 +76,6 @@ export function getJobDetails(jobDetails, displayFlag) {
     console.log(",,,");
     parts.push(jobDetails.substring(indexes[indexes.length - 1]));
   }
-
-  // jobDetails[] is ready as parts[]
-  // console.log(parts);
-
-  // for display
-  /*
-  if (parts.length > 1) {
-    return (
-      <div>
-        {parts.map((part, i) => {
-          return (
-            <div>
-              <span>* {part}</span>
-              <br />
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-  */
 
   if (indexes.length < 1 && jobDetails !== null && jobDetails !== "") {
     parts[0] = jobDetails;
