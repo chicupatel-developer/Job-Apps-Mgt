@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPersonalInfo } from "../../slices/personalInfo";
 import { getSkills } from "../../slices/skills";
 import { setWorkExperience } from "../../slices/workExperience";
-import { setEducation } from "../../slices/education";
+import education, { setEducation } from "../../slices/education";
 
 import moment from "moment";
 
@@ -81,31 +81,52 @@ const Your_Resume = () => {
   const prepareResumeData = () => {
     var personalInfo_ = personalInfo;
     var skills_ = skills;
-    // var wos_ = [...wos];
 
     if (personalInfo_ === null || personalInfo_.firstName === "")
       console.log("MISSING personal info,,,");
     if (skills_ === null || skills_.length < 1)
       console.log("MISSING skills,,,");
     if (wos === null || wos.length < 1) console.log("MISSING wos,,,");
+    if (edus === null || edus.length < 1) console.log("MISSING edus,,,");
 
-    console.log(personalInfo_, skills_, wos);
-
-    var jobDetails_ = getJobDetails(wos[0].jobDetails, false);
-    console.log(jobDetails_);
+    console.log(personalInfo_, skills_, wos, edus);
 
     var wos_ = [];
     wos.map((wo, i) => {
-      var wo_ = { ...wo, jobDetails: getJobDetails(wo.jobDetails, false) };
+      var wo_ = {
+        ...wo,
+        startDate: wo.startDate
+          ? moment(wo.startDate).format("MMM DD, YYYY")
+          : "N/A",
+        endDate: wo.endDate ? moment(wo.endDate).format("MMM DD, YYYY") : "N/A",
+        jobDetails: getJobDetails(wo.jobDetails, false),
+      };
       console.log(wo_);
       wos_.push(wo_);
     });
     console.log(wos_);
 
+    var edus_ = [];
+    edus.map((edu, i) => {
+      var edu_ = {
+        ...edu,
+        startDate: edu.startDate
+          ? moment(edu.startDate).format("MMM DD, YYYY")
+          : "N/A",
+        endDate: edu.endDate
+          ? moment(edu.endDate).format("MMM DD, YYYY")
+          : "N/A",
+      };
+      console.log(edu_);
+      edus_.push(edu_);
+    });
+    console.log(edus_);
+
     var myResume = {
       personalInfo: personalInfo,
       skills: skills,
       workExperience: wos_,
+      education: edus_,
       emailMyResumeTo: "ankitjpatel2007@hotmail.com",
     };
     // api call
@@ -190,6 +211,8 @@ const Your_Resume = () => {
               </span>
               <br />
               <span>Major # {edu.major ? edu.major : "N/A"}</span>
+              <br />
+              <span>Country # {edu.country ? edu.country : "N/A"}</span>
             </div>
           </div>
         </div>
