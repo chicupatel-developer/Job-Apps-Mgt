@@ -30,8 +30,8 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setWorkExperience,
-  edittWorkExperience,
-  deleteWorkExperience,
+  // edittWorkExperience,
+  removeWorkExperience,
 } from "../../slices/workExperience";
 
 // child component for edit wo
@@ -107,6 +107,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "medium",
     marginBottom: "5px",
   },
+  btnDelete: {
+    color: "black",
+    backgroundColor: "orange",
+  },
   opHeader: {
     textAlign: "center",
     verticalAlign: "middle",
@@ -171,7 +175,6 @@ const Work_Experience_Create = () => {
   };
 
   // callback from wo-edit
-  // callback-search
   const callBackEditWo = (data) => {
     setWoEditFlag(false);
     console.log("just edited wo,,,", data);
@@ -192,7 +195,6 @@ const Work_Experience_Create = () => {
     if (woEditFlag) {
       let formattedDate = moment(e).format("DD/MM/YYYY");
       console.log(formattedDate);
-
       setWoEdit({
         ...woEdit,
         [controlName]: e,
@@ -200,7 +202,6 @@ const Work_Experience_Create = () => {
     } else {
       let formattedDate = moment(e).format("DD/MM/YYYY");
       console.log(formattedDate);
-
       setWo({
         ...wo,
         [controlName]: e,
@@ -235,7 +236,6 @@ const Work_Experience_Create = () => {
         setCities(getCities(value));
         woEdit.city = "";
       }
-
       setWoEdit({
         ...woEdit,
         [name]: value,
@@ -248,7 +248,6 @@ const Work_Experience_Create = () => {
         setCities(getCities(value));
         wo.city = "";
       }
-
       setWo({
         ...wo,
         [name]: value,
@@ -275,13 +274,11 @@ const Work_Experience_Create = () => {
       const { employerName, startDate, endDate, jobDetails, province, city } =
         woEdit;
       const newErrors = {};
-
       return newErrors;
     } else {
       const { employerName, startDate, endDate, jobDetails, province, city } =
         wo;
       const newErrors = {};
-
       return newErrors;
     }
     */
@@ -336,7 +333,7 @@ const Work_Experience_Create = () => {
     if (woex !== null) {
       // delete wo
       console.log("deleted wo,,,", woex);
-      dispatch(deleteWorkExperience(woex));
+      dispatch(removeWorkExperience(woex));
     }
   };
 
@@ -354,7 +351,8 @@ const Work_Experience_Create = () => {
                 editWorkExperience(e, item);
               }}
             >
-              <EditIcon /> &nbsp; {item.employerName}
+              {item.employerName}
+              <EditIcon />
             </Button>
             <Button
               className={classes.btnDelete}
@@ -364,6 +362,7 @@ const Work_Experience_Create = () => {
                 deleteWorkExperience(e, item);
               }}
             >
+              &nbsp;
               <DeleteForeverIcon />
             </Button>
           </span>
@@ -462,7 +461,6 @@ const Work_Experience_Create = () => {
                     </Paper>
                   </Grid>
                   <Grid item xs={12} sm={12} md={2}></Grid>
-
                   <Grid item xs={12} sm={12} md={2}></Grid>
                   <Grid item xs={12} sm={12} md={4}>
                     <Paper className={classes.paper}>
@@ -510,7 +508,6 @@ const Work_Experience_Create = () => {
                     </Paper>
                   </Grid>
                   <Grid item xs={12} sm={12} md={2}></Grid>
-
                   <Grid item xs={12} sm={12} md={2}></Grid>
                   <Grid item xs={12} sm={12} md={4}>
                     <Paper className={classes.paper}>
@@ -563,7 +560,6 @@ const Work_Experience_Create = () => {
                   </Grid>
                   <Grid item xs={12} sm={12} md={2}></Grid>
                 </Grid>
-
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12}>
                     <div className={classes.buttonPaper}>
