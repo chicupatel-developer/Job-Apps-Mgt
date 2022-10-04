@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Personal_Info from "../Resume_Components/Personal_Info";
 import Skills from "../Resume_Components/Skills";
 import Work_Experience_Create from "../Resume_Components/Work_Experience_Create";
+import Education_Create from "../Resume_Components/Education_Create";
 import Your_Resume from "../Resume_Components/Your_Resume";
 
 import { makeStyles } from "@material-ui/core";
@@ -58,6 +59,7 @@ const Resume_Creator = (props) => {
                 <Tab label="Personal-Info" />
                 <Tab label="Skills" />
                 <Tab label="Work-Experience" />
+                <Tab label="Education" />
                 <Tab label="Resume" />
               </Tabs>
             </Box>
@@ -78,6 +80,11 @@ const Resume_Creator = (props) => {
                 </Box>
               )}
               {tabIndex === 3 && (
+                <Box>
+                  <Education_Create />
+                </Box>
+              )}
+              {tabIndex === 4 && (
                 <Box>
                   <Your_Resume />
                 </Box>

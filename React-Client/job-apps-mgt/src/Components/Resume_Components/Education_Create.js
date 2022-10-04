@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -28,7 +27,7 @@ import moment from "moment";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setEducation, edittEducation } from "../../slices/workExperience";
+import { setEducation, edittEducation } from "../../slices/education";
 
 const useStyles = makeStyles((theme) => ({
   eduCreateError: {

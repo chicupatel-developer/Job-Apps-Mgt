@@ -20,7 +20,7 @@ export const educationSlice = createSlice({
 });
 
 // this is for dispatch
-export const { setEducation, edittEducatione } = educationSlice.actions;
+export const { setEducation, edittEducation } = educationSlice.actions;
 
 // this is for configureStore
 export default educationSlice.reducer;

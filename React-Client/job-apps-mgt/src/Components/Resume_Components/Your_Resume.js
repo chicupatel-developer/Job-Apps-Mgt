@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPersonalInfo } from "../../slices/personalInfo";
 import { getSkills } from "../../slices/skills";
 import { setWorkExperience } from "../../slices/workExperience";
+import { setEducation } from "../../slices/education";
 
 import moment from "moment";
 
@@ -69,6 +70,7 @@ const Your_Resume = () => {
   const personalInfo = useSelector((state) => state.personalInfo);
   const skills = useSelector((state) => state.skills);
   const wos = useSelector((state) => state.workExperience);
+  const edus = useSelector((state) => state.education);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -157,6 +159,37 @@ const Your_Resume = () => {
               <span>City # {wo.city ? wo.city : "N/A"}</span>
               <br />
               <span>Province # {wo.province ? wo.province : "N/A"}</span>
+            </div>
+          </div>
+        </div>
+      );
+    }, this);
+
+  let displayEdus =
+    edus.length > 0 &&
+    edus.map((edu, i) => {
+      return (
+        <div key={i} value={edu}>
+          <div style={{ marginTop: 20 }}>
+            {i + 1}) {edu.degreeName}
+            <div>
+              <span>
+                Start-Date #{" "}
+                {edu.startDate
+                  ? moment(edu.startDate).format("DD/MM/YYYY")
+                  : "N/A"}
+              </span>
+              <br />
+              <span>
+                End-Date #{" "}
+                {edu.endDate ? moment(edu.endDate).format("DD/MM/YYYY") : "N/A"}
+              </span>
+              <br />
+              <span>
+                University # {edu.universityName ? edu.universityName : "N/A"}
+              </span>
+              <br />
+              <span>Major # {edu.major ? edu.major : "N/A"}</span>
             </div>
           </div>
         </div>
@@ -272,6 +305,32 @@ const Your_Resume = () => {
                       <Grid item xs={12} sm={12} md={12}>
                         {wos && wos.length > 0 ? (
                           <div>{displayWos}</div>
+                        ) : (
+                          <div>N/A</div>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </div>
+                </CardContent>
+              </Card>
+            </Box>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6}>
+          <div>
+            <Box className={classes.root}>
+              <Card>
+                <CardContent>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <h3>Education</h3>
+                    </Grid>
+                  </Grid>
+                  <div className={classes.detailsDiv}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        {edus && edus.length > 0 ? (
+                          <div>{displayEdus}</div>
                         ) : (
                           <div>N/A</div>
                         )}
