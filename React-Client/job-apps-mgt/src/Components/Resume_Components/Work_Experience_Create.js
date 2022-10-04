@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -12,6 +11,7 @@ import Paper from "@material-ui/core/Paper";
 
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -31,6 +31,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setWorkExperience,
   edittWorkExperience,
+  deleteWorkExperience,
 } from "../../slices/workExperience";
 
 // child component for edit wo
@@ -328,6 +329,17 @@ const Work_Experience_Create = () => {
     }
   };
 
+  // delete
+  const deleteWorkExperience = (e, woex) => {
+    console.log("delete wo,,,", woex);
+
+    if (woex !== null) {
+      // delete wo
+      console.log("deleted wo,,,", woex);
+      dispatch(deleteWorkExperience(woex));
+    }
+  };
+
   let displayAllWos =
     workExperience.length > 0 &&
     workExperience.map((item, i) => {
@@ -343,6 +355,16 @@ const Work_Experience_Create = () => {
               }}
             >
               <EditIcon /> &nbsp; {item.employerName}
+            </Button>
+            <Button
+              className={classes.btnDelete}
+              variant="contained"
+              type="button"
+              onClick={(e) => {
+                deleteWorkExperience(e, item);
+              }}
+            >
+              <DeleteForeverIcon />
             </Button>
           </span>
         </div>
