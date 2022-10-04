@@ -85,19 +85,9 @@ namespace WebAPICore.Controllers
                     return BadRequest("Work Experience Null - Bad Request!");
                 }
 
-                // Education
+                // Education              
                 List<Education> educations = new List<Education>();
-                educations.Add(new Education()
-                {
-                     Country="India",
-                      DegreeName="haha",
-                       EndDate=DateTime.Now.Date.ToString(),
-                        Major="haha",
-                         StartDate=DateTime.Now.Date.ToString(),
-                          UniversityName="haha"
-                });         
-                // List<Education> educations = new List<Education>();
-                // educations = myResume.Education;
+                educations = myResume.Education;
                 if (educations == null)
                 {
                     _response.ResponseCode = -1;

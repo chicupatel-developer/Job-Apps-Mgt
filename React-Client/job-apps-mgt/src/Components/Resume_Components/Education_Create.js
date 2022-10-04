@@ -29,6 +29,9 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { setEducation, edittEducation } from "../../slices/education";
 
+// child component for edit wo
+import Education_Edit from "./Education_Edit";
+
 const useStyles = makeStyles((theme) => ({
   eduCreateError: {
     color: "red",
@@ -287,7 +290,9 @@ const Education_Create = () => {
       <Grid container spacing={1}>
         {eduEditFlag ? (
           <Grid item xs={12} sm={12} md={12}>
-            <div></div>
+            <div>
+              <Education_Edit edu={eduEdit} func={callBackEditEdu} />
+            </div>
           </Grid>
         ) : (
           <Grid item xs={12} sm={12} md={9}>
