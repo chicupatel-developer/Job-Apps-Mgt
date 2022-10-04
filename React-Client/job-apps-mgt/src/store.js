@@ -4,6 +4,7 @@ import appStatusTypesReducer from "./slices/appStatusTypes";
 import personalInfoReducer from "./slices/personalInfo";
 import skillsReducer from "./slices/skills";
 import workExperienceReducer from "./slices/workExperience";
+import educationReducer from "./slices/education";
 
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
@@ -22,6 +23,7 @@ const reducer = {
   personalInfo: personalInfoReducer,
   skills: skillsReducer,
   workExperience: workExperienceReducer,
+  education: educationReducer,
 };
 
 const store = configureStore({

@@ -1,3 +1,7 @@
+export function getCountries() {
+  return ["India", "USA", "Canada", "UK-London"];
+}
+
 export function getProvinces() {
   return ["MB", "ON", "AB", "SK", "BC"];
 }
