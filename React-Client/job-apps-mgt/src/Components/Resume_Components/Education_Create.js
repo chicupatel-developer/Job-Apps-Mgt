@@ -11,6 +11,7 @@ import Paper from "@material-ui/core/Paper";
 
 import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -27,7 +28,11 @@ import moment from "moment";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setEducation, edittEducation } from "../../slices/education";
+import {
+  setEducation,
+  edittEducation,
+  removeEducation,
+} from "../../slices/education";
 
 // child component for edit wo
 import Education_Edit from "./Education_Edit";
@@ -101,6 +106,10 @@ const useStyles = makeStyles((theme) => ({
     color: "blue",
     fontSize: "medium",
     marginBottom: "5px",
+  },
+  btnDelete: {
+    color: "black",
+    backgroundColor: "orange",
   },
   opHeader: {
     textAlign: "center",
@@ -228,6 +237,17 @@ const Education_Create = () => {
     }
   };
 
+  // delete
+  const deleteEducation = (e, educ) => {
+    console.log("delete edu,,,", educ);
+
+    if (educ !== null) {
+      // delete edu
+      console.log("deleted edu,,,", educ);
+      dispatch(removeEducation(educ));
+    }
+  };
+
   let displayAllEdus =
     education.length > 0 &&
     education.map((item, i) => {
@@ -242,7 +262,19 @@ const Education_Create = () => {
                 editEducation(e, item);
               }}
             >
-              <EditIcon /> &nbsp; {item.degreeName}
+              {item.degreeName}
+              <EditIcon />
+            </Button>
+            <Button
+              className={classes.btnDelete}
+              variant="contained"
+              type="button"
+              onClick={(e) => {
+                deleteEducation(e, item);
+              }}
+            >
+              &nbsp;
+              <DeleteForeverIcon />
             </Button>
           </span>
         </div>
