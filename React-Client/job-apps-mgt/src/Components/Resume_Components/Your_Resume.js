@@ -70,10 +70,30 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid green",
     borderRadius: "10px",
   },
+  apiError: {
+    backgroundColor: "white",
+    padding: "10px",
+    textAlign: "left",
+    verticalAlign: "middle",
+    border: "2px solid red",
+    borderRadius: "10px",
+    color: "red",
+  },
+  apiSuccess: {
+    backgroundColor: "white",
+    padding: "10px",
+    textAlign: "left",
+    verticalAlign: "middle",
+    border: "2px solid red",
+    borderRadius: "10px",
+    color: "red",
+  },
 }));
 
 const Your_Resume = () => {
   const classes = useStyles();
+
+  const [apiResponse, setApiResponse] = useState("");
 
   // redux
   const personalInfo = useSelector((state) => state.personalInfo);
@@ -88,6 +108,8 @@ const Your_Resume = () => {
   }, []);
 
   const prepareResumeData = (e, option) => {
+    setApiResponse("");
+
     var personalInfo_ = personalInfo;
     var skills_ = skills;
 
@@ -106,7 +128,7 @@ const Your_Resume = () => {
     if (edus === null || edus.length < 1) {
       console.log("MISSING edus,,,");
       return;
-    }    
+    }
 
     console.log(personalInfo_, skills_, wos, edus);
 
@@ -141,7 +163,6 @@ const Your_Resume = () => {
     });
     console.log(edus_);
 
-
     var myResume = {
       personalInfo: personalInfo,
       skills: skills,
@@ -152,11 +173,22 @@ const Your_Resume = () => {
 
     if (option === "mail") {
       console.log("email my resume!");
+      // api call
+      ResumeCreatorService.createAndEmailResume(myResume)
+        .then((response) => {
+          console.log(response.data);
+          setApiResponse(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          setApiResponse("Server Error!");
+        });
     } else if (option === "download") {
       // api call
       ResumeCreatorService.createAndDownloadResume(myResume)
         .then((blob) => {
           console.log(blob.data);
+          setApiResponse("Download Ready!");
 
           // const myFile = new Blob([blob.data], { type: 'text/csv' });
           const myFile = new Blob([blob.data], { type: "application/pdf" });
@@ -165,6 +197,7 @@ const Your_Resume = () => {
         })
         .catch((error) => {
           console.log(error);
+          setApiResponse("Server Error!");
         });
     }
   };
@@ -285,6 +318,14 @@ const Your_Resume = () => {
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={1}></Grid>
+      </Grid>
+
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12} md={2}></Grid>
+        <Grid item xs={12} sm={12} md={8}>
+          <div>{apiResponse}</div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={2}></Grid>
       </Grid>
 
       <Grid container spacing={1}>

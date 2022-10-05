@@ -7,5 +7,9 @@ class ResumeCreatorService {
       // "Content-Type": "application/pdf",
     });
   };
+
+  createAndEmailResume = async (data) => {
+    return await http.post(`/createAndEmailResume`, data);
+  };
 }
 export default new ResumeCreatorService();

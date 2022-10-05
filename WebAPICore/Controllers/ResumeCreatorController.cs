@@ -33,7 +33,7 @@ namespace WebAPICore.Controllers
             _emailSender = emailSender;
         }
 
-        // react wip
+        // react ok
         // ng ok
         // create pdf resume as byte[] and display @ browser
         [HttpPost]
@@ -140,7 +140,7 @@ namespace WebAPICore.Controllers
             }                  
         }
 
-
+        // react wip
         // ng ok
         // create pdf resume as byte[] 
         // and attach it as email attachment, but do not store .pdf file on server
