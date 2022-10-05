@@ -24,18 +24,27 @@ import { displayJobDetails, getJobDetails } from "../../services/local.service";
 
 import ResumeCreatorService from "../../services/resume.creator.service";
 
+import { CloudDownload } from "@material-ui/icons";
+import MailIcon from "@material-ui/icons/Mail";
+
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
 
+  downloadDiv: {
+    textAlign: "left",
+  },
+  emailDiv: {
+    textAlign: "right",
+  },
   btn: {
     textAlign: "center",
     verticalAlign: "middle",
     border: "2px solid green",
     borderRadius: "10px",
     backgroundColor: "lightskyblue",
-    width: "120px",
     color: "black",
-    fontSize: "medium",
+    marginTop: "20px",
+    paddingTop: "10px",
   },
   buttonPaper: {
     textAlign: "center",
@@ -78,16 +87,26 @@ const Your_Resume = () => {
     dispatch(getSkills());
   }, []);
 
-  const prepareResumeData = () => {
+  const prepareResumeData = (e, option) => {
     var personalInfo_ = personalInfo;
     var skills_ = skills;
 
-    if (personalInfo_ === null || personalInfo_.firstName === "")
+    if (personalInfo_ === null || personalInfo_.firstName === "") {
       console.log("MISSING personal info,,,");
-    if (skills_ === null || skills_.length < 1)
+      return;
+    }
+    if (skills_ === null || skills_.length < 1) {
       console.log("MISSING skills,,,");
-    if (wos === null || wos.length < 1) console.log("MISSING wos,,,");
-    if (edus === null || edus.length < 1) console.log("MISSING edus,,,");
+      return;
+    }
+    if (wos === null || wos.length < 1) {
+      console.log("MISSING wos,,,");
+      return;
+    }
+    if (edus === null || edus.length < 1) {
+      console.log("MISSING edus,,,");
+      return;
+    }    
 
     console.log(personalInfo_, skills_, wos, edus);
 
@@ -122,6 +141,7 @@ const Your_Resume = () => {
     });
     console.log(edus_);
 
+
     var myResume = {
       personalInfo: personalInfo,
       skills: skills,
@@ -129,19 +149,24 @@ const Your_Resume = () => {
       education: edus_,
       emailMyResumeTo: "ankitjpatel2007@hotmail.com",
     };
-    // api call
-    ResumeCreatorService.createAndDownloadResume(myResume)
-      .then((blob) => {
-        console.log(blob.data);
 
-        // const myFile = new Blob([blob.data], { type: 'text/csv' });
-        const myFile = new Blob([blob.data], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(myFile);
-        window.open(url);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (option === "mail") {
+      console.log("email my resume!");
+    } else if (option === "download") {
+      // api call
+      ResumeCreatorService.createAndDownloadResume(myResume)
+        .then((blob) => {
+          console.log(blob.data);
+
+          // const myFile = new Blob([blob.data], { type: 'text/csv' });
+          const myFile = new Blob([blob.data], { type: "application/pdf" });
+          const url = window.URL.createObjectURL(myFile);
+          window.open(url);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   let techSkills =
@@ -222,27 +247,44 @@ const Your_Resume = () => {
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={3}>
-          <div>
+        <Grid item xs={12} sm={12} md={1}></Grid>
+        <Grid item xs={12} sm={12} md={2}>
+          <div className={classes.downloadDiv}>
             <Button
               className={classes.btn}
               variant="contained"
               color="primary"
               type="button"
               onClick={(e) => {
-                prepareResumeData(e);
+                prepareResumeData(e, "download");
               }}
             >
-              Download Resume
+              <CloudDownload />
+              &nbsp; Resume
             </Button>
           </div>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <div className={classes.pageTitle}>Your-Resume</div>
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <div></div>
+
+        <Grid item xs={12} sm={12} md={2}>
+          <div className={classes.emailDiv}>
+            <Button
+              className={classes.btn}
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={(e) => {
+                prepareResumeData(e, "mail");
+              }}
+            >
+              <MailIcon />
+              &nbsp; Resume
+            </Button>
+          </div>
         </Grid>
+        <Grid item xs={12} sm={12} md={1}></Grid>
       </Grid>
 
       <Grid container spacing={1}>

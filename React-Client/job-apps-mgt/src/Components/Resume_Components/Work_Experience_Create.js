@@ -184,6 +184,7 @@ const Work_Experience_Create = () => {
   const callBackEditWo = (data) => {
     setWoEditFlag(false);
     console.log("just edited wo,,,", data);
+    setErrors({});
   };
 
   // create
@@ -273,6 +274,15 @@ const Work_Experience_Create = () => {
   const findFormErrors = () => {
     const { employerName, startDate, endDate, jobDetails, province, city } = wo;
     const newErrors = {};
+
+    if (!employerName || employerName === "")
+      newErrors.employerName = "Employer-Name is Required!";
+    if (!startDate || startDate === "")
+      newErrors.startDate = "Start-Date is Required!";
+    if (!endDate || endDate === "") newErrors.endDate = "End-Date is Required!";
+    if (!province || province === "")
+      newErrors.province = "Province is Required!";
+    if (!city || city === "") newErrors.city = "City is Required!";
 
     return newErrors;
     /*
@@ -612,8 +622,8 @@ const Work_Experience_Create = () => {
             <div>
               <form>
                 <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12} md={2}></Grid>
-                  <Grid item xs={12} sm={12} md={4}>
+                  <Grid item xs={12} sm={12} md={1}></Grid>
+                  <Grid item xs={12} sm={12} md={5}>
                     <Paper className={classes.paper}>
                       <TextField
                         id="employerName-input"
@@ -631,7 +641,48 @@ const Work_Experience_Create = () => {
                       )}
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={4}>
+                  <Grid item xs={12} sm={12} md={5}>
+                    <Paper className={classes.paper}>
+                      {" "}
+                      <TextField
+                        id="jobDetails-input"
+                        name="jobDetails"
+                        label="Job-Details"
+                        multiline
+                        maxRows={4}
+                        value={wo.jobDetails}
+                        onChange={handleInputChange}
+                      />
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={1}></Grid>
+                  <Grid item xs={12} sm={12} md={1}></Grid>
+                  <Grid item xs={12} sm={12} md={5}>
+                    <Paper className={classes.paper}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          disableToolbar
+                          fullWidth
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
+                          id="date-picker-inline"
+                          label="Start-Date"
+                          value={wo.startDate}
+                          onChange={(e) => {
+                            handleDateChange(e, "startDate");
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                      {!wo.startDate && errors.startDate && (
+                        <FormHelperText className={classes.controlError}>
+                          {" "}
+                          {errors.startDate}
+                        </FormHelperText>
+                      )}
+                    </Paper>
+                  </Grid>{" "}
+                  <Grid item xs={12} sm={12} md={5}>
                     <Paper className={classes.paper}>
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
@@ -656,58 +707,9 @@ const Work_Experience_Create = () => {
                       )}
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={2}></Grid>
-
-                  <Grid item xs={12} sm={12} md={2}></Grid>
-                  <Grid item xs={12} sm={12} md={4}>
-                    <Paper className={classes.paper}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                          disableToolbar
-                          fullWidth
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          margin="normal"
-                          id="date-picker-inline"
-                          label="Start-Date"
-                          value={wo.startDate}
-                          onChange={(e) => {
-                            handleDateChange(e, "startDate");
-                          }}
-                        />
-                      </MuiPickersUtilsProvider>
-                      {!wo.startDate && errors.startDate && (
-                        <FormHelperText className={classes.controlError}>
-                          {" "}
-                          {errors.startDate}
-                        </FormHelperText>
-                      )}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4}>
-                    <Paper className={classes.paper}>
-                      {" "}
-                      <TextField
-                        id="jobDetails-input"
-                        name="jobDetails"
-                        label="Job-Details"
-                        multiline
-                        maxRows={4}
-                        value={wo.jobDetails}
-                        onChange={handleInputChange}
-                      />
-                      {wo.jobDetails && errors.jobDetails && (
-                        <FormHelperText className={classes.controlError}>
-                          {" "}
-                          {errors.jobDetails}
-                        </FormHelperText>
-                      )}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={2}></Grid>
-
-                  <Grid item xs={12} sm={12} md={2}></Grid>
-                  <Grid item xs={12} sm={12} md={4}>
+                  <Grid item xs={12} sm={12} md={1}></Grid>
+                  <Grid item xs={12} sm={12} md={1}></Grid>
+                  <Grid item xs={12} sm={12} md={5}>
                     <Paper className={classes.paper}>
                       <InputLabel shrink>Province</InputLabel>
                       <Select
@@ -730,7 +732,7 @@ const Work_Experience_Create = () => {
                       )}
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={4}>
+                  <Grid item xs={12} sm={12} md={5}>
                     <Paper className={classes.paper}>
                       <InputLabel shrink>City</InputLabel>
                       <Select
@@ -756,7 +758,7 @@ const Work_Experience_Create = () => {
                       )}
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={2}></Grid>
+                  <Grid item xs={12} sm={12} md={1}></Grid>
                 </Grid>
 
                 <Grid container spacing={1}>

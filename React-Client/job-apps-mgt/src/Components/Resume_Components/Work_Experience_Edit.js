@@ -189,7 +189,17 @@ const Work_Experience_Edit = (props) => {
   const findFormErrors = () => {
     const { employerName, startDate, endDate, jobDetails, province, city } =
       woEdit;
+
     const newErrors = {};
+
+    if (!employerName || employerName === "")
+      newErrors.employerName = "Employer-Name is Required!";
+    if (!startDate || startDate === "")
+      newErrors.startDate = "Start-Date is Required!";
+    if (!endDate || endDate === "") newErrors.endDate = "End-Date is Required!";
+    if (!province || province === "")
+      newErrors.province = "Province is Required!";
+    if (!city || city === "") newErrors.city = "City is Required!";
 
     return newErrors;
   };
@@ -253,8 +263,8 @@ const Work_Experience_Edit = (props) => {
           <div>
             <form>
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={12} md={2}></Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={1}></Grid>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <TextField
                       id="employerName-input"
@@ -272,35 +282,25 @@ const Work_Experience_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        fullWidth
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="End-Date"
-                        value={woEdit.endDate}
-                        onChange={(e) => {
-                          handleDateChange(e, "endDate");
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                    {!woEdit.endDate && errors.endDate && (
-                      <FormHelperText className={classes.controlError}>
-                        {" "}
-                        {errors.endDate}
-                      </FormHelperText>
-                    )}
+                    {" "}
+                    <TextField
+                      id="jobDetails-input"
+                      name="jobDetails"
+                      label="Job-Details"
+                      multiline
+                      maxRows={4}
+                      value={woEdit.jobDetails}
+                      onChange={handleInputChange}
+                    />
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}></Grid>
 
-                <Grid item xs={12} sm={12} md={2}></Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={1}></Grid>
+
+                <Grid item xs={12} sm={12} md={1}></Grid>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
@@ -325,30 +325,35 @@ const Work_Experience_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
-                    {" "}
-                    <TextField
-                      id="jobDetails-input"
-                      name="jobDetails"
-                      label="Job-Details"
-                      multiline
-                      maxRows={4}
-                      value={woEdit.jobDetails}
-                      onChange={handleInputChange}
-                    />
-                    {woEdit.jobDetails && errors.jobDetails && (
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        fullWidth
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="End-Date"
+                        value={woEdit.endDate}
+                        onChange={(e) => {
+                          handleDateChange(e, "endDate");
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                    {!woEdit.endDate && errors.endDate && (
                       <FormHelperText className={classes.controlError}>
                         {" "}
-                        {errors.jobDetails}
+                        {errors.endDate}
                       </FormHelperText>
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}></Grid>
+                <Grid item xs={12} sm={12} md={1}></Grid>
 
-                <Grid item xs={12} sm={12} md={2}></Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={1}></Grid>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <InputLabel shrink>Province</InputLabel>
                     <Select
@@ -371,7 +376,7 @@ const Work_Experience_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <InputLabel shrink>City</InputLabel>
                     <Select
@@ -397,7 +402,7 @@ const Work_Experience_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}></Grid>
+                <Grid item xs={12} sm={12} md={1}></Grid>
               </Grid>
 
               <Grid container spacing={1}>

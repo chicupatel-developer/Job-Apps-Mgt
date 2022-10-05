@@ -171,8 +171,18 @@ const Education_Edit = (props) => {
 
   const findFormErrors = () => {
     const { degreeName, startDate, endDate, universityName, major, country } =
-      edu;
+      eduEdit;
     const newErrors = {};
+
+    if (!degreeName || degreeName === "")
+      newErrors.degreeName = "Degree-Name is Required!";
+    if (!startDate || startDate === "")
+      newErrors.startDate = "Start-Date is Required!";
+    if (!endDate || endDate === "") newErrors.endDate = "End-Date is Required!";
+    if (!country || country === "") newErrors.country = "Country is Required!";
+    if (!universityName || universityName === "")
+      newErrors.universityName = "University-Name is Required!";
+    if (!major || major === "") newErrors.major = "Major is Required!";
 
     return newErrors;
   };
@@ -235,8 +245,8 @@ const Education_Edit = (props) => {
           <div>
             <form>
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={12} md={2}></Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={1}></Grid>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <TextField
                       id="degreeName-input"
@@ -254,35 +264,29 @@ const Education_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        fullWidth
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="End-Date"
-                        value={eduEdit.endDate}
-                        onChange={(e) => {
-                          handleDateChange(e, "endDate");
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                    {!eduEdit.endDate && errors.endDate && (
+                    {" "}
+                    <TextField
+                      id="universityName-input"
+                      name="universityName"
+                      label="University-Name"
+                      value={eduEdit.universityName}
+                      onChange={handleInputChange}
+                    />
+                    {!eduEdit.universityName && errors.universityName && (
                       <FormHelperText className={classes.controlError}>
                         {" "}
-                        {errors.endDate}
+                        {errors.universityName}
                       </FormHelperText>
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}></Grid>
 
-                <Grid item xs={12} sm={12} md={2}></Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={1}></Grid>
+
+                <Grid item xs={12} sm={12} md={1}></Grid>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDatePicker
@@ -307,28 +311,35 @@ const Education_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
-                    {" "}
-                    <TextField
-                      id="universityName-input"
-                      name="universityName"
-                      label="University-Name"
-                      value={eduEdit.universityName}
-                      onChange={handleInputChange}
-                    />
-                    {eduEdit.universityName && errors.universityName && (
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        fullWidth
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="End-Date"
+                        value={eduEdit.endDate}
+                        onChange={(e) => {
+                          handleDateChange(e, "endDate");
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                    {!eduEdit.endDate && errors.endDate && (
                       <FormHelperText className={classes.controlError}>
                         {" "}
-                        {errors.universityName}
+                        {errors.endDate}
                       </FormHelperText>
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}></Grid>
+                <Grid item xs={12} sm={12} md={1}></Grid>
 
-                <Grid item xs={12} sm={12} md={2}></Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={1}></Grid>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     <InputLabel shrink>Country</InputLabel>
                     <Select
@@ -351,7 +362,7 @@ const Education_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                   <Paper className={classes.paper}>
                     {" "}
                     <TextField
@@ -361,7 +372,7 @@ const Education_Edit = (props) => {
                       value={eduEdit.major}
                       onChange={handleInputChange}
                     />
-                    {eduEdit.major && errors.major && (
+                    {!eduEdit.major && errors.major && (
                       <FormHelperText className={classes.controlError}>
                         {" "}
                         {errors.major}
@@ -369,7 +380,7 @@ const Education_Edit = (props) => {
                     )}
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={12} md={2}></Grid>
+                <Grid item xs={12} sm={12} md={1}></Grid>
               </Grid>
 
               <Grid container spacing={1}>
