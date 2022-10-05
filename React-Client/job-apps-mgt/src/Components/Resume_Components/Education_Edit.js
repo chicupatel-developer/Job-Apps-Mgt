@@ -98,6 +98,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const defaultValues = {
+  degreeName: "",
+  universityName: "",
+  major: "",
+  country: "",
+  startDate: null,
+  endDate: null,
+};
+
 const Education_Edit = (props) => {
   const classes = useStyles();
 
@@ -168,6 +177,10 @@ const Education_Edit = (props) => {
     return newErrors;
   };
 
+  const resetForm = (e) => {
+    setErrors({});
+    setEduEditResponse({});
+  };
   const editEducation = (event) => {
     const newErrors = findFormErrors();
 
@@ -180,13 +193,24 @@ const Education_Edit = (props) => {
       // edit eduEdit
       console.log("edited eduEdit,,,", eduEdit);
       dispatch(edittEducation(eduEdit));
+
+      setEduEditResponse({
+        responseCode: 0,
+        responseMessage: "Education edited @Redux-Store !",
+      });
+      setEduEdit(defaultValues);
+
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
     }
   };
 
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={3}></Grid>
+        <Grid item xs={12} sm={12} md={6}>
           <div>
             {eduEditResponse && eduEditResponse.responseCode === -1 ? (
               <div className={classes.eduEditError}>
@@ -204,7 +228,11 @@ const Education_Edit = (props) => {
               </span>
             )}
             <p></p>
-
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={3}></Grid>
+        <Grid item xs={12} sm={12} md={12}>
+          <div>
             <form>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={2}></Grid>

@@ -38,7 +38,7 @@ import {
 import Work_Experience_Edit from "./Work_Experience_Edit";
 
 const useStyles = makeStyles((theme) => ({
-  woCreateError: {
+  woCrDelError: {
     color: "red",
     fontSize: "medium",
     fontWeight: "bold",
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid red",
     borderRadius: "10px",
   },
-  woCreateSuccess: {
+  woCrDelSuccess: {
     color: "green",
     fontSize: "medium",
     fontWeight: "bold",
@@ -110,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
   btnDelete: {
     color: "black",
     backgroundColor: "orange",
+    marginBottom: "5px",
   },
   opHeader: {
     textAlign: "center",
@@ -123,6 +124,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "lightyellow",
     color: "black",
     fontSize: "medium",
+  },
+  employerList: {
+    fontSize: "large",
+    color: "blue",
+    fontStyle: "bold",
   },
 }));
 
@@ -141,7 +147,7 @@ const Work_Experience_Create = () => {
   const workExperience = useSelector((state) => state.workExperience);
   const dispatch = useDispatch();
 
-  const [woCreateResponse, setWoCreateResponse] = useState({});
+  const [woCrDelResponse, setWoCrDelResponse] = useState({});
   const [wo, setWo] = useState(defaultValues);
 
   const [woEditFlag, setWoEditFlag] = useState(false);
@@ -258,9 +264,9 @@ const Work_Experience_Create = () => {
 
   const resetForm = (e) => {
     setErrors({});
-    setWo(defaultValues);
+    // setWo(defaultValues);
     // setWoEdit({});
-    setWoCreateResponse({});
+    setWoCrDelResponse({});
   };
 
   // create
@@ -313,7 +319,15 @@ const Work_Experience_Create = () => {
       console.log("created wo,,,", wo);
       dispatch(setWorkExperience(wo));
 
-      resetForm();
+      setWoCrDelResponse({
+        responseCode: 0,
+        responseMessage: "Work-Experience Created @Redux-Store !",
+      });
+      setWo(defaultValues);
+
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
     }
   };
 
@@ -334,6 +348,15 @@ const Work_Experience_Create = () => {
       // delete wo
       console.log("deleted wo,,,", woex);
       dispatch(removeWorkExperience(woex));
+
+      setWoCrDelResponse({
+        responseCode: 0,
+        responseMessage: "Work-Experience Deleted @Redux-Store !",
+      });
+
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
     }
   };
 
@@ -351,9 +374,9 @@ const Work_Experience_Create = () => {
                 editWorkExperience(e, item);
               }}
             >
-              {item.employerName}
               <EditIcon />
             </Button>
+            &nbsp;
             <Button
               className={classes.btnDelete}
               variant="contained"
@@ -362,9 +385,10 @@ const Work_Experience_Create = () => {
                 deleteWorkExperience(e, item);
               }}
             >
-              &nbsp;
               <DeleteForeverIcon />
             </Button>
+            &nbsp;{" "}
+            <span className={classes.employerList}>{item.employerName}</span>
           </span>
         </div>
       );
@@ -386,15 +410,15 @@ const Work_Experience_Create = () => {
             )}
           </div>
           <p></p>
-          {woCreateResponse && woCreateResponse.responseCode === -1 ? (
-            <div className={classes.woCreateError}>
-              {woCreateResponse.responseMessage}
+          {woCrDelResponse && woCrDelResponse.responseCode === -1 ? (
+            <div className={classes.woCrDelError}>
+              {woCrDelResponse.responseMessage}
             </div>
           ) : (
             <span>
-              {woCreateResponse && woCreateResponse.responseCode === 0 ? (
-                <div className={classes.woCreateSuccess}>
-                  {woCreateResponse.responseMessage}
+              {woCrDelResponse && woCrDelResponse.responseCode === 0 ? (
+                <div className={classes.woCrDelSuccess}>
+                  {woCrDelResponse.responseMessage}
                 </div>
               ) : (
                 <span></span>

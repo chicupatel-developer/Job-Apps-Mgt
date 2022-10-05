@@ -98,6 +98,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const defaultValues = {
+  employerName: "",
+  startDate: null,
+  endDate: null,
+  jobDetails: [],
+  province: "",
+  city: "",
+};
 const Work_Experience_Edit = (props) => {
   const classes = useStyles();
 
@@ -186,6 +194,11 @@ const Work_Experience_Edit = (props) => {
     return newErrors;
   };
 
+  const resetForm = (e) => {
+    setErrors({});
+    setWoEditResponse({});
+  };
+
   const editWorkExperience = (event) => {
     const newErrors = findFormErrors();
 
@@ -198,13 +211,24 @@ const Work_Experience_Edit = (props) => {
       // edit woEdit
       console.log("edited woEdit,,,", woEdit);
       dispatch(edittWorkExperience(woEdit));
+
+      setWoEditResponse({
+        responseCode: 0,
+        responseMessage: "Work-Experience Edited @Redux-Store !",
+      });
+      setWoEdit(defaultValues);
+
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
     }
   };
 
   return (
     <div className={classes.pageHeader}>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={3}></Grid>
+        <Grid item xs={12} sm={12} md={6}>
           <div>
             {woEditResponse && woEditResponse.responseCode === -1 ? (
               <div className={classes.woEditError}>
@@ -222,7 +246,11 @@ const Work_Experience_Edit = (props) => {
               </span>
             )}
             <p></p>
-
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={3}></Grid>
+        <Grid item xs={12} sm={12} md={12}>
+          <div>
             <form>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={2}></Grid>

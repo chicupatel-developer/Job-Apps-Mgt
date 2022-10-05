@@ -38,7 +38,7 @@ import {
 import Education_Edit from "./Education_Edit";
 
 const useStyles = makeStyles((theme) => ({
-  eduCreateError: {
+  eduCrDelError: {
     color: "red",
     fontSize: "medium",
     fontWeight: "bold",
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid red",
     borderRadius: "10px",
   },
-  eduCreateSuccess: {
+  eduCrDelSuccess: {
     color: "green",
     fontSize: "medium",
     fontWeight: "bold",
@@ -110,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
   btnDelete: {
     color: "black",
     backgroundColor: "orange",
+    marginBottom: "5px",
   },
   opHeader: {
     textAlign: "center",
@@ -123,6 +124,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "lightyellow",
     color: "black",
     fontSize: "medium",
+  },
+  educationList: {
+    fontSize: "large",
+    color: "blue",
+    fontStyle: "bold",
   },
 }));
 
@@ -142,7 +148,7 @@ const Education_Create = () => {
   const education = useSelector((state) => state.education);
   const dispatch = useDispatch();
 
-  const [eduCreateResponse, setEduCreateResponse] = useState({});
+  const [eduCrDelResponse, setEduCrDelResponse] = useState({});
   const [edu, setEdu] = useState(defaultValues);
 
   const [eduEditFlag, setEduEditFlag] = useState(false);
@@ -196,8 +202,8 @@ const Education_Create = () => {
 
   const resetForm = (e) => {
     setErrors({});
-    setEdu(defaultValues);
-    setEduCreateResponse({});
+    // setEdu(defaultValues);
+    setEduCrDelResponse({});
   };
 
   // create
@@ -224,7 +230,15 @@ const Education_Create = () => {
       console.log("created edu,,,", edu);
       dispatch(setEducation(edu));
 
-      resetForm();
+      setEduCrDelResponse({
+        responseCode: 0,
+        responseMessage: "Education Created @Redux-Store !",
+      });
+      setEdu(defaultValues);
+
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
     }
   };
 
@@ -245,6 +259,15 @@ const Education_Create = () => {
       // delete edu
       console.log("deleted edu,,,", educ);
       dispatch(removeEducation(educ));
+
+      setEduCrDelResponse({
+        responseCode: 0,
+        responseMessage: "Education Deleted @Redux-Store !",
+      });
+
+      setTimeout(() => {
+        resetForm();
+      }, 2000);
     }
   };
 
@@ -262,9 +285,9 @@ const Education_Create = () => {
                 editEducation(e, item);
               }}
             >
-              {item.degreeName}
               <EditIcon />
             </Button>
+            &nbsp;
             <Button
               className={classes.btnDelete}
               variant="contained"
@@ -273,9 +296,10 @@ const Education_Create = () => {
                 deleteEducation(e, item);
               }}
             >
-              &nbsp;
               <DeleteForeverIcon />
             </Button>
+            &nbsp;
+            <span className={classes.educationList}>{item.degreeName}</span>
           </span>
         </div>
       );
@@ -296,15 +320,15 @@ const Education_Create = () => {
             )}
           </div>
           <p></p>
-          {eduCreateResponse && eduCreateResponse.responseCode === -1 ? (
-            <div className={classes.eduCreateError}>
-              {eduCreateResponse.responseMessage}
+          {eduCrDelResponse && eduCrDelResponse.responseCode === -1 ? (
+            <div className={classes.eduCrDelError}>
+              {eduCrDelResponse.responseMessage}
             </div>
           ) : (
             <span>
-              {eduCreateResponse && eduCreateResponse.responseCode === 0 ? (
-                <div className={classes.eduCreateSuccess}>
-                  {eduCreateResponse.responseMessage}
+              {eduCrDelResponse && eduCrDelResponse.responseCode === 0 ? (
+                <div className={classes.eduCrDelSuccess}>
+                  {eduCrDelResponse.responseMessage}
                 </div>
               ) : (
                 <span></span>
