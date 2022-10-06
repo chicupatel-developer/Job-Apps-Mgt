@@ -55,6 +55,18 @@ const User_Resume_Create_Data = () => {
         console.log(e);
       });
   };
+
+  // pagination
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <div>
       <div className={classes.pageHeader}>
@@ -86,6 +98,10 @@ const User_Resume_Create_Data = () => {
           <TableBody>
             {userData &&
               userData.length > 0 &&
+              userData.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              ) &&
               userData.map((row) => (
                 <TableRow key={row.userResumeCreateId}>
                   <TableCell align="left">{row.userResumeCreateId}</TableCell>
@@ -120,6 +136,15 @@ const User_Resume_Create_Data = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
+        component="div"
+        count={userData.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </div>
   );
 };
