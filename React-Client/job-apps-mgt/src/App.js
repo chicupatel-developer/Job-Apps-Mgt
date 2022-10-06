@@ -11,6 +11,7 @@ import Apply_To_Job from "./Components/pages/Apply_To_Job";
 import Follow_Up from "./Components/pages/Follow_Up";
 import Upload_Resume from "./Components/pages/Upload_Resume";
 import Resume_Creator from "./Components/pages/Resume_Creator";
+import User_Data from "./Components/pages/User_Data";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/follow-up" element={<Follow_Up />} />
         <Route path="/upload-resume" element={<Upload_Resume />} />
         <Route path="/resume-creator" element={<Resume_Creator />} />
+        <Route path="/user-data" element={<User_Data />} />
       </Routes>
     </Router>
   );

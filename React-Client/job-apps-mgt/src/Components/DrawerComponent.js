@@ -48,6 +48,11 @@ function DrawerComponent() {
               <Link to="/resume-creator">Create-Resume</Link>
             </ListItemText>
           </ListItem>
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText>
+              <Link to="/user-data">User-Data</Link>
+            </ListItemText>
+          </ListItem>
         </List>
       </Drawer>
       <IconButton onClick={() => setOpenDrawer(!openDrawer)}>

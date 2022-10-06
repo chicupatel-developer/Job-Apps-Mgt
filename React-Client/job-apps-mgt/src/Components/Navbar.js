@@ -14,11 +14,12 @@ import DrawerComponent from "./DrawerComponent";
 import HomeIcon from "@material-ui/icons/Home";
 import MessageIcon from "@material-ui/icons/Message";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import PeopleIcon from "@material-ui/icons/People";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
     // marginLeft: theme.spacing(2), // right align menu items
-    marginRight: theme.spacing(60), // left align menu items
+    marginRight: theme.spacing(40), // left align menu items
     display: "flex",
   },
   logo: {
@@ -69,6 +70,10 @@ function Navbar() {
             <Link to="/resume-creator" className={classes.link}>
               <NotificationsIcon />
               Create-Resume
+            </Link>
+            <Link to="/user-data" className={classes.link}>
+              <PeopleIcon />
+              User-Data
             </Link>
           </div>
         )}
