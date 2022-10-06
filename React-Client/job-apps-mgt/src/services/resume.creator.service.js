@@ -11,5 +11,13 @@ class ResumeCreatorService {
   createAndEmailResume = async (data) => {
     return await http.post(`/createAndEmailResume`, data);
   };
+
+  getUserResumeCreateData = async () => {
+    return await http.get(`/getUserResumeCreateData`);
+  };
+
+  getUserResumeEmailData = async () => {
+    return await http.get(`/getUserResumeEmailData`);
+  };
 }
 export default new ResumeCreatorService();
