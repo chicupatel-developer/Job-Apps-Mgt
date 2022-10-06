@@ -140,7 +140,7 @@ namespace WebAPICore.Controllers
             }                  
         }
 
-        // react wip
+        // react ok
         // ng ok
         // create pdf resume as byte[] 
         // and attach it as email attachment, but do not store .pdf file on server

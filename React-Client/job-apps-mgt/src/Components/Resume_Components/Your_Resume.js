@@ -70,23 +70,25 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid green",
     borderRadius: "10px",
   },
-  apiError: {
+  apiError_: {
     backgroundColor: "white",
     padding: "10px",
-    textAlign: "left",
+    textAlign: "center",
     verticalAlign: "middle",
     border: "2px solid red",
     borderRadius: "10px",
     color: "red",
+    fontWeight: "bold",
   },
-  apiSuccess: {
+  apiSuccess_: {
     backgroundColor: "white",
     padding: "10px",
-    textAlign: "left",
+    textAlign: "center",
     verticalAlign: "middle",
-    border: "2px solid red",
+    border: "2px solid green",
     borderRadius: "10px",
-    color: "red",
+    color: "green",
+    fontWeight: "bold",
   },
 }));
 
@@ -94,6 +96,7 @@ const Your_Resume = () => {
   const classes = useStyles();
 
   const [apiResponse, setApiResponse] = useState("");
+  const [apiError, setApiError] = useState(false);
 
   // redux
   const personalInfo = useSelector((state) => state.personalInfo);
@@ -178,10 +181,25 @@ const Your_Resume = () => {
         .then((response) => {
           console.log(response.data);
           setApiResponse(response.data);
+          setApiError(false);
+
+          setTimeout(() => {
+            resetApiResponse();
+          }, 2000);
         })
         .catch((error) => {
-          console.log(error);
-          setApiResponse("Server Error!");
+          if (error.response.status === 500) {
+            setApiResponse(error.response.data);
+          } else if (error.response.status === 400) {
+            setApiResponse(error.response.data);
+          } else {
+            setApiResponse("Error !");
+          }
+          setApiError(true);
+
+          setTimeout(() => {
+            resetApiResponse();
+          }, 2000);
         });
     } else if (option === "download") {
       // api call
@@ -189,19 +207,39 @@ const Your_Resume = () => {
         .then((blob) => {
           console.log(blob.data);
           setApiResponse("Download Ready!");
+          setApiError(false);
 
           // const myFile = new Blob([blob.data], { type: 'text/csv' });
           const myFile = new Blob([blob.data], { type: "application/pdf" });
           const url = window.URL.createObjectURL(myFile);
           window.open(url);
+
+          setTimeout(() => {
+            resetApiResponse();
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
-          setApiResponse("Server Error!");
+          if (error.response.status === 500) {
+            setApiResponse("Server Error !");
+          } else if (error.response.status === 400) {
+            setApiResponse("Bad Request !");
+          } else {
+            setApiResponse("Error !");
+          }
+          setApiError(true);
+
+          setTimeout(() => {
+            resetApiResponse();
+          }, 2000);
         });
     }
   };
 
+  const resetApiResponse = () => {
+    setApiResponse("");
+    setApiError(false);
+  };
   let techSkills =
     skills.length > 0 &&
     skills.map((item, i) => {
@@ -323,7 +361,13 @@ const Your_Resume = () => {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={2}></Grid>
         <Grid item xs={12} sm={12} md={8}>
-          <div>{apiResponse}</div>
+          {apiResponse && apiError && (
+            <div className={classes.apiError_}>{apiResponse}</div>
+          )}
+          {apiResponse && !apiError && (
+            <div className={classes.apiSuccess_}>{apiResponse}</div>
+          )}
+          <p></p>
         </Grid>
         <Grid item xs={12} sm={12} md={2}></Grid>
       </Grid>
