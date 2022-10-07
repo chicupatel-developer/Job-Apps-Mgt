@@ -1,23 +1,54 @@
 import React, { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TablePagination from "@mui/material/TablePagination";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 
 import { makeStyles } from "@material-ui/core";
 
 import ResumeCreatorService from "../../services/resume.creator.service";
 
 import moment from "moment";
+
+const columns = [
+  { id: "userResumeCreateId", label: "#", minWidth: 50 },
+  { id: "firstName", label: "First Name", minWidth: 150 },
+  {
+    id: "lastName",
+    label: "Last Name",
+    minWidth: 150,
+    align: "left",
+    // format: (value) => value.toLocaleString(),
+  },
+  {
+    id: "resumeCreatedAt",
+    label: "Created @",
+    minWidth: 150,
+    align: "right",
+    format: (value) => moment(value).format("MMM DD, YYYY"),
+  },
+  {
+    id: "userIPAddress",
+    label: "IP Address",
+    // minWidth: 370,
+    align: "left",
+    format: (value) => (
+      <TextareaAutosize
+        placeholder="Empty"
+        style={{ width: 370, border: "none" }}
+        value={value}
+      />
+    ),
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   pageHeader: {},
@@ -33,6 +64,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "lightyellow",
     color: "black",
     fontSize: "x-large; ",
+  },
+  root: {
+    width: "100%",
+  },
+  container: {
+    maxHeight: 540,
   },
 }));
 
@@ -56,9 +93,9 @@ const User_Resume_Create_Data = () => {
       });
   };
 
-  // pagination
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -84,67 +121,57 @@ const User_Resume_Create_Data = () => {
         </Grid>
       </div>
       <p></p>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>#</TableCell>
-              <TableCell align="left">First Name</TableCell>
-              <TableCell align="left">Last Name</TableCell>
-              <TableCell align="left">Created @</TableCell>
-              <TableCell align="left">IP Address</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userData &&
-              userData.length > 0 &&
-              userData.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              ) &&
-              userData.map((row) => (
-                <TableRow key={row.userResumeCreateId}>
-                  <TableCell align="left">{row.userResumeCreateId}</TableCell>
-                  <TableCell align="left">{row.firstName}</TableCell>
-                  <TableCell align="left">{row.lastName}</TableCell>
-                  <TableCell align="left">
-                    <span>
-                      {moment(row.resumeCreatedAt).format("MMM DD, YYYY")}
-                    </span>
+      <Paper className={classes.root}>
+        <TableContainer className={classes.container}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
                   </TableCell>
-                  <TableCell align="left">
-                    <TextareaAutosize
-                      value={row.userIPAddress}
-                      style={{ width: 400, border: "none" }}
-                    />
-                    {/*}
-                    <TextField
-                      multiline
-                      maxRows={3}
-                      maxCols={10}
-                      value={row.userIPAddress}
-                    />
-                    */}
-                    {/*
-                    <div style={{ overflowY: "scroll" }}>
-                      {row.userIPAddress}
-                    </div>
-                    */}
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
-        component="div"
-        count={userData.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {userData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.userResumeCreateId}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format ? column.format(value) : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
+          component="div"
+          count={userData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
     </div>
   );
 };
