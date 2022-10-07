@@ -123,7 +123,7 @@ const User_Resume_Create_Data = () => {
       <p></p>
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="user-data-table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
