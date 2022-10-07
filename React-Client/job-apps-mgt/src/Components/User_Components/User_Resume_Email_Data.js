@@ -101,19 +101,74 @@ const User_Resume_Email_Data = () => {
   };
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("firstName");
+  const [orderBySetting, setOrderBySetting] = useState({
+    colName: "firstName",
+    dir: "asc",
+  });
   const orderByProcess = (e, colId, dir) => {
-    console.log("order by,,,", colId);
+    // console.log("order by,,,", colId);
 
     setOrderBy(colId);
+
+    var newOrderBySetting = {
+      colName: colId,
+      dir: dir,
+    };
+    setOrderBySetting(newOrderBySetting);
 
     var userData_ = userData.sort(compare);
     console.log(userData_);
     setUserData([...userData_]);
-
+    /*
     if (dir === "asc") setOrder("desc");
     else setOrder("asc");
+    */
+    if (dir === "asc") {
+      setOrderBySetting({ ...orderBySetting, dir: "desc" });
+    } else {
+      setOrderBySetting({ ...orderBySetting, dir: "asc" });
+    }
   };
   function compare(a, b) {
+    // console.log(orderBySetting);
+    if (orderBySetting.colName === "firstName") {
+      if (orderBySetting.dir === "asc") {
+        if (a.firstName < b.firstName) {
+          return -1;
+        }
+        if (a.firstName > b.firstName) {
+          return 1;
+        }
+        return 0;
+      } else {
+        if (a.firstName < b.firstName) {
+          return 1;
+        }
+        if (a.firstName > b.firstName) {
+          return -1;
+        }
+        return 0;
+      }
+    } else if (orderBySetting.colName === "lastName") {
+      if (orderBySetting.dir === "asc") {
+        if (a.lastName < b.lastName) {
+          return -1;
+        }
+        if (a.lastName > b.lastName) {
+          return 1;
+        }
+        return 0;
+      } else {
+        if (a.lastName < b.lastName) {
+          return 1;
+        }
+        if (a.lastName > b.lastName) {
+          return -1;
+        }
+        return 0;
+      }
+    }
+    /*
     if (orderBy === "firstName") {
       if (order === "asc") {
         if (a.firstName < b.firstName) {
@@ -133,6 +188,7 @@ const User_Resume_Email_Data = () => {
         return 0;
       }
     }
+    */
   }
   return (
     <div>
@@ -162,9 +218,9 @@ const User_Resume_Email_Data = () => {
                     align={column.align}
                     style={{ minWidth: column.minWidth }}
                   >
-                    {column.id === "firstName" ? (
+                    {column.id === "firstName" && (
                       <span>
-                        {order === "desc" ? (
+                        {orderBySetting.dir === "desc" ? (
                           <Button
                             variant="contained"
                             type="button"
@@ -189,9 +245,38 @@ const User_Resume_Email_Data = () => {
                           </Button>
                         )}
                       </span>
-                    ) : (
-                      <span>{column.label}</span>
                     )}
+
+                    {column.id === "lastName" && (
+                      <span>
+                        {orderBySetting.dir === "desc" ? (
+                          <Button
+                            variant="contained"
+                            type="button"
+                            onClick={(e) => {
+                              orderByProcess(e, column.id, "desc");
+                            }}
+                          >
+                            {" "}
+                            <ArrowDownwardIcon />
+                            &nbsp;{column.label}
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            type="button"
+                            onClick={(e) => {
+                              orderByProcess(e, column.id, "asc");
+                            }}
+                          >
+                            <ArrowUpwardIcon />
+                            &nbsp;{column.label}
+                          </Button>
+                        )}
+                      </span>
+                    )}
+
+                    {column.label}
                   </TableCell>
                 ))}
               </TableRow>
