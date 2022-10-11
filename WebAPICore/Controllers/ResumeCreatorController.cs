@@ -245,6 +245,7 @@ namespace WebAPICore.Controllers
             }          
         }
 
+        // react ok
         // ng ok
         [HttpGet]
         [Route("getUserResumeCreateData")]
@@ -256,6 +257,7 @@ namespace WebAPICore.Controllers
             return Ok(userDatas);
         }
 
+        // react ok
         // ng ok
         [HttpGet]
         [Route("getUserResumeEmailData")]
