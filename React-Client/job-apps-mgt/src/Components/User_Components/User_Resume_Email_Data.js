@@ -67,6 +67,11 @@ const useStyles = makeStyles((theme) => ({
   container: {
     maxHeight: 540,
   },
+  highlightBtn: {
+    backgroundColor: "lightyellow",
+    color: "red",
+    fontSize: "large; ",
+  },
 }));
 
 const User_Resume_Email_Data = () => {
@@ -99,16 +104,14 @@ const User_Resume_Email_Data = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("firstName");
+
+  const [highlight, setHighlight] = useState("firstName");
   const [orderBySetting, setOrderBySetting] = useState({
     colName: "firstName",
     dir: "asc",
   });
   const orderByProcess = (e, colId, dir) => {
-    // console.log("order by,,,", colId);
-
-    setOrderBy(colId);
+    setHighlight(colId);
 
     var newOrderBySetting = {
       colName: colId,
@@ -119,10 +122,7 @@ const User_Resume_Email_Data = () => {
     var userData_ = userData.sort(compare);
     console.log(userData_);
     setUserData([...userData_]);
-    /*
-    if (dir === "asc") setOrder("desc");
-    else setOrder("asc");
-    */
+
     if (dir === "asc") {
       setOrderBySetting({ ...orderBySetting, dir: "desc" });
     } else {
@@ -130,7 +130,6 @@ const User_Resume_Email_Data = () => {
     }
   };
   function compare(a, b) {
-    // console.log(orderBySetting);
     if (orderBySetting.colName === "firstName") {
       if (orderBySetting.dir === "asc") {
         if (a.firstName < b.firstName) {
@@ -168,27 +167,6 @@ const User_Resume_Email_Data = () => {
         return 0;
       }
     }
-    /*
-    if (orderBy === "firstName") {
-      if (order === "asc") {
-        if (a.firstName < b.firstName) {
-          return -1;
-        }
-        if (a.firstName > b.firstName) {
-          return 1;
-        }
-        return 0;
-      } else {
-        if (a.firstName < b.firstName) {
-          return 1;
-        }
-        if (a.firstName > b.firstName) {
-          return -1;
-        }
-        return 0;
-      }
-    }
-    */
   }
   return (
     <div>
@@ -220,63 +198,153 @@ const User_Resume_Email_Data = () => {
                   >
                     {column.id === "firstName" && (
                       <span>
-                        {orderBySetting.dir === "desc" ? (
-                          <Button
-                            variant="contained"
-                            type="button"
-                            onClick={(e) => {
-                              orderByProcess(e, column.id, "desc");
-                            }}
-                          >
-                            {" "}
-                            <ArrowDownwardIcon />
-                            &nbsp;{column.label}
-                          </Button>
+                        {highlight === "firstName" ? (
+                          <span>
+                            {orderBySetting.dir === "desc" ? (
+                              <span>
+                                {/*
+                                hightlight (desc) 
+                                */}
+                                <Button
+                                  className={classes.highlightBtn}
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "desc");
+                                  }}
+                                >
+                                  {" "}
+                                  <ArrowDownwardIcon />
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            ) : (
+                              <span>
+                                {/*
+                                hightlight (asc) 
+                                */}
+                                <Button
+                                  className={classes.highlightBtn}
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "asc");
+                                  }}
+                                >
+                                  <ArrowUpwardIcon />
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            )}
+                          </span>
                         ) : (
-                          <Button
-                            variant="contained"
-                            type="button"
-                            onClick={(e) => {
-                              orderByProcess(e, column.id, "asc");
-                            }}
-                          >
-                            <ArrowUpwardIcon />
-                            &nbsp;{column.label}
-                          </Button>
+                          <span>
+                            {orderBySetting.dir === "desc" ? (
+                              <span>
+                                {/*
+                                not hightlight (desc) 
+                                */}
+                                <Button
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "desc");
+                                  }}
+                                >
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            ) : (
+                              <span>
+                                {/*
+                                not hightlight (asc) 
+                                */}
+                                <Button
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "asc");
+                                  }}
+                                >
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            )}
+                          </span>
                         )}
                       </span>
                     )}
 
                     {column.id === "lastName" && (
                       <span>
-                        {orderBySetting.dir === "desc" ? (
-                          <Button
-                            variant="contained"
-                            type="button"
-                            onClick={(e) => {
-                              orderByProcess(e, column.id, "desc");
-                            }}
-                          >
-                            {" "}
-                            <ArrowDownwardIcon />
-                            &nbsp;{column.label}
-                          </Button>
+                        {highlight === "lastName" ? (
+                          <span>
+                            {orderBySetting.dir === "desc" ? (
+                              <span>
+                                <Button
+                                  className={classes.highlightBtn}
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "desc");
+                                  }}
+                                >
+                                  {" "}
+                                  <ArrowDownwardIcon />
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            ) : (
+                              <span>
+                                <Button
+                                  className={classes.highlightBtn}
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "asc");
+                                  }}
+                                >
+                                  <ArrowUpwardIcon />
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            )}
+                          </span>
                         ) : (
-                          <Button
-                            variant="contained"
-                            type="button"
-                            onClick={(e) => {
-                              orderByProcess(e, column.id, "asc");
-                            }}
-                          >
-                            <ArrowUpwardIcon />
-                            &nbsp;{column.label}
-                          </Button>
+                          <span>
+                            {orderBySetting.dir === "desc" ? (
+                              <span>
+                                <Button
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "desc");
+                                  }}
+                                >
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            ) : (
+                              <span>
+                                <Button
+                                  variant="contained"
+                                  type="button"
+                                  onClick={(e) => {
+                                    orderByProcess(e, column.id, "asc");
+                                  }}
+                                >
+                                  &nbsp;{column.label}
+                                </Button>
+                              </span>
+                            )}
+                          </span>
                         )}
                       </span>
                     )}
 
-                    {column.label}
+                    {column.id !== "firstName" && column.id !== "lastName" && (
+                      <span>{column.label}</span>
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
