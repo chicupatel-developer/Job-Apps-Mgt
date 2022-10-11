@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
     border: "2px solid red",
     borderRadius: "10px",
-    backgroundColor: "lightyellow",
+    backgroundColor: "lightgoldenrodyellow",
     color: "blue",
     fontSize: "large; ",
   },
