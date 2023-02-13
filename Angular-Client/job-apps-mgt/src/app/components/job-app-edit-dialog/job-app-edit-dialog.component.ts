@@ -233,6 +233,9 @@ export class JobAppEditDialogComponent implements OnInit {
     }
     console.log(jobApplicationEditVM);
 
+    
+
+
     // api call
     // this.dataService.editJobApp(this.jobApplication)
     this.dataService.editJobApp(jobApplicationEditVM)

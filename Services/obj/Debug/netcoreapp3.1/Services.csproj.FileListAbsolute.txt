@@ -13,3 +13,4 @@ C:\Job-Apps-Mgt\Services\obj\Debug\netcoreapp3.1\Services.csproj.CopyComplete
 C:\Job-Apps-Mgt\Services\obj\Debug\netcoreapp3.1\Services.dll
 C:\Job-Apps-Mgt\Services\obj\Debug\netcoreapp3.1\Services.pdb
 C:\Job-Apps-Mgt\Services\obj\Debug\netcoreapp3.1\Services.genruntimeconfig.cache
+C:\Job-Apps-Mgt\Services\obj\Debug\netcoreapp3.1\Services.GeneratedMSBuildEditorConfig.editorconfig

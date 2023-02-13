@@ -13,3 +13,4 @@ C:\Job-Apps-Mgt\EmailService\obj\Debug\netcoreapp3.1\EmailService.csproj.CoreCom
 C:\Job-Apps-Mgt\EmailService\obj\Debug\netcoreapp3.1\EmailService.csproj.CopyComplete
 C:\Job-Apps-Mgt\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
 C:\Job-Apps-Mgt\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
+C:\Job-Apps-Mgt\EmailService\obj\Debug\netcoreapp3.1\EmailService.GeneratedMSBuildEditorConfig.editorconfig

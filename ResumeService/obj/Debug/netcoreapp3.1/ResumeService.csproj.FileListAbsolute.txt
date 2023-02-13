@@ -11,3 +11,4 @@ C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.csproj.CoreC
 C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.csproj.CopyComplete
 C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.dll
 C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.pdb
+C:\Job-Apps-Mgt\ResumeService\obj\Debug\netcoreapp3.1\ResumeService.GeneratedMSBuildEditorConfig.editorconfig

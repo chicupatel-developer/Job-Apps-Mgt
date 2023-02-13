@@ -63,3 +63,4 @@ C:\Job-Apps-Mgt\WebAPICore\bin\Debug\netcoreapp3.1\EmailService.pdb
 C:\Job-Apps-Mgt\WebAPICore\bin\Debug\netcoreapp3.1\ResumeService.pdb
 C:\Job-Apps-Mgt\WebAPICore\bin\Debug\netcoreapp3.1\Services.pdb
 C:\Job-Apps-Mgt\WebAPICore\obj\Debug\netcoreapp3.1\WebAPICore.csproj.CopyComplete
+C:\Job-Apps-Mgt\WebAPICore\obj\Debug\netcoreapp3.1\WebAPICore.GeneratedMSBuildEditorConfig.editorconfig
